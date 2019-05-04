@@ -1,14 +1,15 @@
 <template>
   <div class="container">
-    <h1>Account Creator</h1>
+    <h1 class="text-center">Account Creator</h1>
     <form>
       <div class="form-group">
         <label for="account name">Insert the account name you want to create</label>
         <input type="text" class="form-control" placeholder="Account name" v-model="accountName">
       </div>
-      <button type="button" class="btn btn-success" @click="add">Add</button>
+      <div class="text-center">
+        <button type="button" class="btn btn-success" @click="add">Add</button>
+      </div>
     </form>
-    <hr>
   </div>
 </template>
 
@@ -28,9 +29,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.container{
-  text-align: center;
-}
-</style>

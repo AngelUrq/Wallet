@@ -9,7 +9,7 @@ export default new Vuex.Store({
   },
   mutations: {
     addAccount (state, newAccount) {
-      state.accounts.push(newAccount)
+      state.accounts.push({ name: newAccount, income: [], expenses: [] })
     }
   },
   actions: {
