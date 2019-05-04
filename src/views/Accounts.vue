@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="m-5">
         <AccountCreator/>
         <AccountList/>
     </div>
