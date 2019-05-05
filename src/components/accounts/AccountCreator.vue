@@ -3,7 +3,7 @@
     <h1 class="text-center">Account Creator</h1>
     <form>
       <div class="form-group">
-        <label for="account name">Insert the account name you want to create</label>
+        <label for="account name">Insert the account name you want to create:</label>
         <input type="text" class="form-control" placeholder="Account name" v-model="accountName">
       </div>
       <div class="text-center">
@@ -23,8 +23,15 @@ export default {
   },
   methods: {
     add: function () {
-      this.$store.dispatch('addAccount', this.accountName)
-      this.accountName = ''
+      if (this.accountName === '') {
+        let accounts = ['Savings', 'MyAccount1', 'AnotherAccount', 'Extra', 'Test account']
+        for (let account of accounts) {
+          this.$store.dispatch('addAccount', account)
+        }
+      } else {
+        this.$store.dispatch('addAccount', this.accountName)
+        this.accountName = ''
+      }
     }
   }
 }

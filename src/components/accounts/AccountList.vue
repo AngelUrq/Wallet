@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <p>Check one of your accounts: </p>
-    <div class="account-list" v-for="account in accounts" :key="account">
-      <button class="btn btn-block m-3 p-3" :class="getColor()">{{ account.name }}</button>
+    <div class="account-list" v-for="(account, index) in accounts" :key="account.name">
+      <router-link class="btn btn-block m-3 p-3" :class="getColor(index)" @click="chooseAccount(account.name)" to="/account-main-menu">{{ account.name }}</router-link>
     </div>
   </div>
 </template>
@@ -12,15 +12,23 @@ export default {
   name: 'AccountList',
   data: function () {
     return {
-      accounts: this.$store.state.accounts,
-      colorCounter: 0
+      accounts: this.$store.state.accounts
     }
   },
   methods: {
-    getColor: function () {
+    chooseAccount: function (accountName) {
+      for (let account of this.accounts) {
+        if (account.name === accountName) {
+          this.$store.dispatch('selectAccount', account)
+          break
+        }
+      }
+    },
+    getColor: function (index) {
       let color = ''
+      let colorCounter = index % 5
 
-      switch (this.colorCounter) {
+      switch (colorCounter) {
         case 0:
           color = 'btn-success'
           break
@@ -37,8 +45,6 @@ export default {
           color = 'btn-info'
           break
       }
-
-      this.colorCounter = this.colorCounter + 1 === 5 ? 0 : this.colorCounter + 1
 
       return color
     }

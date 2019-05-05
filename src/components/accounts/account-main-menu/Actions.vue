@@ -4,7 +4,7 @@
       <div class="col-sm">
         <button class="btn btn-success mx-auto">
           <img
-            src="@/assets/components/profit.png"
+            src="@/assets/profit.png"
             width="30"
             height="30"
             class="d-inline-block align-top"
@@ -15,13 +15,13 @@
       </div>
       <div class="col-sm">
         <button class="btn btn-danger">
-          <img src="@/assets/components/coins.png" width="30" height="30" class="d-inline-block align-top" alt>&nbsp;Expenses
+          <img src="@/assets/coins.png" width="30" height="30" class="d-inline-block align-top" alt>&nbsp;Expenses
         </button>
       </div>
       <div class="col-sm">
         <button class="btn btn-info">
           <img
-            src="@/assets/components/transaction.png"
+            src="@/assets/transaction.png"
             width="30"
             height="30"
             class="d-inline-block align-top"
@@ -32,12 +32,12 @@
       <div class="col-sm">
         <button class="btn btn-warning">
           <img
-            src="@/assets/components/rising.png"
+            src="@/assets/rising.png"
             width="30"
             height="30"
             class="d-inline-block align-top"
             alt
-          >Report
+          >&nbsp;Report
         </button>
       </div>
     </div>
