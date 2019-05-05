@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import IncomesExpences from './views/IncomesExpences.vue'
 
 Vue.use(Router)
 
@@ -20,6 +21,11 @@ export default new Router({
       component: function () {
         return import(/* webpackChunkName: "about" */ './views/About.vue')
       }
+    },
+    {
+      path: '/IncomesExpences',
+      name: 'incomes-expences',
+      component: IncomesExpences
     }
   ]
 })
