@@ -2,7 +2,9 @@
   <div class="container">
     <p>Check one of your accounts: </p>
     <div class="account-list" v-for="(account, index) of accounts" :key="account.name">
-      <router-link class="btn btn-block m-3 p-3" :class="getColor(index)" @click="chooseAccount(account.name)" to="/account-main-menu">{{ account.name }}</router-link>
+      <router-link class="router" to="/account-main-menu">
+        <button class="btn btn-block m-3 p-3" :class="getColor(index)" @click="chooseAccount(account.name)">{{ account.name }}</button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -55,5 +57,8 @@ export default {
 <style scoped>
 .account-list {
   text-align: center;
+}
+.router{
+  text-decoration: none;
 }
 </style>
