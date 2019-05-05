@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <p>Check one of your accounts: </p>
-    <div class="account-list" v-for="(account, index) in accounts" :key="account.name">
+    <div class="account-list" v-for="(account, index) of accounts" :key="account.name">
       <router-link class="btn btn-block m-3 p-3" :class="getColor(index)" @click="chooseAccount(account.name)" to="/account-main-menu">{{ account.name }}</router-link>
     </div>
   </div>

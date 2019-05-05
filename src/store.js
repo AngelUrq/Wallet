@@ -9,16 +9,20 @@ export default new Vuex.Store({
     actualAccount: { name: '', income: [], expenses: [] }
   },
   mutations: {
-    addAccount (state, newAccount) {
-      state.accounts.push({ name: newAccount, income: [], expenses: [] })
+    addAccount (state, newAccountName) {
+      let names = state.accounts.map(account => account.name)
+
+      if (!names.includes(newAccountName)) {
+        state.accounts.push({ name: newAccountName, income: [], expenses: [] })
+      }
     },
     selectAccount (state, account) {
       state.actualAccount = account
     }
   },
   actions: {
-    addAccount (state, newAccount) {
-      state.commit('addAccount', newAccount)
+    addAccount (state, newAccountName) {
+      state.commit('addAccount', newAccountName)
     },
     selectAccount (state, account) {
       state.commit('selectAccount', account)
