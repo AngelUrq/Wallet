@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     accounts: [],
     actualAccount: { name: '', income: [], expenses: [] },
-    category: [
+    categories: [
       { name: 'Incomes', linkage: 'Incomes' },
       { name: 'Expences', linkage: 'Expences' }
     ]
@@ -30,12 +30,15 @@ export default new Vuex.Store({
         }
       })
     },
-    addCategory (state, newCategory) {
+    addExpence (state, expence) {
       state.accounts.forEach(account => {
-        if (newCategory.actualAccount === account.name) {
-          account.income.push({ name: newCategory.category, linkage: newCategory.linkage })
+        if (expence.actualAccount === account.name) {
+          account.expenses.push({ name: expence.name, category: expence.category, amount: expence.amount, date: expence.date })
         }
       })
+    },
+    addCategory (state, newCategory) {
+      state.categories.push({ name: newCategory.category, linkage: newCategory.linkage })
     }
   },
   actions: {
@@ -47,6 +50,9 @@ export default new Vuex.Store({
     },
     addIncome (state, income) {
       state.commit('addIncome', income)
+    },
+    addExpence (state, expence) {
+      state.commit('addIncome', expence)
     },
     addCategory (state, newCategory) {
       state.commit('addCategory', newCategory)

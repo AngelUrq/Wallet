@@ -32,16 +32,19 @@
             label="Category"
             label-for="input-horizontal"
           >
-            <b-form-input list="my-list-id" v-model="category"></b-form-input>
-
-            <datalist id="my-list-id">
-              <option>Manual Option</option>
-            </datalist>
+            <b-form-group id="input-group-3" label="Food:" label-for="input-3">
+              <b-form-select
+                  id="input-3"
+                  v-model="category"
+                  :options="options"
+                  required
+                ></b-form-select>
+      </b-form-group>
           </b-form-group>
         </b-col>
 
         <b-col cols="4">
-          <b-button variant="success" size="lg">Save Category</b-button>
+          <b-button variant="success" size="lg" v-on:click="registerCategory()">Save Category</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -95,21 +98,16 @@ export default {
       required: true,
       default: 'addIncome'
     },
-    someIdProp: {
-      type: Date,
+    linkage: {
+      type: String,
       required: true,
-      default: '12/05/29'
+      default: 'Incomes'
     }
   },
   data () {
     return {
       selected: [], // Must be an array reference!
-      options: [
-        { text: 'Orange', value: 'orange' },
-        { text: 'Apple', value: 'apple' },
-        { text: 'Pineapple', value: 'pineapple' },
-        { text: 'Grape', value: 'grape' }
-      ],
+      options: this.loadCategories(),
       name: '',
       category: '',
       amount: '',
@@ -139,7 +137,7 @@ export default {
           alert(ac.income[0].date)
         })
       } else {
-        alert('Missing dates' + this.name + this.category + this.amount + this.date)
+        alert('Missing data')
       }
     },
     isFormTransactionComplete: function () {
@@ -163,14 +161,21 @@ export default {
           linkage: this.linkage,
           actualAccount: this.actualAccount
         })
-        this.$store.state.accounts.forEach(ac => {
-          alert(ac.income[0].date)
+        this.$store.state.categories.forEach(ac => {
+          alert(ac.name + ac.linkage)
         })
       } else {
-        alert('Missing dates' + this.name + this.category + this.amount + this.date)
+        alert('Missing data' + this.newCategory)
       }
+    },
+    loadCategories: function () {
+      let options = []
+      let allCategories = this.$store.state.categories.filter(category => category.linkage === this.linkage)
+      allCategories.forEach(category => {
+        options.push({ text: category.name, value: category.name })
+      })
+      return options
     }
-
   }
 }
 </script>
