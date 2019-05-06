@@ -1,31 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-import IncomesExpences from './views/IncomesExpences.vue'
-
+import Accounts from './views/Accounts.vue'
+import AccountMainMenu from './views/AccountMainMenu.vue'
+import IncomesExpencesView from './views/IncomesExpencesView.vue'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'accounts',
+      component: Accounts
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: function () {
-        return import(/* webpackChunkName: "about" */ './views/About.vue')
-      }
+      path: '/account-main-menu',
+      name: 'account main menu',
+      component: AccountMainMenu
     },
     {
-      path: '/IncomesExpences',
-      name: 'incomes-expences',
-      component: IncomesExpences
+      path: '/incomes-expences-view',
+      name: 'incomes-expences-view',
+      component: IncomesExpencesView,
+      props: true
     }
   ]
 })
