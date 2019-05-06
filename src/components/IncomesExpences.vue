@@ -17,7 +17,7 @@
 
         <b-col cols="4">
           <b-form-group id="fieldset-horizontal" label-for="input-horizontal">
-            <b-form-input id="input-horizontal"></b-form-input>
+            <b-form-input id="input-horizontal" v-model="newCategory"></b-form-input>
           </b-form-group>
         </b-col>
       </b-row>
@@ -32,7 +32,7 @@
             label="Category"
             label-for="input-horizontal"
           >
-            <b-form-input list="my-list-id"></b-form-input>
+            <b-form-input list="my-list-id" v-model="category"></b-form-input>
 
             <datalist id="my-list-id">
               <option>Manual Option</option>
@@ -55,7 +55,7 @@
             label="Amount"
             label-for="input-horizontal"
           >
-            <b-form-input id="input-horizontal"></b-form-input>
+            <b-form-input id="input-horizontal" v-model="amount"></b-form-input>
           </b-form-group>
         </b-col>
       </b-row>
@@ -65,7 +65,7 @@
         <b-col cols="3">
           <label for="party">Choose the date of the transaction :</label>
         </b-col>
-        <input type="date" id="party" name="party">
+        <input type="date" id="party" name="party" v-model="date">
       </b-row>
     </b-container>
     <br>
@@ -93,7 +93,7 @@ export default {
     transfer: {
       type: String,
       required: true,
-      default: 'dasd'
+      default: 'addIncome'
     },
     someIdProp: {
       type: Date,
@@ -110,10 +110,12 @@ export default {
         { text: 'Pineapple', value: 'pineapple' },
         { text: 'Grape', value: 'grape' }
       ],
-      name: 'ou',
+      name: '',
       category: '',
       amount: '',
-      date: ''
+      date: '',
+      actualAccount: 'Savings',
+      newCategory: ''
     }
   },
   methods: {
@@ -125,19 +127,50 @@ export default {
       return m + '/' + d + '/' + y
     },
     register: function () {
-      var n = new Date()
-      var y = n.getFullYear()
-      var m = n.getMonth() + 1
-      var d = n.getDate()
-
-      this.$store.dispatch(this.transfer, {
-        name: this.name,
-        category: this.category,
-        amount: this.amount,
-        date: this.date
-      })
-      alert(m + '/' + d + '/' + y)
+      if (this.isFormTransactionComplete()) {
+        this.$store.dispatch(this.transfer, {
+          name: this.name,
+          category: this.category,
+          amount: this.amount,
+          date: this.getActualDate(),
+          actualAccount: this.actualAccount
+        })
+        this.$store.state.accounts.forEach(ac => {
+          alert(ac.income[0].date)
+        })
+      } else {
+        alert('Missing dates' + this.name + this.category + this.amount + this.date)
+      }
+    },
+    isFormTransactionComplete: function () {
+      if (this.name !== '' && this.category !== '' && this.amount !== '' && this.date !== '') {
+        return true
+      } else {
+        return false
+      }
+    },
+    isCategoryTransactionComplete: function () {
+      if (this.newCategory !== '') {
+        return true
+      } else {
+        return false
+      }
+    },
+    registerCategory: function () {
+      if (this.isCategoryTransactionComplete()) {
+        this.$store.dispatch('addCategory', {
+          category: this.newCategory,
+          linkage: this.linkage,
+          actualAccount: this.actualAccount
+        })
+        this.$store.state.accounts.forEach(ac => {
+          alert(ac.income[0].date)
+        })
+      } else {
+        alert('Missing dates' + this.name + this.category + this.amount + this.date)
+      }
     }
+
   }
 }
 </script>
