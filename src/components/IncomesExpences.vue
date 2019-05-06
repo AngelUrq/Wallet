@@ -91,7 +91,7 @@ export default {
     title: {
       type: String,
       required: true,
-      default: 'dasd'
+      default: 'testIncome'
     },
     transfer: {
       type: String,
@@ -102,7 +102,13 @@ export default {
       type: String,
       required: true,
       default: 'Incomes'
+    },
+    actualAccount: {
+      type: String,
+      required: true,
+      default: ''
     }
+
   },
   data () {
     return {
@@ -112,7 +118,6 @@ export default {
       category: '',
       amount: '',
       date: '',
-      actualAccount: 'Savings',
       newCategory: ''
     }
   },
@@ -165,7 +170,7 @@ export default {
           alert(ac.name + ac.linkage)
         })
       } else {
-        alert('Missing data' + this.newCategory)
+        alert('Missing data')
       }
     },
     loadCategories: function () {

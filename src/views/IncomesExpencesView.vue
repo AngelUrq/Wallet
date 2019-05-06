@@ -1,6 +1,6 @@
 <template>
   <div>
-    <IncomesExpences :title= 'welcome' />
+    <IncomesExpences :title= 'testINvomrsexpemce' />
   </div>
 </template>
 
@@ -12,13 +12,7 @@ import IncomesExpences from '@/components/IncomesExpences.vue'
 
 export default {
   name: 'incomes-expences-view',
-  props: {
-    someIdProp: {
-      type: String,
-      required: true,
-      default: 'dasd'
-    }
-  },
+  props: ['title', 'transfer', 'linkage', 'actualAccount'],
   data () {
     return {
       welcome: 'This is your profile'
