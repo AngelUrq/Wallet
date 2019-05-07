@@ -1,6 +1,7 @@
 <template>
   <div>
-    <IncomesExpences :title= 'testINvomrsexpemce' />
+
+    <IncomesExpences title= 'testINvomrsexpemce' />
   </div>
 </template>
 
@@ -12,7 +13,7 @@ import IncomesExpences from '@/components/IncomesExpences.vue'
 
 export default {
   name: 'incomes-expences-view',
-  props: ['title', 'transfer', 'linkage', 'actualAccount'],
+  props: ['title', 'transfer', 'linkage'],
   data () {
     return {
       welcome: 'This is your profile'

@@ -23,7 +23,7 @@
           </label>
           <div class="col-sm-9">
             <select class="form-control">
-              <option v-for="account in accounts" :key="account.name">{{ account.name }}</option>
+              <option v-for="account in accounts" :key="account.name" >{{ account.name }}</option>
             </select>
           </div>
         </div>
@@ -45,32 +45,33 @@
       </form>
     </div>
     <div class="text-center">
-      <button class="btn btn-success my-3" @click="checkMountTransaction()">Transfer</button>
+      <button class="btn btn-success my-3" @click="validationData()">Transfer</button>
     </div>
-    <div class="validation" v-if="showValidation">
-      <Alert header="r" message="message"/>
+    <div class="show-alert" v-if="showValidation">
+      <div class="alert alert-info" role="alert" v-if="transactionSuccessful">
+        <strong>Completed!</strong>
+        You transaction was successful
+      </div>
+      <div class="alert alert-danger" role="alert" v-if="!transactionSuccessful">
+        <strong>Important!</strong>
+        Please check the data to do the transaction successful
+      </div>
     </div>
-    {{mountTransaction}}
   </div>
 </template>
 
 <script>
-import Alert from '@/components/Alert.vue'
 import { setTimeout } from 'timers'
 
 export default {
   name: 'MoneyTransfer',
-  components: {
-    Alert
-  },
   data: function () {
     return {
       accounts: this.$store.state.accounts,
       mountTransaction: 0,
       mountAvailable: 1000,
-      headerMessage: String,
-      message: String,
-      showValidation: false
+      showValidation: false,
+      successfulTransaction: true
     }
   },
   mounted () {
@@ -80,36 +81,26 @@ export default {
     )
   },
   methods: {
-    checkMountTransaction () {
-      let header = ''
-      let message = ''
-
-      if (this.mountAvailable > 0) {
-        if (
-          this.mountTransaction >= 0 &&
-          this.mountTransaction <= this.mountAvailable
-        ) {
-          header = 'Completed!'
-          message = 'You transaction was successful'
-          this.updateMount()
-        } else {
-          header = 'Error!'
-          message = 'Please check the data'
-        }
+    validationData () {
+      if (this.checkMountAvailable() && this.checkMountTransaction()) {
+        this.updateMount()
+        this.transactionSuccessful = true
       } else {
-        header = 'Important'
-        message = 'You do not have enough money'
+        this.transactionSuccessful = false
       }
-
-      this.updateMessage(header, message)
       this.showMessage()
+    },
+    checkMountTransaction () {
+      return (
+        this.mountTransaction > 0 &&
+        this.mountTransaction <= this.mountAvailable
+      )
+    },
+    checkMountAvailable () {
+      return this.mountAvailable > 0
     },
     updateMount () {
       this.mountAvailable = this.mountAvailable - this.mountTransaction
-    },
-    updateMessage (header, message) {
-      this.headerMessage = header
-      this.message = message
     },
     showMessage () {
       this.showValidation = true
@@ -121,7 +112,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 h1 {
   text-align: center;

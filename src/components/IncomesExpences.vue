@@ -95,17 +95,17 @@ export default {
     },
     transfer: {
       type: String,
-      required: true,
+      // required: true,
       default: 'addIncome'
     },
     linkage: {
       type: String,
-      required: true,
+      // required: true,
       default: 'Incomes'
     },
     actualAccount: {
       type: String,
-      required: true,
+      // required: true,
       default: ''
     }
 
@@ -146,18 +146,10 @@ export default {
       }
     },
     isFormTransactionComplete: function () {
-      if (this.name !== '' && this.category !== '' && this.amount !== '' && this.date !== '') {
-        return true
-      } else {
-        return false
-      }
+      return this.name !== '' && this.category !== '' && this.amount !== '' && this.date !== ''
     },
     isCategoryTransactionComplete: function () {
-      if (this.newCategory !== '') {
-        return true
-      } else {
-        return false
-      }
+      return this.newCategory !== ''
     },
     registerCategory: function () {
       if (this.isCategoryTransactionComplete()) {
