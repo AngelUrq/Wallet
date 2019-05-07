@@ -1,6 +1,6 @@
 <template>
   <div>
-    <IncomesExpences :title= 'testINvomrsexpemce' />
+    <IncomesExpences title= 'testINvomrsexpemce' />
   </div>
 </template>
 
