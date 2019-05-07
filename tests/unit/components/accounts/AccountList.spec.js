@@ -9,18 +9,24 @@ localVue.use(Vuex)
 
 describe('AccountList.vue', () => {
   let wrapper
+  let account
 
-  beforeEach(function () {
+  before(function () {
     wrapper = shallowMount(AccountList, { store, localVue })
+
+    const ACCOUNT_NAME = 'Test account'
+
+    account = { name: ACCOUNT_NAME, income: [], expenses: [] }
+
+    wrapper.vm.$store.dispatch('addAccount', account)
   })
 
   it('renders a new account', () => {
-    const ACCOUNT_NAME = 'Test account'
-
-    let account = { name: ACCOUNT_NAME, income: [], expenses: [] }
-
-    wrapper.vm.$store.dispatch('addAccount', account)
-
     expect(wrapper.find('.account-button').exists()).to.equal(true)
+  })
+  it('select an account when button clicked', () => {
+    wrapper.find('.account-button').trigger('click')
+
+    expect(wrapper.vm.$store.state.actualAccount).to.deep.equal(account)
   })
 })
