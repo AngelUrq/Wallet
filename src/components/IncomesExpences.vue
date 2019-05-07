@@ -27,18 +27,20 @@
      </div>
     <div class="form-group">
       <label >Amount BS</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter amount">
+      <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter amount">
     </div>
     <label for="party">Choose the date of the transaction :</label>
      <input type="date" id="party" name="party" v-model="date">
      <br/>
-     <button type="submit" class="btn btn-primary">Register Transaction</button>
-     <div class="alert alert-warning" role="alert">
-       This is a warning alert—check it out!
+     <div class="text-center mt-4">
+       <button type="button" class="btn btn-primary" v-on:click="register()">Register Transaction</button>
      </div>
-    <div class="alert alert-success" role="alert">
-      This is a success alert—check it out!
-    </div>
+     <div class="alert alert-warning" role="alert" id='failcategory' v-if="transactionStatus[0]">
+         Missing data to complete register category!
+      </div>
+      <div class="alert alert-success" role="alert" id= 'succescategory' v-if="transactionStatus[1]">
+          Register category complete
+      </div>
 </form>
       </div>
       <div class="col-5">
@@ -46,14 +48,14 @@
        <form>
       <div class="form-group">
        <label >Name</label>
-       <input type="email" class="form-control" id="exampleInputEmail1"  placeholder="Enter Name" v-model="newCategory">
+       <input  class="form-control" id="exampleInputEmail1"  placeholder="Enter Name" v-model="newCategory">
       </div>
-      <button type="submit" class="btn btn-primary">Regiter Category</button>
-       <div class="alert alert-warning" role="alert" id='failcategory' v-if="transactionStatus[0]">
+      <button type="button" class="btn btn-primary" v-on:click="registerCategory()">Regiter Category</button>
+       <div class="alert alert-warning"  id='failcategory' v-if="categoryStatus[0]">
          Missing data to complete register category!
       </div>
-      <div class="alert alert-success" role="alert" id= 'succescategory'>
-          Register
+      <div class="alert alert-success"  id= 'succescategory' v-if="categoryStatus[1]">
+          Register category complete
       </div>
        </form>
        </div>
@@ -116,11 +118,9 @@ export default {
           date: this.getActualDate(),
           actualAccount: this.actualAccount
         })
-        this.$store.state.accounts.forEach(ac => {
-          alert(ac.income[0].date)
-        })
+        this.categoryStatus[1] = true
       } else {
-        alert('Missing data')
+        this.categoryStatus[0] = true
       }
     },
     isFormTransactionComplete: function () {
@@ -144,11 +144,11 @@ export default {
           linkage: this.linkage,
           actualAccount: this.actualAccount
         })
-        this.$store.state.categories.forEach(ac => {
-          alert(ac.name + ac.linkage)
-        })
+        this.categoryStatus[1] = true
+        this.categoryStatus[0] = false
       } else {
-        alert('Missing data')
+        this.categoryStatus[1] = false
+        this.categoryStatus[0] = true
       }
     },
     loadCategories: function () {
