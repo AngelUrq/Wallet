@@ -19,7 +19,7 @@ describe('AccountList.vue', () => {
 
     let account = { name: ACCOUNT_NAME, income: [], expenses: [] }
 
-    wrapper.vm.$store.state.accounts.push(account)
+    wrapper.vm.$store.dispatch('addAccount', account)
 
     expect(wrapper.find('.account-button').exists()).to.equal(true)
   })
