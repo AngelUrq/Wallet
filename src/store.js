@@ -26,7 +26,7 @@ export default new Vuex.Store({
     addIncome (state, income) {
       state.actualAccount.income.push(income)
     },
-    addExpence (state, expense) {
+    addExpense (state, expense) {
       state.actualAccount.expenses.push(expense)
     },
     addCategory (state, newCategory) {

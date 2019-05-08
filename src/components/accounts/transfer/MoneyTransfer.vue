@@ -23,13 +23,13 @@
           </label>
           <div class="col-sm-9">
             <select class="form-control">
-              <option v-for="account in accounts" :key="account.name" >{{ account.name }}</option>
+              <option v-for="(account, index) in accounts" :key="index" >{{ account.name }}</option>
             </select>
           </div>
         </div>
         <div class="form-group row mx-3">
           <label for="amount" class="col-sm-3 col-form-label">
-            <b>Amount:</b>
+            <b>Amount in Bs:</b>
           </label>
           <div class="col-sm-9">
             <input
@@ -45,7 +45,7 @@
       </form>
     </div>
     <div class="text-center">
-      <button class="btn btn-success my-3" @click="validationData()">Transfer</button>
+      <button class="btn btn-success my-3" @click="getIncomes()">Transfer</button>
     </div>
     <div class="show-alert" v-if="showValidation">
       <div class="alert alert-info" role="alert" v-if="transactionSuccessful">
@@ -69,7 +69,7 @@ export default {
     return {
       accounts: this.$store.state.accounts,
       mountTransaction: 0,
-      mountAvailable: 1000,
+      mountAvailable: this.getMountAvailable(),
       showValidation: false,
       successfulTransaction: true
     }
@@ -108,6 +108,29 @@ export default {
     },
     disableMessage () {
       this.showValidation = false
+    },
+    getMountAvailable () {
+      return this.getIncomes() - this.getExpenses()
+    },
+    getIncomes () {
+      let listIncome = this.$store.state.actualAccount.income
+      let amountIncome = []
+
+      listIncome.forEach(income => {
+        amountIncome.push(income.amount)
+      })
+
+      return amountIncome.reduce((total, currentValue) => total + currentValue, 0)
+    },
+    getExpenses () {
+      let listExpenses = this.$store.state.actualAccount.expenses
+      let amountExpenses = []
+
+      listExpenses.forEach(expense => {
+        amountExpenses.push(expense.amount)
+      })
+
+      return amountExpenses.reduce((total, currentValue) => total + currentValue, 0)
     }
   }
 }
