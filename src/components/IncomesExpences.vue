@@ -1,84 +1,68 @@
 <template>
   <div>
-    <b-container class="bv-example-row">
-      <b-row align-h="center">
-        <b-col cols="6">{{title}}</b-col>
-        <b-col cols="4">Register Category</b-col>
-      </b-row>
-      <br>
-    </b-container>
-    <b-container class="bv-example-row1">
-      <b-row align-h="around">
-        <b-col cols="4">
-          <b-form-group label-cols="5" cols="5" label="Name">
-            <b-form-input id="input-horizontal" v-model="name"></b-form-input>
-          </b-form-group>
-        </b-col>
+    <nav class="navbar navbar-light bg-light justify-content-between">
+      <router-link class="navbar-brand" href="#" to="/account-main-menu">
+        <img src="@/assets/wallet.png" width="30" height="30" class="d-inline-block align-top" alt>
+         &nbsp;Personal Wallet
+    </router-link>
+    <form class="form-inline">
+      <router-link class="btn btn-outline-success my-2 my-sm-0" to="/">
+        <img src="@/assets/exit.png" width="30" height="30">
+      </router-link>
+    </form>
+  </nav>
+    <div class="row justify-content-around">
+      <div class="col-5">
+        <h2 class="text-center mt-4">{{title}}</h2>
+     <form>
+      <div class="form-group">
+       <label> <b>Name</b></label>
+       <input type="email" class="form-control" id="exampleInputEmail1"  placeholder="Enter Name">
+      </div>
+      <div class="form-group">
+       <label for="exampleInputPassword1"> <b>Category</b> </label>
+       <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" v-model="category" >
+        <option v-for="option in options" :key="option.name">{{option.name}}</option>
+       </select>
+     </div>
+    <div class="form-group">
+      <label> <b>Amount BS</b> </label>
+      <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter amount">
+    </div>
+    <label for="party">Choose the date of the transaction :</label>
+     <input type="date" class="ml-3" id="party" name="party" style="width:500px; text-align: center;" v-model="date">
+     <br/>
+     <div class="text-center mt-4">
+       <button type="button" class="btn btn-primary" v-on:click="register()">Register Transaction</button>
+     </div>
+     <div class="alert alert-warning" role="alert" id='failcategory' v-if="false">
+         Missing data to complete register category!
+      </div>
+      <div class="alert alert-success" role="alert" id= 'succescategory' v-if="false">
+          Register category complete
+      </div>
+</form>
+      </div>
+      <div class="col-5">
+     <h2 class="text-center mt-4">Register Category</h2>
+       <form>
+      <div class="form-group">
+       <label> <b>Name</b> </label>
+       <input  class="form-control" id="exampleInputEmail1"  placeholder="Enter Name" v-model="newCategory">
+      </div>
+      <div class="text-center mt-4">
+      <button type="button" class="btn btn-primary" v-on:click="registerCategory()">Register Category</button>
+        </div>
 
-        <b-col cols="4">
-          <b-form-group id="fieldset-horizontal" label-for="input-horizontal">
-            <b-form-input id="input-horizontal" v-model="newCategory"></b-form-input>
-          </b-form-group>
-        </b-col>
-      </b-row>
-    </b-container>
-    <b-container class="bv-example-row">
-      <b-row align-h="around">
-        <b-col cols="4">
-          <b-form-group
-            id="fieldset-horizontal"
-            label-cols-sm="4"
-            label-cols-lg="15"
-            label="Category"
-            label-for="input-horizontal"
-          >
-            <b-form-group id="input-group-3" label="Food:" label-for="input-3">
-              <b-form-select
-                  id="input-3"
-                  v-model="category"
-                  :options="options"
-                  required
-                ></b-form-select>
-      </b-form-group>
-          </b-form-group>
-        </b-col>
-
-        <b-col cols="4">
-          <b-button variant="success" size="lg" v-on:click="registerCategory()">Save Category</b-button>
-        </b-col>
-      </b-row>
-    </b-container>
-    <b-container class="bv-example-row">
-      <b-row align-h="text-center">
-        <b-col cols="5">
-          <b-form-group
-            id="fieldset-horizontal"
-            label-cols-sm="4"
-            label-cols-lg="15"
-            label="Amount"
-            label-for="input-horizontal"
-          >
-            <b-form-input id="input-horizontal" v-model="amount"></b-form-input>
-          </b-form-group>
-        </b-col>
-      </b-row>
-    </b-container>
-    <b-container class="bv-example-row">
-      <b-row class="text-center">
-        <b-col cols="3">
-          <label for="party">Choose the date of the transaction :</label>
-        </b-col>
-        <input type="date" id="party" name="party" v-model="date">
-      </b-row>
-    </b-container>
-    <br>
-    <b-container class="bv-example-row">
-      <b-row class="text-center">
-        <b-col cols="5">
-          <b-button variant="success" size="lg" v-on:click="register()">Complete transaction</b-button>
-        </b-col>
-      </b-row>
-    </b-container>
+       <div class="alert alert-warning mt-4"  id='failcategory' v-if="categoryFail">
+         Missing data to complete register category!
+      </div>
+      <div class="alert alert-success mt-4"  id= 'succescategory' v-if="categorySuccess">
+          Register category complete
+      </div>
+       </form>
+       </div>
+    </div>
   </div>
 </template>
 
@@ -90,22 +74,18 @@ export default {
   props: {
     title: {
       type: String,
-      required: true,
       default: 'testIncome'
     },
     transfer: {
       type: String,
-      // required: true,
       default: 'addIncome'
     },
     linkage: {
       type: String,
-      // required: true,
       default: 'Incomes'
     },
     actualAccount: {
       type: String,
-      // required: true,
       default: ''
     }
 
@@ -118,7 +98,12 @@ export default {
       category: '',
       amount: '',
       date: '',
-      newCategory: ''
+      newCategory: '',
+      value: '',
+      transactionSuccess: false,
+      transactionFail: false,
+      categorySuccess: false,
+      categoryFail: false
     }
   },
   methods: {
@@ -138,39 +123,38 @@ export default {
           date: this.getActualDate(),
           actualAccount: this.actualAccount
         })
-        this.$store.state.accounts.forEach(ac => {
-          alert(ac.income[0].date)
-        })
       } else {
-        alert('Missing data')
       }
     },
     isFormTransactionComplete: function () {
-      return this.name !== '' && this.category !== '' && this.amount !== '' && this.date !== ''
+      if (this.name !== '' && this.category !== '' && this.amount !== '' && this.date !== '') {
+        return true
+      } else {
+        return false
+      }
     },
     isCategoryTransactionComplete: function () {
-      return this.newCategory !== ''
+      if (this.newCategory !== '') {
+        return true
+      } else {
+        return false
+      }
     },
     registerCategory: function () {
       if (this.isCategoryTransactionComplete()) {
         this.$store.dispatch('addCategory', {
           category: this.newCategory,
-          linkage: this.linkage,
-          actualAccount: this.actualAccount
+          linkage: this.linkage
         })
-        this.$store.state.categories.forEach(ac => {
-          alert(ac.name + ac.linkage)
-        })
+        this.categorySuccess = true
+        this.categoryFail = false
       } else {
-        alert('Missing data')
+        this.categorySuccess = false
+        this.categoryFail = true
       }
     },
     loadCategories: function () {
-      let options = []
-      let allCategories = this.$store.state.categories.filter(category => category.linkage === this.linkage)
-      allCategories.forEach(category => {
-        options.push({ text: category.name, value: category.name })
-      })
+      let options = this.$store.state.categories.filter(category => category.linkage === this.linkage)
       return options
     }
   }

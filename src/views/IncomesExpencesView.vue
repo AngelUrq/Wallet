@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <IncomesExpences title= 'testINvomrsexpemce' />
   </div>
 </template>
