@@ -20,7 +20,16 @@ describe('MoneyTransfer.vue', () => {
   })
 
   it('test to verify transfer', () => {
+    let actualAccountAvailableMount = wrapper.vm.getMountAvailable()
+    let mount = 100
 
+    let destinationAccount = wrapper.vm.getDestinationAccount('Test 2')
+    let destinationAccountAvailableMount = destinationAccount.getMountAvailable()
+
+    wrapper.vm.$store.state.transfer()
+
+    expect(wrapper.vm.$store.state.actualAccount.getMountAvailable()).to.equal(actualAccountAvailableMount - mount)
+    expect(wrapper.vm.$store.state.destinationAccount.getMountAvailable()).to.equal(destinationAccountAvailableMount + mount)
   })
 
   /* it('test to check the negative entries of a input', () => {

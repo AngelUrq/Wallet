@@ -45,7 +45,7 @@
       </form>
     </div>
     <div class="text-center">
-      <button class="btn btn-success my-3" @click="getIncomes()">Transfer</button>
+      <button id="btn-transfer" class="btn btn-success my-3" @click="getIncomes()">Transfer</button>
     </div>
     <div class="show-alert" v-if="showValidation">
       <div class="alert alert-info" role="alert" v-if="transactionSuccessful">
