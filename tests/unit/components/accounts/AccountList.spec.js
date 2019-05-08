@@ -26,20 +26,22 @@ describe('AccountList.vue', () => {
   it('renders a button for a new account', () => {
     expect(wrapper.find('.account-button').exists()).to.equal(true)
   })
+
   it('select an account when button clicked', () => {
     wrapper.find('.account-button').trigger('click')
 
     expect(wrapper.vm.$store.state.actualAccount).to.deep.equal(account)
   })
+
   it('render different colors for each account', () => {
     for (let i = 0; i < 4; i++) {
       wrapper.vm.$store.dispatch('addAccount', { name: 'Color account - ' + i, income: [], expenses: [] })
     }
 
-    expect(wrapper.find('.btn-success').exists()).to.equal(true)
-    expect(wrapper.find('.btn-primary').exists()).to.equal(true)
-    expect(wrapper.find('.btn-danger').exists()).to.equal(true)
-    expect(wrapper.find('.btn-warning').exists()).to.equal(true)
-    expect(wrapper.find('.btn-danger').exists()).to.equal(true)
+    let listOfClasses = ['.btn-success', '.btn-primary', '.btn-danger', '.btn-warning', '.btn-danger']
+
+    for (let buttonClass of listOfClasses) {
+      expect(wrapper.find(buttonClass).exists()).to.equal(true)
+    }
   })
 })
