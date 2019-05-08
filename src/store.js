@@ -8,8 +8,8 @@ export default new Vuex.Store({
     accounts: [],
     actualAccount: { name: '', income: [], expenses: [] },
     categories: [
-      { name: 'Incomes', linkage: 'Incomes' },
-      { name: 'Expences', linkage: 'Expences' }
+      { name: 'IncomingTransfer', linkage: 'Incomes' },
+      { name: 'TransferTo', linkage: 'Expenses' }
     ]
   },
   mutations: {
@@ -24,18 +24,10 @@ export default new Vuex.Store({
       state.actualAccount = account
     },
     addIncome (state, income) {
-      state.accounts.forEach(account => {
-        if (income.actualAccount === account.name) {
-          account.income.push({ name: income.name, category: income.category, amount: income.amount, date: income.date })
-        }
-      })
+      state.actualAccount.income.push(income)
     },
-    addExpence (state, expence) {
-      state.accounts.forEach(account => {
-        if (expence.actualAccount === account.name) {
-          account.expenses.push({ name: expence.name, category: expence.category, amount: expence.amount, date: expence.date })
-        }
-      })
+    addExpence (state, expense) {
+      state.actualAccount.expenses.push(expense)
     },
     addCategory (state, newCategory) {
       state.categories.push({ name: newCategory.category, linkage: newCategory.linkage })

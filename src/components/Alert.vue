@@ -5,7 +5,7 @@
       {{ message }}
     </div>
   </div>
-</template>t6
+</template>
 
 <script>
 export default {

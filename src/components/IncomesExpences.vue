@@ -13,48 +13,51 @@
   </nav>
     <div class="row justify-content-around">
       <div class="col-5">
-        {{title}}
+        <h2 class="text-center mt-4">{{title}}</h2>
      <form>
       <div class="form-group">
-       <label >Name</label>
+       <label> <b>Name</b></label>
        <input type="email" class="form-control" id="exampleInputEmail1"  placeholder="Enter Name">
       </div>
       <div class="form-group">
-       <label for="exampleInputPassword1">Category</label>
+       <label for="exampleInputPassword1"> <b>Category</b> </label>
        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" v-model="category" >
         <option v-for="option in options" :key="option.name">{{option.name}}</option>
        </select>
      </div>
     <div class="form-group">
-      <label >Amount BS</label>
+      <label> <b>Amount BS</b> </label>
       <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter amount">
     </div>
     <label for="party">Choose the date of the transaction :</label>
-     <input type="date" id="party" name="party" v-model="date">
+     <input type="date" class="ml-3" id="party" name="party" style="width:500px; text-align: center;" v-model="date">
      <br/>
      <div class="text-center mt-4">
        <button type="button" class="btn btn-primary" v-on:click="register()">Register Transaction</button>
      </div>
-     <div class="alert alert-warning" role="alert" id='failcategory' v-if="transactionStatus[0]">
+     <div class="alert alert-warning" role="alert" id='failcategory' v-if="false">
          Missing data to complete register category!
       </div>
-      <div class="alert alert-success" role="alert" id= 'succescategory' v-if="transactionStatus[1]">
+      <div class="alert alert-success" role="alert" id= 'succescategory' v-if="false">
           Register category complete
       </div>
 </form>
       </div>
       <div class="col-5">
-      Register Category
+     <h2 class="text-center mt-4">Register Category</h2>
        <form>
       <div class="form-group">
-       <label >Name</label>
+       <label> <b>Name</b> </label>
        <input  class="form-control" id="exampleInputEmail1"  placeholder="Enter Name" v-model="newCategory">
       </div>
-      <button type="button" class="btn btn-primary" v-on:click="registerCategory()">Regiter Category</button>
-       <div class="alert alert-warning"  id='failcategory' v-if="categoryStatus[0]">
+      <div class="text-center mt-4">
+      <button type="button" class="btn btn-primary" v-on:click="registerCategory()">Register Category</button>
+        </div>
+
+       <div class="alert alert-warning mt-4"  id='failcategory' v-if="categoryFail">
          Missing data to complete register category!
       </div>
-      <div class="alert alert-success"  id= 'succescategory' v-if="categoryStatus[1]">
+      <div class="alert alert-success mt-4"  id= 'succescategory' v-if="categorySuccess">
           Register category complete
       </div>
        </form>
@@ -97,8 +100,10 @@ export default {
       date: '',
       newCategory: '',
       value: '',
-      transactionStatus: [false, false],
-      categoryStatus: [false, false]
+      transactionSuccess: false,
+      transactionFail: false,
+      categorySuccess: false,
+      categoryFail: false
     }
   },
   methods: {
@@ -118,9 +123,7 @@ export default {
           date: this.getActualDate(),
           actualAccount: this.actualAccount
         })
-        this.categoryStatus[1] = true
       } else {
-        this.categoryStatus[0] = true
       }
     },
     isFormTransactionComplete: function () {
@@ -141,14 +144,13 @@ export default {
       if (this.isCategoryTransactionComplete()) {
         this.$store.dispatch('addCategory', {
           category: this.newCategory,
-          linkage: this.linkage,
-          actualAccount: this.actualAccount
+          linkage: this.linkage
         })
-        this.categoryStatus[1] = true
-        this.categoryStatus[0] = false
+        this.categorySuccess = true
+        this.categoryFail = false
       } else {
-        this.categoryStatus[1] = false
-        this.categoryStatus[0] = true
+        this.categorySuccess = false
+        this.categoryFail = true
       }
     },
     loadCategories: function () {

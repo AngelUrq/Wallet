@@ -19,8 +19,8 @@ export default {
   data () {
     return {
       actions: [
-        { name: 'Income', image: 'profit.png', classButton: 'btn-success', route: '/' },
-        { name: 'Expenses', image: 'coins.png', classButton: 'btn-danger', route: '/' },
+        { name: 'Income', image: 'profit.png', classButton: 'btn-success', route: '/incomes-expences-view' },
+        { name: 'Expenses', image: 'coins.png', classButton: 'btn-danger', route: '/incomes-expences-view' },
         { name: 'Transfer', image: 'transaction.png', classButton: 'btn-info', route: '/transfer' },
         { name: 'Report', image: 'rising.png', classButton: 'btn-warning', route: '/' }
       ]
