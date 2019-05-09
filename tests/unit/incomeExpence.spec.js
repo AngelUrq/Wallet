@@ -1,41 +1,23 @@
 import { expect } from 'chai'
-import { shallowMount } from '@vue/test-utils'
-import HelloWorld from '@/components/HelloWorld.vue'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
+import IncomesExpences from '@/components/IncomesExpences.vue'
+import VueRouter from 'vue-router'
+import Vuex from 'vuex'
+import store from '@/store.js'
 
-describe('HelloWorld.vue', () => {
-  it('renders props.msg when passed', () => {
-    const msg = 'new message'
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg }
-    })
-    expect(wrapper.find('span').isVisible()).toBe(false)
+const localVue = createLocalVue()
+localVue.use(Vuex)
+localVue.use(VueRouter)
+
+describe('IncomesExpences.vue', () => {
+  let wrapper
+  beforeEach(function() {
+    wrapper = shallowMount(IncomesExpences, { store, localVue })
   })
-  it('render the alert of missing data from category', () => {
-    const msg = 'new message'
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg }
-    })
-    expect(wrapper.find('span').isVisible()).toBe(false)
-  })
-  it('shown alert if success of transaction', () => {
-    const msg = 'new message'
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg }
-    })
-    expect(wrapper.find('span').isVisible()).toBe(false)
-  })
-  it('show alert if succes category', () => {
-    const msg = 'new message'
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg }
-    })
-    expect(wrapper.find('span').isVisible()).toBe(false)
-  })
-  it('show alert if fail transaction', () => {
-    const msg = 'new message'
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg }
-    })
-    expect(wrapper.find('span').isVisible()).toBe(false)
+  it('renders alert category complete  success', () => {
+    const button = wrapper.find('#buttonCategory')
+    button.trigger('click')
+    expect(wrapper.contains('#categoryFail')).equals(true)
+    expect(wrapper.contains('#categorySuccess')).equals(false)
   })
 })

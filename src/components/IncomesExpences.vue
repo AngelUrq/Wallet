@@ -2,7 +2,8 @@
   <div>
     <nav class="navbar navbar-light bg-light justify-content-between">
       <router-link class="navbar-brand" href="#" to="/account-main-menu">
-        <img src="@/assets/wallet.png" width="30" height="30" class="d-inline-block align-top" alt>
+        <img src="@/assets/wallet.png" width="30" height="30"
+         class="d-inline-block align-top" alt>
          &nbsp;Personal Wallet
     </router-link>
     <form class="form-inline">
@@ -33,7 +34,7 @@
      <input type="date" class="ml-3" id="party"  style="width:500px; text-align: center;" v-model="date">
      <br/>
      <div class="text-center mt-4">
-       <button type="button" class="btn btn-primary" v-on:click="register()">Register Transaction</button>
+       <button type="button" id = "buttonTransaction" class="btn btn-primary" v-on:click="register()">Register Transaction</button>
      </div>
      <div class="alert alert-warning" role="alert" id='transactionFail' v-if="transactionFail">
          Missing or repeat data to complete register category!
@@ -51,7 +52,7 @@
        <input  class="form-control" id="exampleInputEmail1"  placeholder="Enter Name" v-model="newCategory">
       </div>
       <div class="text-center mt-4">
-      <button type="button" class="btn btn-primary" v-on:click="registerCategory()">Register Category</button>
+      <button type="button" id = "buttonCategory" class="btn btn-primary" v-on:click="registerCategory()">Register Category</button>
         </div>
 
        <div class="alert alert-warning mt-4"  id='categoryFail' v-if="categoryFail">
@@ -73,18 +74,18 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'testIncome'
+      default: 'defaultTitle',
     },
     transfer: {
       type: String,
-      default: 'addIncome'
+      default: 'defaultTransfer',
     },
     linkage: {
       type: String,
-      default: 'Incomes'
-    }
+      default: 'defaultLinkage',
+    },
   },
-  data () {
+  data() {
     return {
       selected: [], // Must be an array reference!
       options: this.loadCategories(),
@@ -96,17 +97,17 @@ export default {
       transactionSuccess: false,
       transactionFail: false,
       categorySuccess: false,
-      categoryFail: false
+      categoryFail: false,
     }
   },
   methods: {
-    register: function () {
+    register: function() {
       if (this.isFormTransactionComplete()) {
         this.$store.dispatch(this.transfer, {
           name: this.name,
           category: this.category,
           amount: this.amount,
-          date: this.date
+          date: this.date,
         })
         this.transactionSuccess = true
         this.transactionFail = false
@@ -115,34 +116,38 @@ export default {
         this.transactionFail = true
       }
     },
-    isFormTransactionComplete: function () {
+    isFormTransactionComplete: function() {
       let repeatName = true
       if (this.linkage === 'Incomes') {
-        let incomesNames = this.$store.state.actualAccount.income.map(income => income.name)
+        const incomesNames =
+        this.$store.state.actualAccount.income.map((income) => income.name)
         if (!incomesNames.includes(this.name)) {
           repeatName = false
         }
       } else if (this.linkage === 'Expences') {
-        let expensesNames = this.$store.state.actualAccount.expenses.map(expense => expense.name)
+        const expensesNames =
+        this.$store.state.actualAccount.expenses.map((expense) => expense.name)
         if (!expensesNames.includes(this.name)) {
           repeatName = false
         }
       }
-      return this.name !== '' && this.category !== '' && this.amount !== '' && this.date !== '' && !repeatName
+      return this.name !== '' && this.category !== '' &&
+      this.amount !== '' && this.date !== '' && !repeatName
     },
-    isCategoryTransactionComplete: function () {
+    isCategoryTransactionComplete: function() {
       let repeatName = true
-      let categoryNames = this.loadCategories().map(cateoryname => cateoryname.name)
+      const categoryNames =
+      this.loadCategories().map((cateoryname) => cateoryname.name)
       if (!categoryNames.includes(this.newCategory)) {
         repeatName = false
       }
       return this.newCategory !== '' && !repeatName
     },
-    registerCategory: function () {
+    registerCategory: function() {
       if (this.isCategoryTransactionComplete()) {
         this.$store.dispatch('addCategory', {
           category: this.newCategory,
-          linkage: this.linkage
+          linkage: this.linkage,
         })
         this.categorySuccess = true
         this.categoryFail = false
@@ -151,10 +156,12 @@ export default {
         this.categoryFail = true
       }
     },
-    loadCategories: function () {
-      let options = this.$store.state.categories.filter(category => category.linkage === this.linkage)
+    loadCategories: function() {
+      const options =
+      this.$store.state.categories.filter((category) =>
+        category.linkage === this.linkage)
       return options
-    }
-  }
+    },
+  },
 }
 </script>
