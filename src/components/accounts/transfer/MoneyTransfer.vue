@@ -8,13 +8,7 @@
             <b>Budget available in Bs:</b>
           </label>
           <div class="col-sm-9">
-            <input
-              type="text"
-              readonly
-              class="form-control-plaintext"
-              id="budgetAvailable"
-              :value="mountAvailable"
-            >
+            <input type="text" readonly class="form-control-plaintext" id="budgetAvailable" :value="mountAvailable">
           </div>
         </div>
         <div class="form-group row mx-3">
@@ -22,7 +16,7 @@
             <b>Select the destination account:</b>
           </label>
           <div class="col-sm-9">
-            <select class="form-control">
+            <select class="form-control" v-model="nameDestinationAccount">
               <option v-for="(account, index) in accounts" :key="index" >{{ account.name }}</option>
             </select>
           </div>
@@ -32,29 +26,22 @@
             <b>Amount in Bs:</b>
           </label>
           <div class="col-sm-9">
-            <input
-              type="number"
-              class="form-control"
-              id="amount"
-              placeholder="Enter the amount you wish to transfer"
-              min="0"
-              v-model="mountTransaction"
-            >
+            <input type="number" class="form-control" id="amount" placeholder="Enter the amount you wish to transfer" min="0" v-model="mountTransaction">
           </div>
         </div>
       </form>
     </div>
     <div class="text-center">
-      <button id="btn-transfer" class="btn btn-success my-3" @click="getIncomes()">Transfer</button>
+      <button id="btn-transfer" class="btn btn-success my-3" @click="transfer()">Transfer</button>
     </div>
     <div class="show-alert" v-if="showValidation">
       <div class="alert alert-info" role="alert" v-if="transactionSuccessful">
         <strong>Completed!</strong>
-        You transaction was successful
+        You transaction was successful.
       </div>
       <div class="alert alert-danger" role="alert" v-if="!transactionSuccessful">
         <strong>Important!</strong>
-        Please check the data to do the transaction successful
+        Please check the data to do the transaction successful.
       </div>
     </div>
   </div>
@@ -62,45 +49,40 @@
 
 <script>
 import { setTimeout } from 'timers'
+import DateUtils from '@/utils/DateUtils.js'
+import IncomeExpensesUtils from '@/utils/IncomeExpensesUtils.js'
 
 export default {
   name: 'MoneyTransfer',
   data: function () {
     return {
       accounts: this.$store.state.accounts,
+      actualAccount: this.$store.state.actualAccount,
+      categoryActualAccount: this.$store.state.categories[1],
+      categoryDestinationAccount: this.$store.state.categories[0],
+      nameDestinationAccount: String,
       mountTransaction: 0,
-      mountAvailable: this.getMountAvailable(),
+      mountAvailable: 0,
       showValidation: false,
       successfulTransaction: true
     }
   },
   mounted () {
-    let actualAccount = this.$store.state.actualAccount
     this.accounts = this.accounts.filter(
-      account => account.name !== actualAccount.name
+      account => account.name !== this.actualAccount.name
     )
+
+    this.mountAvailable = IncomeExpensesUtils.getMountAvailable(this.actualAccount)
   },
   methods: {
-    validationData () {
-      if (this.checkMountAvailable() && this.checkMountTransaction()) {
-        this.updateMount()
-        this.transactionSuccessful = true
-      } else {
-        this.transactionSuccessful = false
-      }
-      this.showMessage()
-    },
     checkMountTransaction () {
-      return (
-        this.mountTransaction > 0 &&
-        this.mountTransaction <= this.mountAvailable
-      )
+      return this.mountTransaction > 0 && this.mountTransaction <= this.mountAvailable
     },
     checkMountAvailable () {
       return this.mountAvailable > 0
     },
-    updateMount () {
-      this.mountAvailable = this.mountAvailable - this.mountTransaction
+    checkSelectedDestinationAccount () {
+      return this.nameDestinationAccount !== ''
     },
     showMessage () {
       this.showValidation = true
@@ -109,28 +91,34 @@ export default {
     disableMessage () {
       this.showValidation = false
     },
-    getMountAvailable () {
-      return this.getIncomes() - this.getExpenses()
+    updateMountAvailable () {
+      this.mountAvailable = IncomeExpensesUtils.getMountAvailable(this.actualAccount)
     },
-    getIncomes () {
-      let listIncome = this.$store.state.actualAccount.income
-      let amountIncome = []
-
-      listIncome.forEach(income => {
-        amountIncome.push(income.amount)
-      })
-
-      return amountIncome.reduce((total, currentValue) => total + currentValue, 0)
+    getAccountByName (nameAccount) {
+      return (this.accounts.filter(account => account.name === nameAccount))[0]
     },
-    getExpenses () {
-      let listExpenses = this.$store.state.actualAccount.expenses
-      let amountExpenses = []
+    transfer () {
+      if (this.checkMountAvailable() && this.checkMountTransaction() && this.checkSelectedDestinationAccount()) {
+        let date = DateUtils.getActualDate()
+        let income = { name: 'Transfer', category: this.categoryActualAccount, amount: this.mountTransaction, date: date }
+        let expense = { name: 'Transfer', category: this.categoryDestinationAccount, amount: this.mountTransaction, date: date }
+        let destinationAccount = this.getAccountByName(this.nameDestinationAccount)
 
-      listExpenses.forEach(expense => {
-        amountExpenses.push(expense.amount)
-      })
+        this.$store.dispatch('addExpense', expense)
 
-      return amountExpenses.reduce((total, currentValue) => total + currentValue, 0)
+        // First, change to the destination account as the actual account.
+        this.$store.dispatch('selectAccount', destinationAccount)
+        this.$store.dispatch('addIncome', income)
+
+        // Finally, the current account returns to normal and the transaction was successful
+        this.$store.dispatch('selectAccount', this.actualAccount)
+        this.transactionSuccessful = true
+        this.updateMountAvailable()
+      } else {
+        this.transactionSuccessful = false
+      }
+
+      this.showMessage()
     }
   }
 }

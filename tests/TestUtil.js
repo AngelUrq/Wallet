@@ -2,6 +2,16 @@ import Vuex from 'vuex'
 
 export default {
   name: 'TestUtil',
+  /* data: function () {
+    return {
+      categ: [
+        { name: 'IncomingTransfer', linkage: 'Income' },
+        { name: 'TransferTo', linkage: 'Expenses' },
+        { name: 'Salary', linkage: 'Income' },
+        { name: 'Food', linkage: 'Expenses' }
+      ]
+    }
+  }, */
 
   getDefaultStore () {
     return new Vuex.Store({
@@ -14,16 +24,16 @@ export default {
         ],
         accounts: [
           { name: 'Test1',
-            income: [{ name: 'Monthly salary', category: { name: 'Salary', linkage: 'Income' }, amount: 500, date: '8/5/2019', actualAccount: 'Test1' }],
-            expenses: [{ name: 'Food purchase', category: { name: 'Food', linkage: 'Expenses' }, amount: 30, date: '8/5/2019', actualAccount: 'Test1' }] },
+            income: [{ name: 'Monthly salary', category: { name: 'Salary', linkage: 'Income' }, amount: 500, date: '8/5/2019' }],
+            expenses: [{ name: 'Food purchase', category: { name: 'Food', linkage: 'Expenses' }, amount: 30, date: '8/5/2019' }] },
           { name: 'Test2',
-            income: [{ name: 'Monthly salary', category: { name: 'Salary', linkage: 'Income' }, amount: 600, date: '8/5/2019', actualAccount: 'Test2' }],
-            expenses: [{ name: 'Dinner', category: { name: 'Food', linkage: 'Expenses' }, amount: 50, date: '8/5/2019', actualAccount: 'Test2' }] }
+            income: [{ name: 'Monthly salary', category: { name: 'Salary', linkage: 'Income' }, amount: 600, date: '8/5/2019' }],
+            expenses: [{ name: 'Dinner', category: { name: 'Food', linkage: 'Expenses' }, amount: 50, date: '8/5/2019' }] }
         ],
         actualAccount: {
           name: 'Test1',
-          income: [{ name: 'Monthly salary', category: { name: 'Salary', linkage: 'Income' }, amount: 500, date: '8/5/2019', actualAccount: 'Test1' }],
-          expenses: [{ name: 'Food purchase', category: { name: 'Food', linkage: 'Expenses' }, amount: 30, date: '8/5/2019', actualAccount: 'Test1' }]
+          income: [{ name: 'Monthly salary', category: { name: 'Salary', linkage: 'Income' }, amount: 500, date: '8/5/2019' }],
+          expenses: [{ name: 'Food purchase', category: { name: 'Food', linkage: 'Expenses' }, amount: 30, date: '8/5/2019' }]
         }
       },
       mutations: {
@@ -57,13 +67,18 @@ export default {
         addIncome (state, income) {
           state.commit('addIncome', income)
         },
-        addExpence (state, expence) {
-          state.commit('addIncome', expence)
+        addExpense (state, expense) {
+          state.commit('addExpense', expense)
         },
         addCategory (state, newCategory) {
           state.commit('addCategory', newCategory)
         }
       }
+      /* getters: {
+        getAccountByName (state, nameAccount) {
+          return state.accounts.filter(account => account.name === nameAccount)
+        }
+      } */
     })
   }
 }

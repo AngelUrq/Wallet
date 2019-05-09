@@ -43,8 +43,8 @@ export default new Vuex.Store({
     addIncome (state, income) {
       state.commit('addIncome', income)
     },
-    addExpence (state, expence) {
-      state.commit('addIncome', expence)
+    addExpense (state, expense) {
+      state.commit('addExpense', expense)
     },
     addCategory (state, newCategory) {
       state.commit('addCategory', newCategory)

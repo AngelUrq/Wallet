@@ -3,6 +3,7 @@ import { shallowMount, createLocalVue } from '@vue/test-utils'
 import MoneyTransfer from '@/components/accounts/transfer/MoneyTransfer.vue'
 import Vuex from 'vuex'
 import TestUtil from '../../../TestUtil.js'
+import IncomeExpensesUtils from '../../../../src/utils/IncomeExpensesUtils.js'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -16,20 +17,21 @@ describe('MoneyTransfer.vue', () => {
   })
 
   it('test to verify the mount available', () => {
-    expect(wrapper.vm.getMountAvailable()).to.equal(470)
+    expect(wrapper.vm.mountAvailable).to.equal(470)
   })
 
   it('test to verify transfer', () => {
-    let actualAccountAvailableMount = wrapper.vm.getMountAvailable()
-    let mount = 100
+    let actualAccountAvailableMount = wrapper.vm.mountAvailable
+    wrapper.vm.mountTransaction = 100
 
-    let destinationAccount = wrapper.vm.getDestinationAccount('Test 2')
-    let destinationAccountAvailableMount = destinationAccount.getMountAvailable()
+    wrapper.vm.nameDestinationAccount = 'Test2'
+    let destinationAccount = wrapper.vm.getAccountByName(wrapper.vm.nameDestinationAccount)
+    let destinationAccountAvailableMount = IncomeExpensesUtils.getMountAvailable(destinationAccount)
 
-    wrapper.vm.$store.state.transfer()
+    wrapper.vm.transfer()
 
-    expect(wrapper.vm.$store.state.actualAccount.getMountAvailable()).to.equal(actualAccountAvailableMount - mount)
-    expect(wrapper.vm.$store.state.destinationAccount.getMountAvailable()).to.equal(destinationAccountAvailableMount + mount)
+    expect(wrapper.vm.mountAvailable).to.equal(actualAccountAvailableMount - wrapper.vm.mountTransaction)
+    expect(IncomeExpensesUtils.getMountAvailable(destinationAccount)).to.equal(destinationAccountAvailableMount + wrapper.vm.mountTransaction)
   })
 
   /* it('test to check the negative entries of a input', () => {
