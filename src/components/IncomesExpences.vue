@@ -27,16 +27,16 @@
      </div>
     <div class="form-group">
       <label> <b>Amount BS</b> </label>
-      <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter amount" v-model="amount">
+      <input type="number" class="form-control" id="exampleInputEmail1"  placeholder="Enter amount" v-model="amount">
     </div>
     <label>Choose the date of the transaction :</label>
-     <input type="date" class="ml-3" id="party" name="party" style="width:500px; text-align: center;" v-model="date">
+     <input type="date" class="ml-3" id="party"  style="width:500px; text-align: center;" v-model="date">
      <br/>
      <div class="text-center mt-4">
        <button type="button" class="btn btn-primary" v-on:click="register()">Register Transaction</button>
      </div>
      <div class="alert alert-warning" role="alert" id='transactionFail' v-if="transactionFail">
-         Missing data to complete register category!
+         Missing or repeat data to complete register category!
       </div>
       <div class="alert alert-success" role="alert" id= 'transactionSuccess' v-if="transactionSuccess">
           Register category complete
@@ -55,7 +55,7 @@
         </div>
 
        <div class="alert alert-warning mt-4"  id='categoryFail' v-if="categoryFail">
-         Missing data to complete register category!
+         Missing or repeat data to complete register category!
       </div>
       <div class="alert alert-success mt-4"  id= 'categorySuccess' v-if="categorySuccess">
           Register category complete
@@ -116,10 +116,27 @@ export default {
       }
     },
     isFormTransactionComplete: function () {
-      return this.name !== '' && this.category !== '' && this.amount !== '' && this.date !== ''
+      let repeatName = true
+      if (this.linkage === 'Incomes') {
+        let incomesNames = this.$store.state.actualAccount.income.map(income => income.name)
+        if (!incomesNames.includes(this.name)) {
+          repeatName = false
+        }
+      } else if (this.linkage === 'Expences') {
+        let expensesNames = this.$store.state.actualAccount.expenses.map(expense => expense.name)
+        if (!expensesNames.includes(this.name)) {
+          repeatName = false
+        }
+      }
+      return this.name !== '' && this.category !== '' && this.amount !== '' && this.date !== '' && !repeatName
     },
     isCategoryTransactionComplete: function () {
-      return this.newCategory !== ''
+      let repeatName = true
+      let categoryNames = this.loadCategories().map(cateoryname => cateoryname.name)
+      if (!categoryNames.includes(this.newCategory)) {
+        repeatName = false
+      }
+      return this.newCategory !== '' && !repeatName
     },
     registerCategory: function () {
       if (this.isCategoryTransactionComplete()) {

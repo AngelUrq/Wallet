@@ -22,11 +22,7 @@ export default new Vuex.Store({
       state.actualAccount = account
     },
     addIncome (state, income) {
-      let incomesNames = state.actualAccount.income.map(income => income.name)
-
-      if (!incomesNames.includes(income.name)) {
-        state.actualAccount.income.push(income)
-      }
+      state.actualAccount.income.push(income)
     },
     addExpence (state, expense) {
       state.actualAccount.expenses.push(expense)
