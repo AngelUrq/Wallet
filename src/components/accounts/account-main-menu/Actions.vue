@@ -2,15 +2,15 @@
   <div class="container p-5">
     <div class="row">
       <div class="col-sm" v-for="action in actions" :key="action.name">
-        <router-link class="btn" :class="action.classButton" :to=action.route>
+        <router-link class="btn" :class="action.classButton" :to ="action.route" >
           <div class="information-button">
             <img :src="getImgUrl(action.image)" class="d-inline-block align-top" alt>
             &nbsp;{{ action.name }}
           </div>
         </router-link>
+         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -19,10 +19,10 @@ export default {
   data () {
     return {
       actions: [
-        { name: 'Income', image: 'profit.png', classButton: 'btn-success', route: '/incomes-expences-view' },
-        { name: 'Expenses', image: 'coins.png', classButton: 'btn-danger', route: '/incomes-expences-view' },
-        { name: 'Transfer', image: 'transaction.png', classButton: 'btn-info', route: '/transfer' },
-        { name: 'Report', image: 'rising.png', classButton: 'btn-warning', route: '/' }
+        { name: 'Income', image: 'profit.png', classButton: 'btn-success', route: { name: 'incomes-expences-view', params: { title: 'Incomes', transfer: 'addIncome', linkage: 'Incomes' } } },
+        { name: 'Expenses', image: 'coins.png', classButton: 'btn-danger', route: { name: 'incomes-expences-view', params: { title: 'Expenses', transfer: 'addExpence', linkage: 'Expenses' } } },
+        { name: 'Transfer', image: 'transaction.png', classButton: 'btn-info', route: { name: 'transfer' } },
+        { name: 'Report', image: 'rising.png', classButton: 'btn-warning', route: { name: '' } }
       ]
     }
   },

@@ -7,10 +7,8 @@ export default new Vuex.Store({
   state: {
     accounts: [],
     actualAccount: { name: '', income: [], expenses: [] },
-    categories: [
-      { name: 'IncomingTransfer', linkage: 'Incomes' },
-      { name: 'TransferTo', linkage: 'Expenses' }
-    ]
+    categories: [{ name: 'IncomingTransfer', linkage: 'Incomes' },
+      { name: 'TransferTo', linkage: 'Expenses' }]
   },
   mutations: {
     addAccount (state, newAccountName) {
@@ -24,7 +22,11 @@ export default new Vuex.Store({
       state.actualAccount = account
     },
     addIncome (state, income) {
-      state.actualAccount.income.push(income)
+      let incomesNames = state.actualAccount.income.map(income => income.name)
+
+      if (!incomesNames.includes(income.name)) {
+        state.actualAccount.income.push(income)
+      }
     },
     addExpence (state, expense) {
       state.actualAccount.expenses.push(expense)
