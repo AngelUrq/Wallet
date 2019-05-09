@@ -17,28 +17,28 @@
      <form>
       <div class="form-group">
        <label> <b>Name</b></label>
-       <input type="email" class="form-control" id="exampleInputEmail1"  placeholder="Enter Name">
+       <input class="form-control" id="exampleInputEmail1"  placeholder="Enter Name" v-model="name">
       </div>
       <div class="form-group">
        <label for="exampleInputPassword1"> <b>Category</b> </label>
-       <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" v-model="category" >
+       <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" v-model="category"  >
         <option v-for="option in options" :key="option.name">{{option.name}}</option>
        </select>
      </div>
     <div class="form-group">
       <label> <b>Amount BS</b> </label>
-      <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter amount">
+      <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter amount" v-model="amount">
     </div>
-    <label for="party">Choose the date of the transaction :</label>
+    <label>Choose the date of the transaction :</label>
      <input type="date" class="ml-3" id="party" name="party" style="width:500px; text-align: center;" v-model="date">
      <br/>
      <div class="text-center mt-4">
        <button type="button" class="btn btn-primary" v-on:click="register()">Register Transaction</button>
      </div>
-     <div class="alert alert-warning" role="alert" id='failcategory' v-if="false">
+     <div class="alert alert-warning" role="alert" id='transactionFail' v-if="transactionFail">
          Missing data to complete register category!
       </div>
-      <div class="alert alert-success" role="alert" id= 'succescategory' v-if="false">
+      <div class="alert alert-success" role="alert" id= 'transactionSuccess' v-if="transactionSuccess">
           Register category complete
       </div>
 </form>
@@ -54,10 +54,10 @@
       <button type="button" class="btn btn-primary" v-on:click="registerCategory()">Register Category</button>
         </div>
 
-       <div class="alert alert-warning mt-4"  id='failcategory' v-if="categoryFail">
+       <div class="alert alert-warning mt-4"  id='categoryFail' v-if="categoryFail">
          Missing data to complete register category!
       </div>
-      <div class="alert alert-success mt-4"  id= 'succescategory' v-if="categorySuccess">
+      <div class="alert alert-success mt-4"  id= 'categorySuccess' v-if="categorySuccess">
           Register category complete
       </div>
        </form>
@@ -67,7 +67,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 
 export default {
   name: 'incomes-expences',
@@ -83,12 +82,7 @@ export default {
     linkage: {
       type: String,
       default: 'Incomes'
-    },
-    actualAccount: {
-      type: String,
-      default: ''
     }
-
   },
   data () {
     return {
@@ -99,7 +93,6 @@ export default {
       amount: '',
       date: '',
       newCategory: '',
-      value: '',
       transactionSuccess: false,
       transactionFail: false,
       categorySuccess: false,
@@ -107,38 +100,26 @@ export default {
     }
   },
   methods: {
-    getActualDate: function () {
-      var n = new Date()
-      var y = n.getFullYear()
-      var m = n.getMonth() + 1
-      var d = n.getDate()
-      return m + '/' + d + '/' + y
-    },
     register: function () {
       if (this.isFormTransactionComplete()) {
         this.$store.dispatch(this.transfer, {
           name: this.name,
           category: this.category,
           amount: this.amount,
-          date: this.getActualDate(),
-          actualAccount: this.actualAccount
+          date: this.date
         })
+        this.transactionSuccess = true
+        this.transactionFail = false
       } else {
+        this.transactionSuccess = false
+        this.transactionFail = true
       }
     },
     isFormTransactionComplete: function () {
-      if (this.name !== '' && this.category !== '' && this.amount !== '' && this.date !== '') {
-        return true
-      } else {
-        return false
-      }
+      return this.name !== '' && this.category !== '' && this.amount !== '' && this.date !== ''
     },
     isCategoryTransactionComplete: function () {
-      if (this.newCategory !== '') {
-        return true
-      } else {
-        return false
-      }
+      return this.newCategory !== ''
     },
     registerCategory: function () {
       if (this.isCategoryTransactionComplete()) {
