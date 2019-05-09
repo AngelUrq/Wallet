@@ -132,7 +132,7 @@ export default {
         }
       }
       return this.name !== '' && this.category !== '' &&
-      this.amount !== '' && this.date !== '' && !repeatName
+      this.amount !== '' && this.amount > 0 && this.date !== '' && !repeatName
     },
     isCategoryTransactionComplete: function() {
       let repeatName = true
@@ -151,6 +151,7 @@ export default {
         })
         this.categorySuccess = true
         this.categoryFail = false
+        this.options = this.loadCategories()
       } else {
         this.categorySuccess = false
         this.categoryFail = true
@@ -161,6 +162,10 @@ export default {
       this.$store.state.categories.filter((category) =>
         category.linkage === this.linkage)
       return options
+    },
+    setDefaultValues: function(transfer, linkage) {
+      this.transfer = transfer
+      this.linkage = linkage
     },
   },
 }
