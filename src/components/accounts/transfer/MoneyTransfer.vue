@@ -35,11 +35,11 @@
       <button id="btn-transfer" class="btn btn-success my-3" @click="transfer()">Transfer</button>
     </div>
     <div class="show-alert" v-if="showValidation">
-      <div class="alert alert-info" role="alert" v-if="transactionSuccessful">
+      <div id="msg-successful" class="alert alert-info" role="alert" v-if="transactionSuccessful">
         <strong>Completed!</strong>
         You transaction was successful.
       </div>
-      <div class="alert alert-danger" role="alert" v-if="!transactionSuccessful">
+      <div id='msg-error' class="alert alert-danger" role="alert" v-if="!transactionSuccessful">
         <strong>Important!</strong>
         Please check the data to do the transaction successful.
       </div>

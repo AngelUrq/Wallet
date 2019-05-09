@@ -34,7 +34,10 @@ describe('MoneyTransfer.vue', () => {
     expect(IncomeExpensesUtils.getMountAvailable(destinationAccount)).to.equal(destinationAccountAvailableMount + wrapper.vm.mountTransaction)
   })
 
-  /* it('test to check the negative entries of a input', () => {
+  it('test to check the negative entries of a input', () => {
+    wrapper.vm.mountTransaction = -15
+    wrapper.find('#btn-transfer').trigger('click')
 
-  }) */
+    expect(wrapper.find('#msg-error').exists()).to.equal(true)
+  })
 })
