@@ -7,7 +7,7 @@
         <input type="text" class="form-control" placeholder="Account name" v-model="accountName">
       </div>
       <div class="text-center">
-        <button type="button" class="btn btn-success" @click="add">Add</button>
+        <button id="addAccountButton" type="button" class="btn btn-success" @click="add">Add</button>
       </div>
     </form>
   </div>
@@ -32,6 +32,9 @@ export default {
         this.$store.dispatch('addAccount', this.accountName)
         this.accountName = ''
       }
+    },
+    getAccounts: function () {
+      return this.$store.state.accounts
     }
   }
 }
