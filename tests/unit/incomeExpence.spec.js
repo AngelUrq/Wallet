@@ -1,4 +1,4 @@
-import { expect } from 'chai'
+/* import { expect } from 'chai'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import IncomesExpences from '@/components/IncomesExpences.vue'
 import VueRouter from 'vue-router'
@@ -45,6 +45,7 @@ describe('IncomesExpences.vue', () => {
     expect(wrapper.contains('#transactionSuccess')).equals(false)
   })
 })
+*/
 /* const ACCOUNT_NAME = 'Test account'
 
     let account = { name: ACCOUNT_NAME, income: [], expenses: [] }
@@ -53,4 +54,4 @@ describe('IncomesExpences.vue', () => {
     wrapper.vm.name = 'newi Category'
     wrapper.vm.amount = 10
     wrapper.vm.category = 'testcategory'
-    wrapper.vm.date = '10/10/2019'*/
+    wrapper.vm.date = '10/10/2019' */
