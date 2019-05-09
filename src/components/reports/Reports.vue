@@ -21,111 +21,83 @@
         <label for="startDate">From:</label>
       </div>
       <div class="offset-1 col-3">
-        <date-picker v-model="startDate" :config="options"></date-picker>
+        <input type="date" id="startDate" name="startDate" v-model="startDate">
       </div>
       <div class="offset-1 col-2">
         <label for="endDate">To:</label>
       </div>
       <div class="col-3">
-        <date-picker v-model="endDate" :config="options"></date-picker>
+        <input type="date" id="endDate" name="endDate" v-model="endDate">
       </div>
     </div>
     <div class="text-center">
-        <button class="btn btn-success">Generate report</button>
+        <button class="btn btn-success" @click="setDataForReport">Generate report</button>
     </div>
-
-    <div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>{{type}}</th>
-            <th>Account</th>
-            <th>Amount</th>
-            <th>Category</th>
-          </tr>
-        </thead>
-        <tbody>
-          <template v-for="group in dataArray">
-            <tr v-for="(row, idx) in group.transactions" v-bind:key="idx">
-              <td class="groupedby"><span v-if="idx == 0">{{group.date}}</span></td>
-              <td>{{row.account}}</td>
-              <td>{{row.category}}</td>
-              <td>{{row.amount}}</td>
-            </tr>
-          </template>
-          <tr>
-            <td>24/01/2013</td>
-            <td>Otto</td>
-            <td>1203</td>
-            <td>Food</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Otto</td>
-            <td>1203</td>
-            <td>Food</td>
-          </tr>
-        </tbody>
-      </table>
+    <hr>
+    <div class="row" v-if="showReport">
+      <Table :accountData="accountData" :groupBy="selected" :columns="columnsForChild"></Table>
     </div>
   </div>
 </template>
 
 <script>
-import 'bootstrap/dist/css/bootstrap.css'
-import DatePicker from 'vue-bootstrap-datetimepicker'
-import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css'
+import Table from '@/components/reports/Table.vue'
 
 export default {
   name: 'Reports',
   data () {
     return {
       selected: 'date',
+      showReport: false,
       startDate: new Date(),
       endDate: new Date(),
-      options: {
-        format: 'DD/MM/YYYY'
-      },
+      accountData: undefined, /* {
+        name: 'TestAccount',
+        incomes: [
+          {
+            date: '24/02/2019',
+            category: 'Salary',
+            name: 'Frebruary',
+            amount: 1000,
+            actualAccount: 'TestAccount'
+          }
+        ],
+        expenses: [
+          {
+            date: '24/02/2019',
+            category: 'Food',
+            name: 'Cookies',
+            amount: 12.34,
+            actualAccount: 'TestAccount'
+          },
+          {
+            date: '24/02/2019',
+            category: 'Food',
+            name: 'Milk',
+            amount: 15,
+            actualAccount: 'TestAccount'
+          }
+        ]
+      }, */
+      columns: ['amount', 'name', 'date', 'category'],
+      columnsForChild: undefined
+    }
+  },
+  methods: {
+    setDataForReport () {
+      this.showReport = true
+      this.accountData = this.$store.state.actualAccount
 
-      dataArray: [
-        {
-          date: '14-06-543',
-          transactions: [
-            {
-              account: 'Savings',
-              category: 'Food',
-              amount: 1234
-            },
-            {
-              account: 'Savings',
-              category: 'Entertainment',
-              amount: 1234
-            }
-          ]
-        },
-        {
-          date: '14-06-543',
-          transactions: [
-            {
-              account: 'Savings',
-              category: 'Food',
-              amount: 1234
-            },
-            {
-              account: 'Savings',
-              category: 'Entertainment',
-              amount: 1234
-            }
-          ]
-        }
-      ]
+      this.columnsForChild = this.columns
+      var index = this.columnsForChild.indexOf(this.selected)
+      this.columnsForChild.splice(index, 1)
     }
   },
   props: {
     accountName: String
   },
   components: {
-    DatePicker
+    Table
   }
 }
 </script>

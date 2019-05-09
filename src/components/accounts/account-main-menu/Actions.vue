@@ -22,7 +22,7 @@ export default {
         { name: 'Income', image: 'profit.png', classButton: 'btn-success', route: '/incomes-expences-view' },
         { name: 'Expenses', image: 'coins.png', classButton: 'btn-danger', route: '/incomes-expences-view' },
         { name: 'Transfer', image: 'transaction.png', classButton: 'btn-info', route: '/transfer' },
-        { name: 'Report', image: 'rising.png', classButton: 'btn-warning', route: '/' }
+        { name: 'Report', image: 'rising.png', classButton: 'btn-warning', route: '/reports' }
       ]
     }
   },

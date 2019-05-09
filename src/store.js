@@ -49,5 +49,12 @@ export default new Vuex.Store({
     addCategory (state, newCategory) {
       state.commit('addCategory', newCategory)
     }
+  },
+  getters: {
+    accountDataByDate: (state) => (startDate, endDate) => {
+      var filterdIncomes = state.actualAccount.income.filter(income => income.date >= startDate && income.date <= endDate)
+      var filterdExpenses = state.actualAccount.expenses.filter(expense => expense.date >= startDate && expense.date <= endDate)
+      return { name: state.actualAccount.name, income: filterdIncomes, expenses: filterdExpenses }
+    }
   }
 })

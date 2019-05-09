@@ -2,34 +2,22 @@
   <div class="container">
     <table class="table">
     <thead>
-        <tr>
-        <th>{{type}}</th>
-        <th>Account</th>
-        <th>Amount</th>
-        <th>Category</th>
-        </tr>
+      <tr>
+      <th>{{groupBy}}</th>
+      <th v-for="(column, index) in columns" v-bind:key="index">
+        {{column}}
+      </th>
+      </tr>
     </thead>
     <tbody>
-        <template v-for="group in dataArray">
+      <template v-for="group in tableDataArray">
         <tr v-for="(row, idx) in group.transactions" v-bind:key="idx">
-            <td class="groupedby"><span v-if="idx == 0">{{group.date}}</span></td>
-            <td>{{row.account}}</td>
-            <td>{{row.category}}</td>
-            <td>{{row.amount}}</td>
+            <td class="groupedby"><span v-if="idx == 0">{{group.value}}</span></td>
+            <td v-for="(column, index) in columns" v-bind:key="index">
+              {{row[column]}}
+            </td>
         </tr>
-        </template>
-        <tr>
-        <td>24/01/2013</td>
-        <td>Otto</td>
-        <td>1203</td>
-        <td>Food</td>
-        </tr>
-        <tr>
-        <td></td>
-        <td>Otto</td>
-        <td>1203</td>
-        <td>Food</td>
-        </tr>
+      </template>
     </tbody>
     </table>
   </div>
@@ -41,50 +29,29 @@ export default {
   name: 'Table',
   data () {
     return {
-      tableDataArray: [],
-      dataArray: [
-        {
-          date: '14-06-543',
-          transactions: [
-            {
-              account: 'Savings',
-              category: 'Food',
-              amount: 1234
-            },
-            {
-              account: 'Savings',
-              category: 'Entertainment',
-              amount: 1234
-            }
-          ]
-        },
-        {
-          date: '14-06-543',
-          transactions: [
-            {
-              account: 'Savings',
-              category: 'Food',
-              amount: 1234
-            },
-            {
-              account: 'Savings',
-              category: 'Entertainment',
-              amount: 1234
-            }
-          ]
-        }
-      ]
+      tableDataArray: []
     }
   },
   props: {
     accountData: Object,
-    groupBy: String
+    groupBy: String,
+    columns: Array
   },
   methods: {
     generateTableDataArrayStructure () {
-      var allTransactions = this.accountData.income.map(income => income)
-      // { name: newAccountName, income: [], expenses: [] }
-      console.log(allTransactions)
+      var incomesValuesForGroupBy = this.accountData.incomes.map(income => income[this.groupBy])
+      var expensesValuesForGroupBy = this.accountData.expenses.map(expense => expense[this.groupBy])
+      var transactionsValuesForGroupBy = incomesValuesForGroupBy.concat(expensesValuesForGroupBy)
+      var uniqueValuesForGroupBy = [...new Set(transactionsValuesForGroupBy)]
+
+      for (var i = 0; i < uniqueValuesForGroupBy.length; i++) {
+        var filteredIncomeData = this.accountData.incomes.filter(income => income[this.groupBy] === uniqueValuesForGroupBy[i])
+        var filteredExpenseData = this.accountData.expenses.filter(expense => expense[this.groupBy] === uniqueValuesForGroupBy[i])
+        var setOfFilteredValues = filteredIncomeData.concat(filteredExpenseData)
+
+        var valuesForGroup = { value: uniqueValuesForGroupBy[i], transactions: setOfFilteredValues }
+        this.tableDataArray.push(valuesForGroup)
+      }
     }
   },
   beforeMount () {

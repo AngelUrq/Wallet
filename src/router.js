@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Accounts from './views/Accounts.vue'
 import AccountMainMenu from './views/AccountMainMenu.vue'
 import Transfer from './views/Transfer.vue'
+import Reports from './components/reports/Reports.vue'
 
 import IncomesExpencesView from './views/IncomesExpencesView.vue'
 Vue.use(Router)
@@ -28,6 +29,12 @@ export default new Router({
       path: '/incomes-expences-view',
       name: 'incomes-expences-view',
       component: IncomesExpencesView,
+      props: true
+    },
+    {
+      path: '/reports',
+      name: 'reports',
+      component: Reports,
       props: true
     }
   ]
