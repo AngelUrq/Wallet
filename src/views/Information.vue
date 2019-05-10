@@ -1,23 +1,19 @@
 <template>
   <div>
     <Navbar/>
-    <MoneyTransfer/>
+    <AccountInformation/>
   </div>
 </template>
 
 <script>
 import Navbar from '@/components/Navbar.vue'
-import MoneyTransfer from '@/components/accounts/transfer/MoneyTransfer.vue'
+import AccountInformation from '@/components/accounts/account-information/AccountInformation.vue'
 
 export default {
-  name: 'transfer',
+  name: 'Information',
   components: {
     Navbar,
-    MoneyTransfer,
+    AccountInformation,
   },
 }
 </script>
-
-<style>
-
-</style>

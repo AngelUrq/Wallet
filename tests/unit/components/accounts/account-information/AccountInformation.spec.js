@@ -1,18 +1,20 @@
 import { expect } from 'chai'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import AccountCreator from '@/components/accounts/AccountCreator.vue'
+import AccountInformation from '@/components/accounts/account-information/AccountInformation.vue'
+import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import TestUtil from '../../../../TestUtil.js'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
+localVue.use(VueRouter)
 
 describe('AccountInformation.vue', () => {
   let wrapper
 
   beforeEach(function() {
     const store = TestUtil.getDefaultStore()
-    wrapper = shallowMount(AccountCreator, { store, localVue })
+    wrapper = shallowMount(AccountInformation, { store, localVue })
   })
 
   it('modify actual account name', () => {
