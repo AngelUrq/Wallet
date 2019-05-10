@@ -5,6 +5,9 @@
       &nbsp;Personal Wallet
     </router-link>
     <form class="form-inline">
+      <router-link class="btn btn-link my-2 my-sm-0 mr-3" to="/account-information">
+      Name of account
+      </router-link>
       <router-link class="btn btn-outline-success my-2 my-sm-0" to="/">
         <img src="@/assets/exit.png" width="30" height="30">
       </router-link>
