@@ -3,7 +3,12 @@ import DateUtils from '@/utils/DateUtils.js'
 
 describe('DateUtils.js', () => {
   it('Check date', () => {
+    const actualDate = new Date()
+    const year = actualDate.getFullYear()
+    const month = actualDate.getMonth() + 1
+    const day = actualDate.getDate()
+    const dateFormat = day + '/' + month + '/' + year
     const date = DateUtils.getActualDate()
-    expect(date).to.equal('5/9/2019')
+    expect(date).to.equal(dateFormat)
   })
 })
