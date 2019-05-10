@@ -10,7 +10,7 @@ localVue.use(Vuex)
 describe('AccountCreator.vue', () => {
   let wrapper
 
-  beforeEach(function () {
+  beforeEach(function() {
     wrapper = shallowMount(AccountCreator, { store, localVue })
   })
 
@@ -20,7 +20,7 @@ describe('AccountCreator.vue', () => {
     wrapper.vm.accountName = ACCOUNT_NAME
     wrapper.find('#addAccountButton').trigger('click')
 
-    let account = { name: ACCOUNT_NAME, income: [], expenses: [] }
+    const account = { name: ACCOUNT_NAME, income: [], expenses: [] }
 
     expect(wrapper.vm.getAccounts()).to.deep.include(account)
   })

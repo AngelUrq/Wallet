@@ -12,23 +12,23 @@ export default new Router({
     {
       path: '/',
       name: 'accounts',
-      component: Accounts
+      component: Accounts,
     },
     {
       path: '/account-main-menu',
       name: 'account main menu',
-      component: AccountMainMenu
+      component: AccountMainMenu,
     },
     {
       path: '/transfer',
       name: 'transfer',
-      component: Transfer
+      component: Transfer,
     },
     {
       path: '/incomes-expences-view',
       name: 'incomes-expences-view',
       component: IncomesExpencesView,
-      props: true
-    }
-  ]
+      props: true,
+    },
+  ],
 })

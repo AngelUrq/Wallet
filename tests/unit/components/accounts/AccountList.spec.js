@@ -13,7 +13,7 @@ describe('AccountList.vue', () => {
   let wrapper
   let account
 
-  before(function () {
+  before(function() {
     wrapper = shallowMount(AccountList, { store, localVue })
 
     const ACCOUNT_NAME = 'Test account'
@@ -38,9 +38,9 @@ describe('AccountList.vue', () => {
       wrapper.vm.$store.dispatch('addAccount', { name: 'Color account - ' + i, income: [], expenses: [] })
     }
 
-    let listOfClasses = ['.btn-success', '.btn-primary', '.btn-danger', '.btn-warning', '.btn-danger']
+    const listOfClasses = ['.btn-success', '.btn-primary', '.btn-danger', '.btn-warning', '.btn-danger']
 
-    for (let buttonClass of listOfClasses) {
+    for (const buttonClass of listOfClasses) {
       expect(wrapper.find(buttonClass).exists()).to.equal(true)
     }
   })

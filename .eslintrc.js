@@ -8,6 +8,7 @@ module.exports = {
     'plugin:vue/essential',
     '@vue/standard',
     'google',
+
   ],
   'rules': {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
