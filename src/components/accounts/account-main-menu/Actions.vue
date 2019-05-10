@@ -16,21 +16,27 @@
 <script>
 export default {
   name: 'Actions',
-  data () {
+  data() {
     return {
       actions: [
-        { name: 'Income', image: 'profit.png', classButton: 'btn-success', route: { name: 'incomes-expences-view', params: { title: 'Incomes', transfer: 'addIncome', linkage: 'Incomes' } } },
-        { name: 'Expenses', image: 'coins.png', classButton: 'btn-danger', route: { name: 'incomes-expences-view', params: { title: 'Expenses', transfer: 'addExpence', linkage: 'Expenses' } } },
+        { name: 'Income',
+          image: 'profit.png',
+          classButton: 'btn-success',
+          route: { name: 'incomes-expences-view', params: { title: 'Incomes', transfer: 'addIncome', linkage: 'Incomes' } } },
+        { name: 'Expenses',
+          image: 'coins.png',
+          classButton: 'btn-danger',
+          route: { name: 'incomes-expences-view', params: { title: 'Expenses', transfer: 'addExpense', linkage: 'Expenses' } } },
         { name: 'Transfer', image: 'transaction.png', classButton: 'btn-info', route: { name: 'transfer' } },
-        { name: 'Report', image: 'rising.png', classButton: 'btn-warning', route: { name: '' } }
-      ]
+        { name: 'Report', image: 'rising.png', classButton: 'btn-warning', route: { name: '' } },
+      ],
     }
   },
   methods: {
-    getImgUrl (pic) {
+    getImgUrl(pic) {
       return require('@/assets/' + pic)
-    }
-  }
+    },
+  },
 }
 </script>
 

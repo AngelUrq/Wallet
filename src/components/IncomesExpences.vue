@@ -79,7 +79,7 @@
 </template>
 
 <script>
-
+import IncomeExpensesUtils from '@/utils/IncomeExpensesUtils.js'
 export default {
   name: 'incomes-expences',
   props: {
@@ -109,6 +109,7 @@ export default {
       transactionFail: false,
       categorySuccess: false,
       categoryFail: false,
+      mountAvailable: 0,
     }
   },
   methods: {
@@ -129,21 +130,27 @@ export default {
     },
     isFormTransactionComplete: function() {
       let repeatName = true
+      let remainAmount = true
       if (this.linkage === 'Incomes') {
         const incomesNames =
         this.$store.state.actualAccount.income.map((income) => income.name)
         if (!incomesNames.includes(this.name)) {
           repeatName = false
         }
-      } else if (this.linkage === 'Expences') {
+      } else if (this.linkage === 'Expenses') {
         const expensesNames =
         this.$store.state.actualAccount.expenses.map((expense) => expense.name)
         if (!expensesNames.includes(this.name)) {
           repeatName = false
         }
+        this.mountAvailable = IncomeExpensesUtils.getMountAvailable(this.$store.state.actualAccount)
+
+        if (this.mountAvailable < this.amount) {
+          remainAmount = false
+        }
       }
       return this.name !== '' && this.category !== '' &&
-      this.amount !== '' && this.amount > 0 && this.date !== '' && !repeatName
+      this.amount !== '' && this.amount > 0 && this.date !== '' && !repeatName && remainAmount
     },
     isCategoryTransactionComplete: function() {
       let repeatName = true
@@ -171,7 +178,7 @@ export default {
     loadCategories: function() {
       const options =
       this.$store.state.categories.filter((category) =>
-        category.linkage === this.linkage)
+        category.linkage === this.linkage && category.name !== 'IncomingTransfer' && category.name !== 'TransferTo')
       return options
     },
     setDefaultValues: function(transfer, linkage) {
