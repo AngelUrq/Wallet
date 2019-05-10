@@ -6,6 +6,6 @@ export default {
     const y = n.getFullYear()
     const m = n.getMonth() + 1
     const d = n.getDate()
-    return m + '/' + d + '/' + y
+    return d + '/' + m + '/' + y
   },
 }
