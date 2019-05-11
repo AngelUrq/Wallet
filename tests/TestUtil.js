@@ -1,27 +1,18 @@
 import Vuex from 'vuex'
 
+const categories = [
+  { name: 'IncomingTransfer', linkage: 'Income' },
+  { name: 'TransferTo', linkage: 'Expenses' },
+  { name: 'Salary', linkage: 'Income' },
+  { name: 'Food', linkage: 'Expenses' },
+]
+
 export default {
   name: 'TestUtil',
-  /* data: function () {
-    return {
-      categ: [
-        { name: 'IncomingTransfer', linkage: 'Income' },
-        { name: 'TransferTo', linkage: 'Expenses' },
-        { name: 'Salary', linkage: 'Income' },
-        { name: 'Food', linkage: 'Expenses' }
-      ]
-    }
-  }, */
-
   getDefaultStore() {
     return new Vuex.Store({
       state: {
-        categories: [
-          { name: 'IncomingTransfer', linkage: 'Income' },
-          { name: 'TransferTo', linkage: 'Expenses' },
-          { name: 'Salary', linkage: 'Income' },
-          { name: 'Food', linkage: 'Expenses' },
-        ],
+        categories: categories,
         accounts: [
           { name: 'Test1',
             income: [{ name: 'Monthly salary', category: { name: 'Salary', linkage: 'Income' }, amount: 500, date: '8/5/2019' }],
@@ -30,11 +21,9 @@ export default {
             income: [{ name: 'Monthly salary', category: { name: 'Salary', linkage: 'Income' }, amount: 600, date: '8/5/2019' }],
             expenses: [{ name: 'Dinner', category: { name: 'Food', linkage: 'Expenses' }, amount: 50, date: '8/5/2019' }] },
         ],
-        actualAccount: {
-          name: 'Test1',
+        actualAccount: { name: 'Test1',
           income: [{ name: 'Monthly salary', category: { name: 'Salary', linkage: 'Income' }, amount: 500, date: '8/5/2019' }],
-          expenses: [{ name: 'Food purchase', category: { name: 'Food', linkage: 'Expenses' }, amount: 30, date: '8/5/2019' }],
-        },
+          expenses: [{ name: 'Food purchase', category: { name: 'Food', linkage: 'Expenses' }, amount: 30, date: '8/5/2019' }] },
       },
       mutations: {
         addAccount(state, newAccountName) {
@@ -74,11 +63,6 @@ export default {
           state.commit('addCategory', newCategory)
         },
       },
-      /* getters: {
-        getAccountByName (state, nameAccount) {
-          return state.accounts.filter(account => account.name === nameAccount)
-        }
-      } */
     })
   },
 }

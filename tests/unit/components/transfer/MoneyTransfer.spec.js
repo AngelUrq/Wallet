@@ -24,7 +24,7 @@ describe('MoneyTransfer.vue', () => {
     const actualAccountAvailableMount = wrapper.vm.mountAvailable
     wrapper.vm.mountTransaction = 100
 
-    wrapper.vm.nameDestinationAccount = 'Test2'
+    wrapper.vm.nameDestinationAccount = wrapper.vm.$store.state.accounts[1].name
     const destinationAccount = wrapper.vm.getAccountByName(wrapper.vm.nameDestinationAccount)
     const destinationAccountAvailableMount = IncomeExpensesUtils.getMountAvailable(destinationAccount)
 
