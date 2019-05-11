@@ -10,7 +10,7 @@
         <label for="selectType">Select the report type:</label>
       </div>
       <div class="col-9">
-        <select v-model="selected" class="form-control">
+        <select id="reportType" v-model="selected" class="form-control" @change="clearVariables">
           <option value="date" selected="selected">By date</option>
           <option value="category">By category</option>
         </select>
@@ -30,75 +30,70 @@
         <input type="date" id="endDate" name="endDate" v-model="endDate">
       </div>
     </div>
+    <div class="row" v-if="dateError" id="dateError">
+      <div class="col-12 text-danger">
+        Please insert valid start and end dates
+      </div>
+    </div>
     <div class="text-center">
-        <button class="btn btn-success" @click="setDataForReport">Generate report</button>
+        <button id="showReport" class="btn btn-success" @click="setDataForReport">Show report</button>
     </div>
     <hr>
-    <div class="row" v-if="showReport">
+    <div id="reportTable" class="row" v-if="showReport">
       <Table :accountData="accountData" :groupBy="selected" :columns="columnsForChild"></Table>
     </div>
   </div>
 </template>
 
 <script>
+import DateUtils from '@/utils/DateUtils.js'
 import Table from '@/components/reports/Table.vue'
 
 export default {
   name: 'Reports',
-  data () {
+  data() {
     return {
       selected: 'date',
       showReport: false,
-      startDate: new Date(),
-      endDate: new Date(),
-      accountData: undefined, /* {
-        name: 'TestAccount',
-        incomes: [
-          {
-            date: '24/02/2019',
-            category: 'Salary',
-            name: 'Frebruary',
-            amount: 1000,
-            actualAccount: 'TestAccount'
-          }
-        ],
-        expenses: [
-          {
-            date: '24/02/2019',
-            category: 'Food',
-            name: 'Cookies',
-            amount: 12.34,
-            actualAccount: 'TestAccount'
-          },
-          {
-            date: '24/02/2019',
-            category: 'Food',
-            name: 'Milk',
-            amount: 15,
-            actualAccount: 'TestAccount'
-          }
-        ]
-      }, */
+      startDate: undefined,
+      endDate: undefined,
+      accountData: undefined,
       columns: ['amount', 'name', 'date', 'category'],
-      columnsForChild: undefined
+      columnsForChild: undefined,
+      dateError: false,
+      accountName: this.$store.state.actualAccount.name,
     }
   },
   methods: {
-    setDataForReport () {
-      this.showReport = true
-      this.accountData = this.$store.state.actualAccount
+    setDataForReport() {
+      if (this.validateForm()) {
+        this.showReport = true
+        this.dateError = false
 
-      this.columnsForChild = this.columns
-      var index = this.columnsForChild.indexOf(this.selected)
-      this.columnsForChild.splice(index, 1)
-    }
-  },
-  props: {
-    accountName: String
+        this.accountData = this.selected === 'category'
+                            ? this.$store.state.actualAccount
+                            : this.$store.getters.accountDataByDate(this.startDate, this.endDate)
+        this.columnsForChild = [...this.columns]
+        const index = this.columnsForChild.indexOf(this.selected)
+        this.columnsForChild.splice(index, 1)
+      } else {
+        this.dateError = true
+      }
+    },
+    validateForm() {
+      if (this.selected === 'category') {
+        return true
+      }
+      return DateUtils.areDatesValid(this.startDate, this.endDate)
+    },
+    clearVariables() {
+      this.showReport = false
+      this.dateError = false
+    },
   },
   components: {
-    Table
-  }
+    Table,
+  },
 }
 </script>
 

@@ -135,7 +135,7 @@ export default {
         if (!incomesNames.includes(this.name)) {
           repeatName = false
         }
-      } else if (this.linkage === 'Expences') {
+      } else if (this.linkage === 'Expenses') {
         const expensesNames =
         this.$store.state.actualAccount.expenses.map((expense) => expense.name)
         if (!expensesNames.includes(this.name)) {

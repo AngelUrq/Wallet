@@ -8,4 +8,20 @@ export default {
     const d = n.getDate()
     return m + '/' + d + '/' + y
   },
+
+  areDatesValid(startDate, endDate) {
+    if (startDate === undefined || endDate === undefined) {
+      return false
+    }
+    const sDate = new Date(startDate)
+    const eDate = new Date(endDate)
+    return sDate <= eDate
+  },
+
+  isDateWithinRange(dateToTest, startDate, endDate) {
+    const sDate = new Date(startDate)
+    const eDate = new Date(endDate)
+    const testedDate = new Date(dateToTest)
+    return testedDate >= sDate && testedDate <= eDate
+  },
 }

@@ -12,23 +12,23 @@
 <script>
 export default {
   name: 'AccountList',
-  data: function () {
+  data: function() {
     return {
-      accounts: this.$store.state.accounts
+      accounts: this.$store.state.accounts,
     }
   },
   methods: {
-    chooseAccount: function (accountName) {
-      for (let account of this.accounts) {
+    chooseAccount: function(accountName) {
+      for (const account of this.accounts) {
         if (account.name === accountName) {
           this.$store.dispatch('selectAccount', account)
           break
         }
       }
     },
-    getColor: function (index) {
+    getColor: function(index) {
       let color = ''
-      let colorCounter = index % 5
+      const colorCounter = index % 5
 
       switch (colorCounter) {
         case 0:
@@ -49,8 +49,8 @@ export default {
       }
 
       return color
-    }
-  }
+    },
+  },
 }
 </script>
 

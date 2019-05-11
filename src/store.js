@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import DateUtils from '@/utils/DateUtils.js'
 
 Vue.use(Vuex)
 
@@ -46,13 +47,13 @@ export default new Vuex.Store({
     },
     addCategory(state, newCategory) {
       state.commit('addCategory', newCategory)
-    }
+    },
   },
   getters: {
     accountDataByDate: (state) => (startDate, endDate) => {
-      var filterdIncomes = state.actualAccount.income.filter(income => income.date >= startDate && income.date <= endDate)
-      var filterdExpenses = state.actualAccount.expenses.filter(expense => expense.date >= startDate && expense.date <= endDate)
+      const filterdIncomes = state.actualAccount.income.filter((income) => DateUtils.isDateWithinRange(income.date, startDate, endDate))
+      const filterdExpenses = state.actualAccount.expenses.filter((expense) => DateUtils.isDateWithinRange(expense.date, startDate, endDate))
       return { name: state.actualAccount.name, income: filterdIncomes, expenses: filterdExpenses }
-    }
-  }
+    },
+  },
 })

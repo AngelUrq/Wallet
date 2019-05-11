@@ -13,8 +13,8 @@ export default {
   name: 'transfer',
   components: {
     Navbar,
-    MoneyTransfer
-  }
+    MoneyTransfer,
+  },
 }
 </script>
 
