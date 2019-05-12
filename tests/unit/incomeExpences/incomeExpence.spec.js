@@ -27,9 +27,10 @@ describe('IncomesExpences.vue', () => {
     expect(wrapper.contains('#categoryFail')).equals(false)
     expect(wrapper.contains('#categorySuccess')).equals(true)
   })
-  it('renders alert transaction complete  success', () => {
+  it('renders alert income complete  success', () => {
     wrapper.vm.setDefaultValues('addIncome', 'Incomes')
     wrapper.vm.name = 'newi Category'
+    console.log(wrapper.vm.transfer)
     wrapper.vm.amount = 10
     wrapper.vm.category = 'testcategory'
     wrapper.vm.date = '10/10/2019'
@@ -43,5 +44,33 @@ describe('IncomesExpences.vue', () => {
     button.trigger('click')
     expect(wrapper.contains('#transactionFail')).equals(true)
     expect(wrapper.contains('#transactionSuccess')).equals(false)
+  })
+  it('repeat name from category', () => {
+    wrapper.vm.newCategory = 'new Category'
+    const button = wrapper.find('#buttonCategory')
+    button.trigger('click')
+    button.trigger('click')
+    expect(wrapper.contains('#categoryFail')).equals(true)
+    expect(wrapper.contains('#categorySuccess')).equals(false)
+  })
+  it('add expense with enough amount', () => {
+    wrapper.vm.setDefaultValues('addIncome', 'Incomes')
+    wrapper.vm.name = 'newi Category'
+    console.log(wrapper.vm.transfer)
+    wrapper.vm.amount = 10
+    wrapper.vm.category = 'testcategory'
+    wrapper.vm.date = '10/10/2019'
+    let button = wrapper.find('#buttonTransaction')
+    button.trigger('click')
+    wrapper.vm.setDefaultValues('addExpense', 'Expenses')
+    wrapper.vm.name = 'newi Category'
+    console.log(wrapper.vm.transfer)
+    wrapper.vm.amount = 10
+    wrapper.vm.category = 'testcategory'
+    wrapper.vm.date = '10/10/2019'
+    button = wrapper.find('#buttonTransaction')
+    button.trigger('click')
+    expect(wrapper.contains('#transactionFail')).equals(false)
+    expect(wrapper.contains('#transactionSuccess')).equals(true)
   })
 })
