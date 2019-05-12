@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Accounts from './views/Accounts.vue'
 import AccountMainMenu from './views/AccountMainMenu.vue'
 import Transfer from './views/Transfer.vue'
-import Reports from './components/reports/Reports.vue'
+import ReportsView from './views/ReportsView.vue'
 import Information from './views/Information.vue'
 
 import IncomesExpencesView from './views/IncomesExpencesView.vue'
@@ -40,7 +40,7 @@ export default new Router({
     {
       path: '/reports',
       name: 'reports',
-      component: Reports,
+      component: ReportsView,
       props: true,
     },
   ],
