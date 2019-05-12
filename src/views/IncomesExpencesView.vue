@@ -11,7 +11,7 @@ import IncomesExpences from '@/components/IncomesExpences.vue'
 export default {
   name: 'incomes-expences-view',
   components: {
-    IncomesExpences
-  }
+    IncomesExpences,
+  },
 }
 </script>

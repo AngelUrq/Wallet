@@ -19,16 +19,30 @@ export default {
   data() {
     return {
       actions: [
-        { name: 'Income',
+        {
+          name: 'Income',
           image: 'profit.png',
           classButton: 'btn-success',
-          route: { name: 'incomes-expences-view', params: { title: 'Incomes', transfer: 'addIncome', linkage: 'Incomes' } } },
-        { name: 'Expenses',
+          route: { name: 'incomes-expences-view', params: { title: 'Incomes', transfer: 'addIncome', linkage: 'Incomes' } },
+        },
+        {
+          name: 'Expenses',
           image: 'coins.png',
           classButton: 'btn-danger',
-          route: { name: 'incomes-expences-view', params: { title: 'Expenses', transfer: 'addExpense', linkage: 'Expenses' } } },
-        { name: 'Transfer', image: 'transaction.png', classButton: 'btn-info', route: { name: 'transfer' } },
-        { name: 'Report', image: 'rising.png', classButton: 'btn-warning', route: { name: '' } },
+          route: { name: 'incomes-expences-view', params: { title: 'Expenses', transfer: 'addExpense', linkage: 'Expenses' } },
+        },
+        {
+          name: 'Transfer',
+          image: 'transaction.png',
+          classButton: 'btn-info',
+          route: { name: 'transfer' },
+        },
+        {
+          name: 'Report',
+          image: 'rising.png',
+          classButton: 'btn-warning',
+          route: { name: 'reports' },
+        },
       ],
     }
   },

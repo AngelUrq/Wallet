@@ -30,11 +30,11 @@
 <script>
 export default {
   name: 'Information',
-  data: function () {
+  data: function() {
     return {
-      totalAmount: 1000
+      totalAmount: 1000,
     }
-  }
+  },
 }
 </script>
 

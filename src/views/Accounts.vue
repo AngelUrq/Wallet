@@ -13,7 +13,7 @@ export default {
   name: 'accounts',
   components: {
     AccountCreator,
-    AccountList
-  }
+    AccountList,
+  },
 }
 </script>

@@ -16,16 +16,16 @@
 <script>
 export default {
   name: 'AccountCreator',
-  data: function () {
+  data: function() {
     return {
-      accountName: ''
+      accountName: '',
     }
   },
   methods: {
-    add: function () {
+    add: function() {
       if (this.accountName === '') {
-        let accounts = ['Savings', 'MyAccount1', 'AnotherAccount', 'Extra', 'Test account']
-        for (let account of accounts) {
+        const accounts = ['Savings', 'MyAccount1', 'AnotherAccount', 'Extra', 'Test account']
+        for (const account of accounts) {
           this.$store.dispatch('addAccount', account)
         }
       } else {
@@ -33,9 +33,9 @@ export default {
         this.accountName = ''
       }
     },
-    getAccounts: function () {
+    getAccounts: function() {
       return this.$store.state.accounts
-    }
-  }
+    },
+  },
 }
 </script>
