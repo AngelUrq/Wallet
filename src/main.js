@@ -5,6 +5,7 @@ import store from './store'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueLocalStorage from 'vue-localstorage'
 
 Vue.config.productionTip = false
 
@@ -15,3 +16,4 @@ new Vue({
 }).$mount('#app')
 
 Vue.use(BootstrapVue)
+Vue.use(VueLocalStorage)
