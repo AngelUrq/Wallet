@@ -7,7 +7,7 @@ describe('DateUtils.js', () => {
     const year = actualDate.getFullYear()
     const month = actualDate.getMonth() + 1
     const day = actualDate.getDate()
-    const dateFormat = day + '/' + month + '/' + year
+    const dateFormat = month + '/' + day + '/' + year
     const date = DateUtils.getActualDate()
     expect(date).to.equal(dateFormat)
   })
