@@ -20,8 +20,8 @@ describe('AccountCreator.vue', () => {
     wrapper.vm.accountName = ACCOUNT_NAME
     wrapper.find('#addAccountButton').trigger('click')
 
-    const account = { name: ACCOUNT_NAME, income: [], expenses: [] }
+    const ACCOUNT = { name: ACCOUNT_NAME, income: [], expenses: [] }
 
-    expect(wrapper.vm.getAccounts()).to.deep.include(account)
+    expect(wrapper.vm.getAccounts()).to.deep.include(ACCOUNT)
   })
 })

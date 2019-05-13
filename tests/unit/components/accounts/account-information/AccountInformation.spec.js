@@ -25,30 +25,30 @@ describe('AccountInformation.vue', () => {
 
     wrapper.vm.modifyName()
 
-    const actualAccount = wrapper.vm.$store.state.actualAccount
+    const ACTUAL_ACCOUNT = wrapper.vm.$store.state.actualAccount
 
-    expect(actualAccount.name).to.equal(NEW_NAME)
+    expect(ACTUAL_ACCOUNT.name).to.equal(NEW_NAME)
   })
 
   it('delete empty actual account', () => {
-    const accountName = wrapper.vm.$store.state.actualAccount.name
+    const ACTUAL_ACCOUNT = wrapper.vm.$store.state.actualAccount.name
     wrapper.vm.$store.state.actualAccount.income = []
     wrapper.vm.$store.state.actualAccount.expenses = []
 
     wrapper.find('#deleteAccountButton').trigger('click')
 
-    const names = wrapper.vm.$store.state.accounts.map((account) => account.name)
+    const NAMES = wrapper.vm.$store.state.accounts.map((account) => account.name)
 
-    expect(names).to.not.include(accountName)
+    expect(NAMES).to.not.include(ACTUAL_ACCOUNT)
   })
 
   it('does not delete an actual account with data', () => {
-    const accountName = wrapper.vm.$store.state.actualAccount.name
+    const ACCOUNT_NAME = wrapper.vm.$store.state.actualAccount.name
 
     wrapper.find('#deleteAccountButton').trigger('click')
 
-    const names = wrapper.vm.$store.state.accounts.map((account) => account.name)
+    const NAMES = wrapper.vm.$store.state.accounts.map((account) => account.name)
 
-    expect(names).to.include(accountName)
+    expect(NAMES).to.include(ACCOUNT_NAME)
   })
 })
