@@ -61,8 +61,8 @@ export default {
     return {
       accounts: this.$store.state.accounts,
       actualAccount: this.$store.state.actualAccount,
-      categoryActualAccount: this.$store.state.categories[1],
-      categoryDestinationAccount: this.$store.state.categories[0],
+      categoryActualAccount: this.$store.state.categories[1].name,
+      categoryDestinationAccount: this.$store.state.categories[0].name,
       nameDestinationAccount: String,
       mountTransaction: 0,
       mountAvailable: 0,
