@@ -8,7 +8,6 @@ export default {
     const d = n.getDate()
     return m + '/' + d + '/' + y
   },
-
   areDatesValid(startDate, endDate) {
     if (startDate === undefined || endDate === undefined) {
       return false
