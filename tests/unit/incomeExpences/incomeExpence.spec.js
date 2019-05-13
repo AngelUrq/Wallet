@@ -28,7 +28,8 @@ describe('IncomesExpences.vue', () => {
     expect(wrapper.contains('#categorySuccess')).equals(true)
   })
   it('renders alert income complete  success', () => {
-    wrapper.vm.setDefaultValues('addIncome', 'Incomes')
+    wrapper.setProps({ transfer: 'addIncome' })
+    wrapper.setProps({ linkage: 'Incomes' })
     wrapper.vm.name = 'newi Category'
     console.log(wrapper.vm.transfer)
     wrapper.vm.amount = 10
@@ -54,7 +55,8 @@ describe('IncomesExpences.vue', () => {
     expect(wrapper.contains('#categorySuccess')).equals(false)
   })
   it('add expense with enough amount', () => {
-    wrapper.vm.setDefaultValues('addIncome', 'Incomes')
+    wrapper.setProps({ transfer: 'addIncome' })
+    wrapper.setProps({ linkage: 'Incomes' })
     wrapper.vm.name = 'newi Category'
     console.log(wrapper.vm.transfer)
     wrapper.vm.amount = 10
@@ -62,7 +64,8 @@ describe('IncomesExpences.vue', () => {
     wrapper.vm.date = '10/10/2019'
     let button = wrapper.find('#buttonTransaction')
     button.trigger('click')
-    wrapper.vm.setDefaultValues('addExpense', 'Expenses')
+    wrapper.setProps({ transfer: 'addExpense' })
+    wrapper.setProps({ linkage: 'Expenses' })
     wrapper.vm.name = 'newi Category'
     console.log(wrapper.vm.transfer)
     wrapper.vm.amount = 10
