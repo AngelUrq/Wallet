@@ -38,10 +38,10 @@ describe('AccountList.vue', () => {
       wrapper.vm.$store.dispatch('addAccount', { name: 'Color account - ' + i, income: [], expenses: [] })
     }
 
-    const listOfClasses = ['.btn-success', '.btn-primary', '.btn-danger', '.btn-warning', '.btn-danger']
+    const LIST_OF_CLASSES = ['.btn-success', '.btn-primary', '.btn-danger', '.btn-warning', '.btn-danger']
 
-    for (const buttonClass of listOfClasses) {
-      expect(wrapper.find(buttonClass).exists()).to.equal(true)
+    for (const BUTTON_CLASS of LIST_OF_CLASSES) {
+      expect(wrapper.find(BUTTON_CLASS).exists()).to.equal(true)
     }
   })
 })
