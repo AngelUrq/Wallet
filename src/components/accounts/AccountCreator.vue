@@ -23,17 +23,13 @@ export default {
   },
   methods: {
     add: function() {
-      if (this.accountName === '') {
-        const accounts = ['Savings', 'MyAccount1', 'AnotherAccount', 'Extra', 'Test account']
-        for (const account of accounts) {
-          this.$store.dispatch('addAccount', account)
-        }
-      } else {
+      if (this.accountName !== '') {
         this.$store.dispatch('addAccount', this.accountName)
         this.accountName = ''
-      }
-      if (typeof (Storage) !== 'undefined') {
-        this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+
+        if (typeof (Storage) !== 'undefined') {
+          this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+        }
       }
     },
     getAccounts: function() {
