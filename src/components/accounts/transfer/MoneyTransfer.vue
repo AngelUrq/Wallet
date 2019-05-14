@@ -122,7 +122,6 @@ export default {
         this.updateMountAvailable()
         this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
         this.clearMountTransaction()
-
       } else {
         this.transactionSuccessful = false
       }

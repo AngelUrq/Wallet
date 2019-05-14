@@ -13,6 +13,8 @@ export default {
         if (data.accounts.hasOwnProperty(account)) {
           this.$store.dispatch('addAccount', data.accounts[account].name)
           this.$store.dispatch('selectAccount', data.accounts[account])
+          console.log(data.accounts[account].income)
+          this.$store.dispatch('addIncome', data.accounts[account].income)
         }
       }
       for (const category in data.categories) {
@@ -24,7 +26,6 @@ export default {
         }
       }
       this.$store.dispatch('selectAccount', data.actualAccount)
-      console.log(data)
       console.log(JSON.parse(JSON.stringify(this.$store.state)))
     }
   },
