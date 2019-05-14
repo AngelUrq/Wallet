@@ -28,12 +28,17 @@
 </template>
 
 <script>
+import IncomeExpensesUtils from '@/utils/IncomeExpensesUtils.js'
 export default {
   name: 'Information',
   data: function() {
     return {
-      totalAmount: 1000,
+      actualAccount: this.$store.state.actualAccount,
+      totalAmount: 0,
     }
+  },
+  mounted() {
+    this.totalAmount = IncomeExpensesUtils.getMountAvailable(this.actualAccount)
   },
 }
 </script>
