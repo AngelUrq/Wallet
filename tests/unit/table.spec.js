@@ -127,4 +127,9 @@ describe('Table.vue by category', () => {
     const groupByColumnsText = groupedByColumns.wrappers.reduce((prev, curr) => prev + curr.text(), '')
     expect(groupByColumnsText).to.equal('SalaryFood')
   })
+
+  it('capitalizes word correclty', () => {
+    const string = 'lowercase'
+    expect(wrapper.vm.$options.filters.pascalCase(string)).to.eq('Lowercase')
+  })
 })
