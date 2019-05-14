@@ -43,6 +43,39 @@
                         </div>
                     </form>
                 </div>
+                <div class="card p-5 mt-3">
+                    <h2 class="text-center mt-4">Modificar {{title}}</h2>
+                    <form>
+                        <div class="form-group">
+                            <label> <b>Select transaction Name</b></label>
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" v-model="actualName">
+                                <option v-for="nametransaction in nametransactions" :key="nametransaction">{{nametransaction}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label> <b>New name</b></label>
+                            <input class="form-control" id="exampleInputEmail1" placeholder="Enter  New Name" v-model="newName">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1"> <b> new Category</b> </label>
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" v-model="newTransCategory">
+                              <option v-for="option in options" :key="option.name">{{option.name}}</option>
+                            </select>
+                        </div>
+                        <label>Choose the  new date of the transaction :</label>
+                        <input type="date" class="ml-3" id="party" style="width:500px; text-align: center;"  v-model="newDate">
+                        <br/>
+                        <div class="text-center mt-4">
+                            <button type="button" id="buttonTransaction" class="btn btn-primary" v-on:click="modifyValues()">Register Changes</button>
+                        </div>
+                        <div class="alert alert-warning" role="alert" id='transactionFail' v-if="modtransactionFail">
+                           Error to modify transaction!
+                        </div>
+                        <div class="alert alert-success" role="alert" id='transactionSuccess' v-if="modtransactionSucces">
+                            Register  complete
+                        </div>
+                    </form>
+                </div>
 
             </div>
             <div class="col-5">
@@ -70,12 +103,11 @@
                     <div class="text-center">
                         <img class="mt-5" src="@/assets/money.png" alt="" width="100px" height="100px">
                     </div>
-
                 </div>
 
+                </div>
             </div>
         </div>
-    </div>
 </template>
 
 <script>
@@ -100,15 +132,22 @@ export default {
     return {
       selected: [], // Must be an array reference!
       options: this.loadCategories(),
+      nametransactions: this.loadAlltransactions(),
       name: '',
       category: '',
       amount: '',
       date: '',
       newCategory: '',
+      actualName: '',
+      newName: '',
+      newDate: '',
+      newTransCategory: '',
       transactionSuccess: false,
       transactionFail: false,
       categorySuccess: false,
       categoryFail: false,
+      modtransactionSucces: false,
+      modtransactionFail: false,
       mountAvailable: 0,
     }
   },
@@ -123,6 +162,7 @@ export default {
         })
         this.transactionSuccess = true
         this.transactionFail = false
+        this.nametransactions = this.loadAlltransactions()
         this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
       } else {
         this.transactionSuccess = false
@@ -182,6 +222,68 @@ export default {
       this.$store.state.categories.filter((category) =>
         category.linkage === this.linkage && category.name !== 'IncomingTransfer' && category.name !== 'TransferTo')
       return options
+    },
+    loadAlltransactions: function() {
+      if (this.linkage === 'Incomes') {
+        const transacionnames =
+        this.$store.state.actualAccount.income.map((newincome) =>
+          newincome.name)
+        return transacionnames
+      } else if (this.linkage === 'Expenses') {
+        const transacionnames =
+        this.$store.state.actualAccount.expenses.map((newexpense) =>
+          newexpense.name)
+        return transacionnames
+      } else {
+        return null
+      }
+    },
+    isModificationComplete: function() {
+      let repeatName = true
+      if (this.linkage === 'Incomes') {
+        const incomesNames =
+        this.$store.state.actualAccount.income.map((income) => income.name)
+        if (!incomesNames.includes(this.newName)) {
+          repeatName = false
+        }
+      } else if (this.linkage === 'Expenses') {
+        const expensesNames =
+        this.$store.state.actualAccount.expenses.map((expense) => expense.name)
+        if (!expensesNames.includes(this.newName)) {
+          repeatName = false
+        }
+      }
+      return this.newName !== '' && this.newDate !== '' && !repeatName
+    },
+    modifyValues: function() {
+      if (this.isModificationComplete()) {
+        if (this.linkage === 'Incomes') {
+          this.$store.state.actualAccount.income.forEach((actualIncome) => {
+            if (this.actualName === actualIncome.name) {
+              actualIncome.name = this.newName
+              actualIncome.date = this.newDate
+              actualIncome.category = this.newTransCategory
+              this.modtransactionSucces = true
+              this.modtransactionFail = false
+              this.nametransactions = this.loadAlltransactions()
+            }
+          })
+        } else if (this.linkage === 'Expenses') {
+          this.$store.state.actualAccount.expenses.forEach((actualExpense) => {
+            if (this.actualName === actualExpense.name) {
+              actualExpense.name = this.newName
+              actualExpense.date = this.newDate
+              actualExpense.category = this.newTransCategory
+              this.modtransactionSucces = true
+              this.modtransactionFail = false
+              this.nametransactions = this.loadAlltransactions()
+            }
+          })
+        }
+      } else {
+        this.modtransactionSucces = false
+        this.modtransactionFail = true
+      }
     },
     setDefaultValues: function(transfer, linkage) {
       this.transfer = transfer
