@@ -8,7 +8,14 @@ export default new Vuex.Store({
   state: {
     accounts: [],
     actualAccount: { name: '', income: [], expenses: [] },
-    categories: [],
+    categories: [
+      { name: 'Salary', linkage: 'Incomes' },
+      { name: 'Transfer', linkage: 'Incomes' },
+      { name: 'Others', linkage: 'Incomes' },
+      { name: 'Expenses', linkage: 'Expenses' },
+      { name: 'Transfer', linkage: 'Expenses' },
+      { name: 'Others', linkage: 'Expenses' },
+    ],
   },
   mutations: {
     addAccount(state, newAccountName) {

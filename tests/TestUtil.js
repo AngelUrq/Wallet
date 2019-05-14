@@ -1,29 +1,33 @@
 import Vuex from 'vuex'
 
-const categories = [
-  { name: 'IncomingTransfer', linkage: 'Income' },
-  { name: 'TransferTo', linkage: 'Expenses' },
-  { name: 'Salary', linkage: 'Income' },
-  { name: 'Food', linkage: 'Expenses' },
+const CATEGORIES = [
+  { name: 'Salary', linkage: 'Incomes' },
+  { name: 'Transfer', linkage: 'Incomes' },
+  { name: 'Others', linkage: 'Incomes' },
+  { name: 'Expenses', linkage: 'Expenses' },
+  { name: 'Transfer', linkage: 'Expenses' },
+  { name: 'Others', linkage: 'Expenses' },
 ]
+
+const ACTUAL_DATE = '2019-05-14'
 
 export default {
   name: 'TestUtil',
   getDefaultStore() {
     return new Vuex.Store({
       state: {
-        categories: categories,
+        categories: CATEGORIES,
         accounts: [
           { name: 'Test1',
-            income: [{ name: 'Monthly salary', category: 'Salary', amount: 500, date: '8/5/2019' }],
-            expenses: [{ name: 'Food purchase', category: 'Food', amount: 30, date: '8/5/2019' }] },
+            income: [{ name: 'Monthly salary', category: CATEGORIES[0].name, amount: 500, date: ACTUAL_DATE }],
+            expenses: [{ name: 'Food purchase', category: CATEGORIES[3].name, amount: 30, date: ACTUAL_DATE }] },
           { name: 'Test2',
-            income: [{ name: 'Monthly salary', category: 'Salary', amount: 600, date: '8/5/2019' }],
-            expenses: [{ name: 'Dinner', category: 'Food', amount: 50, date: '8/5/2019' }] },
+            income: [{ name: 'Monthly salary', category: CATEGORIES[0].name, amount: 600, date: ACTUAL_DATE }],
+            expenses: [{ name: 'Dinner', category: CATEGORIES[3].name, amount: 50, date: ACTUAL_DATE }] },
         ],
         actualAccount: { name: 'Test1',
-          income: [{ name: 'Monthly salary', category: 'Salary', amount: 500, date: '8/5/2019' }],
-          expenses: [{ name: 'Food purchase', category: 'Food', amount: 30, date: '8/5/2019' }] },
+          income: [{ name: 'Monthly salary', category: CATEGORIES[0].name, amount: 500, date: ACTUAL_DATE }],
+          expenses: [{ name: 'Food purchase', category: CATEGORIES[3].name, amount: 30, date: ACTUAL_DATE }] },
       },
       mutations: {
         addAccount(state, newAccountName) {
