@@ -22,6 +22,7 @@ export default {
       for (const account of this.accounts) {
         if (account.name === accountName) {
           this.$store.dispatch('selectAccount', account)
+          this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
           break
         }
       }
