@@ -31,8 +31,8 @@
       </div>
     </div>
     <div class="row" v-if="dateError" id="dateError">
-      <div class="col-12 text-danger">
-        Please insert valid start and end dates
+      <div class="alert alert-warning mt-4">
+          Please insert valid start and end dates
       </div>
     </div>
     <div class="text-center">
