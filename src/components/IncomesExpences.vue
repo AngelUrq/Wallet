@@ -163,7 +163,9 @@ export default {
         this.transactionSuccess = true
         this.transactionFail = false
         this.nametransactions = this.loadAlltransactions()
-        // this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+        if (typeof (Storage) !== 'undefined') {
+          this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+        }
       } else {
         this.transactionSuccess = false
         this.transactionFail = true
@@ -211,7 +213,9 @@ export default {
         this.categorySuccess = true
         this.categoryFail = false
         this.options = this.loadCategories()
-        // this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+        if (typeof (Storage) !== 'undefined') {
+          this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+        }
       } else {
         this.categorySuccess = false
         this.categoryFail = true
