@@ -32,7 +32,7 @@ export default {
         this.$store.dispatch('addAccount', this.accountName)
         this.accountName = ''
       }
-      this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+      // this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
     },
     getAccounts: function() {
       return this.$store.state.accounts
