@@ -35,11 +35,11 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Style guide rules
 In general we followed all the rules from the Google Style Guide for Javascript in order to follow good practices
-### Rule 1: ES LINT MAX LENGHT 150 
+### Rule 1: Max length 150 
 ```
-We change the max lenght from 50 to 150 because it show warning in templates's code
+We change the max length from 50 to 150 because our HTML code has to be longer.
 ```
-### Rule 2: Linebreak-style: false
+### Rule 2: Linebreak-style
 ```
-We removed this rule because we had different configurations for CRLF and LF
+We removed this rule because we had different configurations for CRLF and LF.
 ```
