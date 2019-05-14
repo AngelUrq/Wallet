@@ -8,7 +8,7 @@ export default {
       amountIncome.push(income.amount)
     })
 
-    return amountIncome.reduce((total, currentValue) => total + currentValue, 0)
+    return amountIncome.reduce((total, currentValue) => total + parseFloat(currentValue), 0)
   },
   getExpenses(account) {
     const listExpenses = account.expenses
@@ -18,7 +18,7 @@ export default {
       amountExpenses.push(expense.amount)
     })
 
-    return amountExpenses.reduce((total, currentValue) => total + currentValue, 0)
+    return amountExpenses.reduce((total, currentValue) => total + parseFloat(currentValue), 0)
   },
   getMountAvailable(account) {
     return this.getIncomes(account) - this.getExpenses(account)

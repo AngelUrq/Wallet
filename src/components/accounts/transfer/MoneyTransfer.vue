@@ -63,7 +63,7 @@ export default {
       actualAccount: this.$store.state.actualAccount,
       categoryActualAccount: this.$store.state.categories[1].name,
       categoryDestinationAccount: this.$store.state.categories[0].name,
-      nameDestinationAccount: String,
+      nameDestinationAccount: '',
       mountTransaction: 0,
       mountAvailable: 0,
       showValidation: false,
@@ -100,6 +100,9 @@ export default {
     getAccountByName(nameAccount) {
       return (this.accounts.filter((account) => account.name === nameAccount))[0]
     },
+    clearMountTransaction() {
+      this.mountTransaction = 0
+    },
     transfer() {
       if (this.checkMountAvailable() && this.checkMountTransaction() && this.checkSelectedDestinationAccount()) {
         const date = DateUtils.getActualDate()
@@ -117,6 +120,7 @@ export default {
         this.$store.dispatch('selectAccount', this.actualAccount)
         this.transactionSuccessful = true
         this.updateMountAvailable()
+        this.clearMountTransaction()
       } else {
         this.transactionSuccessful = false
       }
