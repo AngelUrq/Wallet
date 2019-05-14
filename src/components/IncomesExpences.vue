@@ -224,7 +224,7 @@ export default {
     loadCategories: function() {
       const options =
       this.$store.state.categories.filter((category) =>
-        category.linkage === this.linkage && category.name !== 'IncomingTransfer' && category.name !== 'TransferTo')
+        category.linkage === this.linkage && category.name !== 'Transfer')
       return options
     },
     loadAlltransactions: function() {
