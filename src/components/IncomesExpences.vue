@@ -44,7 +44,7 @@
                     </form>
                 </div>
                 <div class="card p-5 mt-3">
-                    <h2 class="text-center mt-4">Modificar {{title}}</h2>
+                    <h2 class="text-center mt-4">Modify {{title}}</h2>
                     <form>
                         <div class="form-group">
                             <label> <b>Select transaction Name</b></label>
@@ -66,12 +66,12 @@
                         <input type="date" class="ml-3" id="party" style="width:500px; text-align: center;"  v-model="newDate">
                         <br/>
                         <div class="text-center mt-4">
-                            <button type="button" id="buttonTransaction" class="btn btn-primary" v-on:click="modifyValues()">Register Changes</button>
+                            <button type="button" id="buttonChange" class="btn btn-primary" v-on:click="modifyValues()">Register Changes</button>
                         </div>
-                        <div class="alert alert-warning" role="alert" id='transactionFail' v-if="modtransactionFail">
+                        <div class="alert alert-warning" role="alert" id='changeFail' v-if="modtransactionFail">
                            Error to modify transaction!
                         </div>
-                        <div class="alert alert-success" role="alert" id='transactionSuccess' v-if="modtransactionSucces">
+                        <div class="alert alert-success" role="alert" id='changeSuccess' v-if="modtransactionSucces">
                             Register  complete
                         </div>
                     </form>

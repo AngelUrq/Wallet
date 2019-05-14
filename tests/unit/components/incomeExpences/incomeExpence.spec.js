@@ -27,11 +27,10 @@ describe('IncomesExpences.vue', () => {
     expect(wrapper.contains('#categoryFail')).equals(false)
     expect(wrapper.contains('#categorySuccess')).equals(true)
   })
-  it('renders alert income complete  success', () => {
+  it('renders alert income complete  success with correct transaction', () => {
     wrapper.setProps({ transfer: 'addIncome' })
     wrapper.setProps({ linkage: 'Incomes' })
     wrapper.vm.name = 'newi Category'
-    console.log(wrapper.vm.transfer)
     wrapper.vm.amount = 10
     wrapper.vm.category = 'testcategory'
     wrapper.vm.date = '10/10/2019'
@@ -40,7 +39,7 @@ describe('IncomesExpences.vue', () => {
     expect(wrapper.contains('#transactionFail')).equals(false)
     expect(wrapper.contains('#transactionSuccess')).equals(true)
   })
-  it('renders alert transaction complete  fail', () => {
+  it('renders alert transaction complete  fail with insufitient values', () => {
     const button = wrapper.find('#buttonTransaction')
     button.trigger('click')
     expect(wrapper.contains('#transactionFail')).equals(true)
@@ -58,7 +57,6 @@ describe('IncomesExpences.vue', () => {
     wrapper.setProps({ transfer: 'addIncome' })
     wrapper.setProps({ linkage: 'Incomes' })
     wrapper.vm.name = 'newi Category'
-    console.log(wrapper.vm.transfer)
     wrapper.vm.amount = 10
     wrapper.vm.category = 'testcategory'
     wrapper.vm.date = '10/10/2019'
@@ -67,7 +65,6 @@ describe('IncomesExpences.vue', () => {
     wrapper.setProps({ transfer: 'addExpense' })
     wrapper.setProps({ linkage: 'Expenses' })
     wrapper.vm.name = 'newi Category'
-    console.log(wrapper.vm.transfer)
     wrapper.vm.amount = 10
     wrapper.vm.category = 'testcategory'
     wrapper.vm.date = '10/10/2019'
@@ -75,5 +72,17 @@ describe('IncomesExpences.vue', () => {
     button.trigger('click')
     expect(wrapper.contains('#transactionFail')).equals(false)
     expect(wrapper.contains('#transactionSuccess')).equals(true)
+  })
+  it('renders alert change complete  success with correct transaction at incomes ', () => {
+    wrapper.setProps({ transfer: 'addIncome' })
+    wrapper.setProps({ linkage: 'Incomes' })
+    wrapper.vm.actualName = 'newi Category'
+    wrapper.vm.newName = 'new name'
+    wrapper.vm.newTransCategory = 'testcategory'
+    wrapper.vm.newDate = '10/10/2019'
+    const button = wrapper.find('#buttonChange')
+    button.trigger('click')
+    expect(wrapper.contains('#changeFail')).equals(false)
+    expect(wrapper.contains('#changeSuccess')).equals(true)
   })
 })
