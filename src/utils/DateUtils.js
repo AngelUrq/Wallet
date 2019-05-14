@@ -12,7 +12,6 @@ export default {
   padNumber(number) {
     return number < 10 ? '0' + number : number
   },
-
   areDatesValid(startDate, endDate) {
     if (startDate === undefined || endDate === undefined) {
       return false
