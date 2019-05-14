@@ -15,15 +15,15 @@ export default {
         categories: categories,
         accounts: [
           { name: 'Test1',
-            income: [{ name: 'Monthly salary', category: { name: 'Salary', linkage: 'Income' }, amount: 500, date: '8/5/2019' }],
-            expenses: [{ name: 'Food purchase', category: { name: 'Food', linkage: 'Expenses' }, amount: 30, date: '8/5/2019' }] },
+            income: [{ name: 'Monthly salary', category: 'Salary', amount: 500, date: '8/5/2019' }],
+            expenses: [{ name: 'Food purchase', category: 'Food', amount: 30, date: '8/5/2019' }] },
           { name: 'Test2',
-            income: [{ name: 'Monthly salary', category: { name: 'Salary', linkage: 'Income' }, amount: 600, date: '8/5/2019' }],
-            expenses: [{ name: 'Dinner', category: { name: 'Food', linkage: 'Expenses' }, amount: 50, date: '8/5/2019' }] },
+            income: [{ name: 'Monthly salary', category: 'Salary', amount: 600, date: '8/5/2019' }],
+            expenses: [{ name: 'Dinner', category: 'Food', amount: 50, date: '8/5/2019' }] },
         ],
         actualAccount: { name: 'Test1',
-          income: [{ name: 'Monthly salary', category: { name: 'Salary', linkage: 'Income' }, amount: 500, date: '8/5/2019' }],
-          expenses: [{ name: 'Food purchase', category: { name: 'Food', linkage: 'Expenses' }, amount: 30, date: '8/5/2019' }] },
+          income: [{ name: 'Monthly salary', category: 'Salary', amount: 500, date: '8/5/2019' }],
+          expenses: [{ name: 'Food purchase', category: 'Food', amount: 30, date: '8/5/2019' }] },
       },
       mutations: {
         addAccount(state, newAccountName) {

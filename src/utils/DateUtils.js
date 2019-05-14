@@ -6,9 +6,12 @@ export default {
     const y = n.getFullYear()
     const m = n.getMonth() + 1
     const d = n.getDate()
-    return d + '/' + m + '/' + y
+    return y + '-' + this.padNumber(m) + '-' + this.padNumber(d)
   },
 
+  padNumber(number) {
+    return number < 10 ? '0' + number : number
+  },
   areDatesValid(startDate, endDate) {
     if (startDate === undefined || endDate === undefined) {
       return false

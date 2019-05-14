@@ -30,16 +30,16 @@
                             <input type="number" class="form-control" id="exampleInputEmail1" placeholder="Enter amount" v-model="amount">
                         </div>
                         <label>Choose the date of the transaction :</label>
-                        <input type="date" class="ml-3" id="party" style="width:500px; text-align: center;" v-model="date">
+                        <input type="date" class="ml-3" id="party" style="width:500px; text-align: center;"  v-model="date">
                         <br/>
                         <div class="text-center mt-4">
                             <button type="button" id="buttonTransaction" class="btn btn-primary" v-on:click="register()">Register Transaction</button>
                         </div>
                         <div class="alert alert-warning" role="alert" id='transactionFail' v-if="transactionFail">
-                            Missing or repeat data to complete register category!
+                           Error transaction!
                         </div>
                         <div class="alert alert-success" role="alert" id='transactionSuccess' v-if="transactionSuccess">
-                            Register category complete
+                            Register transaction complete
                         </div>
                     </form>
                 </div>

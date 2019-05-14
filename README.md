@@ -32,3 +32,10 @@ npm run test:unit
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### STYLE GUIDE RULES
+### ES LINT MAX LENGHT 150 
+``
+we change the max lenght from 50 to 150 because it show warning in templates's code
+
+ 
