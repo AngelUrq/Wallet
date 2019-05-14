@@ -117,6 +117,7 @@ export default {
         this.$store.dispatch('selectAccount', this.actualAccount)
         this.transactionSuccessful = true
         this.updateMountAvailable()
+        this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
       } else {
         this.transactionSuccessful = false
       }

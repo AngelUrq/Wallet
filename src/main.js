@@ -9,11 +9,11 @@ import VueLocalStorage from 'vue-localstorage'
 
 Vue.config.productionTip = false
 
+Vue.use(BootstrapVue)
+Vue.use(VueLocalStorage)
+
 new Vue({
   router,
   store,
   render: function(h) {return h(App)},
 }).$mount('#app')
-
-Vue.use(BootstrapVue)
-Vue.use(VueLocalStorage)
