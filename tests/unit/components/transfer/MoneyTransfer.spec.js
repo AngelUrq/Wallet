@@ -21,18 +21,18 @@ describe('MoneyTransfer.vue', () => {
   })
 
   it('test to verify transfer', () => {
-    const actualAccountAvailableMount = wrapper.vm.mountAvailable
+    const ACTUAL_ACCOUNT_AVAILABLE_MOUNT = wrapper.vm.mountAvailable
     const MOUNT_TRANSACTION = 100
     wrapper.vm.mountTransaction = MOUNT_TRANSACTION
 
     wrapper.vm.nameDestinationAccount = wrapper.vm.$store.state.accounts[1].name
-    const destinationAccount = wrapper.vm.getAccountByName(wrapper.vm.nameDestinationAccount)
-    const destinationAccountAvailableMount = IncomeExpensesUtils.getMountAvailable(destinationAccount)
+    const DESTINATION_ACCOUNT = wrapper.vm.getAccountByName(wrapper.vm.nameDestinationAccount)
+    const DESTINATION_ACCOUNT_AVAILABLE_MOUNT = IncomeExpensesUtils.getMountAvailable(DESTINATION_ACCOUNT)
 
     wrapper.vm.transfer()
 
-    expect(wrapper.vm.mountAvailable).to.equal(actualAccountAvailableMount - MOUNT_TRANSACTION)
-    expect(IncomeExpensesUtils.getMountAvailable(destinationAccount)).to.equal(destinationAccountAvailableMount + MOUNT_TRANSACTION)
+    expect(wrapper.vm.mountAvailable).to.equal(ACTUAL_ACCOUNT_AVAILABLE_MOUNT - MOUNT_TRANSACTION)
+    expect(IncomeExpensesUtils.getMountAvailable(DESTINATION_ACCOUNT)).to.equal(DESTINATION_ACCOUNT_AVAILABLE_MOUNT + MOUNT_TRANSACTION)
   })
 
   it('test to check the negative entries of a input', () => {
@@ -40,5 +40,29 @@ describe('MoneyTransfer.vue', () => {
     wrapper.find('#btn-transfer').trigger('click')
 
     expect(wrapper.find('#msg-error').exists()).to.equal(true)
+  })
+
+  it('verify if the destination account selected by name exists', () => {
+    const NAME_ACCOUNT_DESTINATION = 'Test2'
+    const DESTINATION_ACCOUNT = wrapper.vm.getAccountByName(NAME_ACCOUNT_DESTINATION)
+    expect(wrapper.vm.$store.state.accounts).to.include(DESTINATION_ACCOUNT)
+  })
+
+  it('check if there is sufficient available amount for the transaction', () => {
+    const AMOUNT = 470
+    const DATE = '2019-05-14'
+    const EXPENSE = { name: 'Buy food', category: 'Others', amount: AMOUNT, date: DATE }
+    wrapper.vm.$store.dispatch('addExpense', EXPENSE)
+    wrapper.vm.updateMountAvailable()
+
+    expect(wrapper.vm.checkMountAvailable()).to.equal(false)
+  })
+
+  it('verify that the destination account is not empty', () => {
+    const LIST_DESTINATION_ACCOUNTS = wrapper.vm.accounts
+    const SELECTED_ACCOUNT = LIST_DESTINATION_ACCOUNTS[0].name
+    wrapper.vm.nameDestinationAccount = SELECTED_ACCOUNT
+
+    expect(wrapper.vm.checkSelectedDestinationAccount()).to.equal(true)
   })
 })
