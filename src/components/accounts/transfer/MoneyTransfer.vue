@@ -105,16 +105,16 @@ export default {
     },
     transfer() {
       if (this.checkMountAvailable() && this.checkMountTransaction() && this.checkSelectedDestinationAccount()) {
-        const date = DateUtils.getActualDate()
-        const income = { name: 'Transfer', category: this.categoryActualAccount, amount: this.mountTransaction, date: date }
-        const expense = { name: 'Transfer', category: this.categoryDestinationAccount, amount: this.mountTransaction, date: date }
-        const destinationAccount = this.getAccountByName(this.nameDestinationAccount)
+        const DATE = DateUtils.getActualDate()
+        const INCOME = { name: 'Transfer', category: this.categoryActualAccount, amount: this.mountTransaction, date: DATE }
+        const EXPENSE = { name: 'Transfer', category: this.categoryDestinationAccount, amount: this.mountTransaction, date: DATE }
+        const DESTINATION_ACCOUNT = this.getAccountByName(this.nameDestinationAccount)
 
-        this.$store.dispatch('addExpense', expense)
+        this.$store.dispatch('addExpense', EXPENSE)
 
         // First, change to the destination account as the actual account.
-        this.$store.dispatch('selectAccount', destinationAccount)
-        this.$store.dispatch('addIncome', income)
+        this.$store.dispatch('selectAccount', DESTINATION_ACCOUNT)
+        this.$store.dispatch('addIncome', INCOME)
 
         // Finally, the current account returns to normal and the transaction was successful
         this.$store.dispatch('selectAccount', this.actualAccount)

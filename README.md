@@ -33,9 +33,12 @@ npm run test:unit
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-### STYLE GUIDE RULES
+### Style guide rules
+``
+In general we followed all the rules from the Google Style Guide for Javascript
 ### ES LINT MAX LENGHT 150 
 ``
-we change the max lenght from 50 to 150 because it show warning in templates's code
-
- 
+We change the max lenght from 50 to 150 because it show warning in templates's code
+### Linebreak-style: false
+``
+We removed this rule because we had different configurations for CRLF and LF
