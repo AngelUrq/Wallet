@@ -16,6 +16,9 @@
               <td v-for="(column, index) in columns" v-bind:key="group.value+'col'+index" :class="row.class">
                 {{row[column]}}
               </td>
+              <button type="button" class="btn" v-on:click="deleteUser(row)">
+                <img :src="getImgUrl('x-button.png')" >
+              </button>
           </tr>
         </template>
       </tbody>
@@ -65,9 +68,44 @@ export default {
         this.tableDataArray.push(valuesForGroup)
       }
     },
+    getImgUrl(pic) {
+      return require('@/assets/' + pic)
+    },
+    deleteUser(user) {
+      if (user.class === 'green') {
+        for (let i = 0; i < this.$store.state.actualAccount.income.length; i++) {
+          if (this.$store.state.actualAccount.income[i].name === user.name) {
+            this.$store.state.actualAccount.income.splice(i, 1)
+            this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+          }
+        }
+        for (let i = 0; i < this.accountData.income.length; i++) {
+          if (this.accountData.income[i].name === user.name) {
+            this.accountData.income.splice(i, 1)
+          }
+        }
+        this.tableDataArray = []
+        this.generateTableDataArrayStructure()
+      } else if (user.class === 'red') {
+        for (let i = 0; i < this.$store.state.actualAccount.expenses.length; i++) {
+          if (this.$store.state.actualAccount.expenses[i].name === user.name) {
+            this.$store.state.actualAccount.expenses.splice(i, 1)
+            this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+          }
+        }
+        for (let i = 0; i < this.accountData.expenses.length; i++) {
+          if (this.accountData.expenses[i].name === user.name) {
+            this.accountData.expenses.splice(i, 1)
+          }
+        }
+        this.tableDataArray = []
+        this.generateTableDataArrayStructure()
+      }
+    },
   },
   mounted() {
     this.generateTableDataArrayStructure()
+    console.log(this.accountData)
   },
   filters: {
     pascalCase: function(v) {
