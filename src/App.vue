@@ -14,14 +14,12 @@ export default {
         this.$store.dispatch('addAccount', account.name)
         this.$store.dispatch('updateAccount', JSON.stringify(account))
       })
-      for (const category in data.categories) {
-        if (data.categories.hasOwnProperty(category)) {
-          this.$store.dispatch('addCategory', {
-            category: data.categories[category].name,
-            linkage: data.categories[category].linkage,
-          })
-        }
-      }
+      data.categories.forEach((category) => {
+        this.$store.dispatch('addCategory', {
+          category: category.name,
+          linkage: category.linkage,
+        })
+      })
       this.$store.dispatch('selectAccount', data.actualAccount)
       console.log(JSON.parse(JSON.stringify(this.$store.state)))
     }

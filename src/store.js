@@ -20,7 +20,6 @@ export default new Vuex.Store({
   mutations: {
     addAccount(state, newAccountName) {
       const names = state.accounts.map((account) => account.name)
-
       if (!names.includes(newAccountName)) {
         state.accounts.push({ name: newAccountName, income: [], expenses: [] })
       }
