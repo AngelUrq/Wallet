@@ -8,15 +8,12 @@
 export default {
   created() {
     const data = JSON.parse(this.$localStorage.get('LocalStorageData'))
+    console.log(data)
     if (data !== null) {
-      for (const account in data.accounts) {
-        if (data.accounts.hasOwnProperty(account)) {
-          this.$store.dispatch('addAccount', data.accounts[account].name)
-          this.$store.dispatch('selectAccount', data.accounts[account])
-          console.log(data.accounts[account].income)
-          this.$store.dispatch('addIncome', data.accounts[account].income)
-        }
-      }
+      data.accounts.forEach((account) => {
+        this.$store.dispatch('addAccount', account.name)
+        this.$store.dispatch('updateAccount', JSON.stringify(account))
+      })
       for (const category in data.categories) {
         if (data.categories.hasOwnProperty(category)) {
           this.$store.dispatch('addCategory', {

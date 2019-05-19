@@ -28,6 +28,14 @@ export default new Vuex.Store({
     selectAccount(state, account) {
       state.actualAccount = account
     },
+    updateAccount(state, currentAccount) {
+      state.accounts.forEach((account) => {
+        if (JSON.stringify(account.name) === JSON.stringify(JSON.parse(currentAccount).name)) {
+          account.income = JSON.parse(currentAccount).income
+          account.expenses = JSON.parse(currentAccount).expenses
+        }
+      })
+    },
     addIncome(state, income) {
       state.actualAccount.income.push(income)
     },
@@ -44,6 +52,9 @@ export default new Vuex.Store({
     },
     selectAccount(state, account) {
       state.commit('selectAccount', account)
+    },
+    updateAccount(state, currentAccount) {
+      state.commit('updateAccount', currentAccount)
     },
     addIncome(state, income) {
       state.commit('addIncome', income)
