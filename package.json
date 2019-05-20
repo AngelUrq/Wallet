@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "test:report": "vue-cli-service test:unit --reporter mochawesome"
   },
   "dependencies": {
     "bootstrap-vue": "^2.0.0-rc.19",
@@ -30,6 +31,7 @@
     "eslint-config-google": "^0.12.0",
     "eslint-plugin-vue": "^5.0.0",
     "lint-staged": "^8.1.5",
+    "mochawesome": "^3.1.2",
     "vue-template-compiler": "^2.5.21"
   },
   "gitHooks": {
