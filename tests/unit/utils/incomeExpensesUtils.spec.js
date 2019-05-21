@@ -9,15 +9,15 @@ describe('IncomeExpensesUtils.js', () => {
     expenses: [{ name: 'Food purchase', category: { name: 'Food', linkage: 'Expenses' }, amount: 30, date: DATE },
       { name: 'Buy clothes', category: { name: 'Clothes', linkage: 'Expenses' }, amount: 90, date: DATE }] }
 
-  it('test to check income total', () => {
+  it('check income total', () => {
     expect(IncomeExpensesUtils.getIncomes(account)).to.equal(800)
   })
 
-  it('test to check expenses total', () => {
+  it('check expenses total', () => {
     expect(IncomeExpensesUtils.getExpenses(account)).to.equal(120)
   })
 
-  it('test to check mount available', () => {
+  it('check mount available', () => {
     expect(IncomeExpensesUtils.getMountAvailable(account)).to.equal(680)
   })
 })
