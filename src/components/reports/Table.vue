@@ -85,7 +85,7 @@ export default {
             this.accountData.income.splice(i, 1)
           }
         }
-        // this.deletetransfer(this.user)
+        this.deletetransfer(user)
         this.tableDataArray = []
         this.generateTableDataArrayStructure()
       } else if (user.class === 'red') {
@@ -100,33 +100,35 @@ export default {
             this.accountData.expenses.splice(i, 1)
           }
         }
-        // this.deletetransfer(this.user)
+        this.deletetransfer(user)
         this.tableDataArray = []
         this.generateTableDataArrayStructure()
       }
     },
     getAccountByName(nameAccount) {
-      return (this.accounts.filter((account) => account.name === nameAccount))[0]
+      return (this.$store.state.accounts.filter((account) => account.name === nameAccount))[0]
     },
     defineReport(name) {
       const definition = name.split(' ')
       return definition.length > 1
     },
     deletetransfer(user) {
-      const actualAccount = this.$store.state.actualAccount.name
+      const actualAccount = this.$store.state.actualAccount
       const definition = user.name.split(' ')
-      console.log(definition)
-      this.$store.dispatch('selectAccount', definition[2])
-      if (definition[1] === 'to') {
+      if (definition[1] === 'from') {
+        this.$store.dispatch('selectAccount', this.getAccountByName(definition[2]))
         for (let i = 0; i < this.$store.state.actualAccount.expenses.length; i++) {
-          if (this.$store.state.actualAccount.expenses[i].name === user.name) {
+          const transferName = this.$store.state.actualAccount.expenses[i].name.split(' ')
+          if (transferName[2] === actualAccount.name) {
             this.$store.state.actualAccount.expenses.splice(i, 1)
             this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
           }
         }
-      } else if (definition[1] === 'from') {
+      } else if (definition[1] === 'to') {
+        this.$store.dispatch('selectAccount', this.getAccountByName(definition[2]))
         for (let i = 0; i < this.$store.state.actualAccount.income.length; i++) {
-          if (this.$store.state.actualAccount.income[i].name === user.name) {
+          const transferName = this.$store.state.actualAccount.income[i].name.split(' ')
+          if (transferName[2] === actualAccount.name) {
             this.$store.state.actualAccount.income.splice(i, 1)
             this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
           }
@@ -137,7 +139,6 @@ export default {
   },
   mounted() {
     this.generateTableDataArrayStructure()
-    console.log(this.accountData)
   },
   filters: {
     pascalCase: function(v) {
