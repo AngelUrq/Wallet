@@ -24,51 +24,6 @@
         </template>
       </tbody>
     </table>
-    <!-- template for the modal component -->
-<script type="text/x-template" id="modal-template">
-  <transition name="modal">
-    <div class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-container">
-
-          <div class="modal-header">
-            <slot name="header">
-              default header
-            </slot>
-          </div>
-
-          <div class="modal-body">
-            <slot name="body">
-              default body
-            </slot>
-          </div>
-
-          <div class="modal-footer">
-            <slot name="footer">
-              default footer
-              <button class="modal-default-button" @click="$emit('close')">
-                OK
-              </button>
-            </slot>
-          </div>
-        </div>
-      </div>
-    </div>
-  </transition>
-</script>
-
-<!-- app -->
-<div id="app">
-  <button id="show-modal" @click="showModal = true">Show Modal</button>
-  <!-- use the modal component, pass in the prop -->
-  <modal v-if="showModal" @close="showModal = false">
-    <!--
-      you can use custom content here to overwrite
-      default content
-    -->
-    <h3 slot="header">custom header</h3>
-  </modal>
-</div>
   </div>
 </template>
 
@@ -130,6 +85,7 @@ export default {
             this.accountData.income.splice(i, 1)
           }
         }
+        // this.deletetransfer(this.user)
         this.tableDataArray = []
         this.generateTableDataArrayStructure()
       } else if (user.class === 'red') {
@@ -144,9 +100,39 @@ export default {
             this.accountData.expenses.splice(i, 1)
           }
         }
+        // this.deletetransfer(this.user)
         this.tableDataArray = []
         this.generateTableDataArrayStructure()
       }
+    },
+    getAccountByName(nameAccount) {
+      return (this.accounts.filter((account) => account.name === nameAccount))[0]
+    },
+    defineReport(name) {
+      const definition = name.split(' ')
+      return definition.length > 1
+    },
+    deletetransfer(user) {
+      const actualAccount = this.$store.state.actualAccount.name
+      const definition = user.name.split(' ')
+      console.log(definition)
+      this.$store.dispatch('selectAccount', definition[2])
+      if (definition[1] === 'to') {
+        for (let i = 0; i < this.$store.state.actualAccount.expenses.length; i++) {
+          if (this.$store.state.actualAccount.expenses[i].name === user.name) {
+            this.$store.state.actualAccount.expenses.splice(i, 1)
+            this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+          }
+        }
+      } else if (definition[1] === 'from') {
+        for (let i = 0; i < this.$store.state.actualAccount.income.length; i++) {
+          if (this.$store.state.actualAccount.income[i].name === user.name) {
+            this.$store.state.actualAccount.income.splice(i, 1)
+            this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+          }
+        }
+      }
+      this.$store.dispatch('selectAccount', actualAccount)
     },
   },
   mounted() {
