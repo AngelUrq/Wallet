@@ -109,8 +109,10 @@ export default {
     transfer() {
       if (this.isFormDataCorrect()) {
         const DATE = DateUtils.getActualDate()
-        const INCOME = { name: 'Transfer', category: this.categoryActualAccount, amount: this.mountTransaction, date: DATE }
-        const EXPENSE = { name: 'Transfer', category: this.categoryDestinationAccount, amount: this.mountTransaction, date: DATE }
+        const NAME_TRANSFER_ACTUAL_ACCOUNT = 'Transfer to ' + this.nameDestinationAccount
+        const NAME_TRANSFER_DESTINATION_ACCOUNT = 'Transfer from ' + this.actualAccount.name
+        const INCOME = { name: NAME_TRANSFER_DESTINATION_ACCOUNT, category: this.categoryActualAccount, amount: this.mountTransaction, date: DATE }
+        const EXPENSE = { name: NAME_TRANSFER_ACTUAL_ACCOUNT, category: this.categoryDestinationAccount, amount: this.mountTransaction, date: DATE }
         const DESTINATION_ACCOUNT = this.getAccountByName(this.nameDestinationAccount)
 
         this.$store.dispatch('addExpense', EXPENSE)
