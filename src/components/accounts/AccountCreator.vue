@@ -26,10 +26,6 @@ export default {
       if (this.accountName !== '') {
         this.$store.dispatch('addAccount', this.accountName)
         this.accountName = ''
-
-        if (typeof (Storage) !== 'undefined') {
-          this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
-        }
       }
     },
     getAccounts: function() {

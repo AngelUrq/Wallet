@@ -11,7 +11,7 @@
                         <input type="text" readonly class="form-control-plaintext" id="budgetAvailable" :value="mountAvailable">
                     </div>
                 </div>
-                <div class="form-group row mx-3">
+                <div id="destinations-accounts" class="form-group row mx-3">
                     <label for="selectedAccount" class="col-sm-3 col-form-label">
                         <b>Select the destination account:</b>
                     </label>
@@ -87,6 +87,9 @@ export default {
     checkSelectedDestinationAccount() {
       return this.nameDestinationAccount !== ''
     },
+    isFormDataCorrect() {
+      return this.checkMountAvailable() && this.checkMountTransaction() && this.checkSelectedDestinationAccount()
+    },
     showMessage() {
       this.showValidation = true
       setTimeout(this.disableMessage, 2000)
@@ -104,10 +107,12 @@ export default {
       this.mountTransaction = 0
     },
     transfer() {
-      if (this.checkMountAvailable() && this.checkMountTransaction() && this.checkSelectedDestinationAccount()) {
+      if (this.isFormDataCorrect()) {
         const DATE = DateUtils.getActualDate()
-        const INCOME = { name: 'Transfer', category: this.categoryActualAccount, amount: this.mountTransaction, date: DATE }
-        const EXPENSE = { name: 'Transfer', category: this.categoryDestinationAccount, amount: this.mountTransaction, date: DATE }
+        const NAME_TRANSFER_ACTUAL_ACCOUNT = 'Transfer to ' + this.nameDestinationAccount
+        const NAME_TRANSFER_DESTINATION_ACCOUNT = 'Transfer from ' + this.actualAccount.name
+        const INCOME = { name: NAME_TRANSFER_DESTINATION_ACCOUNT, category: this.categoryActualAccount, amount: this.mountTransaction, date: DATE }
+        const EXPENSE = { name: NAME_TRANSFER_ACTUAL_ACCOUNT, category: this.categoryDestinationAccount, amount: this.mountTransaction, date: DATE }
         const DESTINATION_ACCOUNT = this.getAccountByName(this.nameDestinationAccount)
 
         this.$store.dispatch('addExpense', EXPENSE)
@@ -120,9 +125,6 @@ export default {
         this.$store.dispatch('selectAccount', this.actualAccount)
         this.transactionSuccessful = true
         this.updateMountAvailable()
-        if (typeof (Storage) !== 'undefined') {
-          this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
-        }
         this.clearMountTransaction()
       } else {
         this.transactionSuccessful = false

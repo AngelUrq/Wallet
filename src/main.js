@@ -11,6 +11,9 @@ Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
 Vue.use(VueLocalStorage)
+store.subscribe((mutation, state) => {
+  localStorage.setItem('LocalStorageData', JSON.stringify(state))
+})
 
 new Vue({
   router,
