@@ -3,7 +3,7 @@
     <p>Check one of your accounts: </p>
     <div class="account-list" v-for="(account, index) of accounts" :key="index">
       <router-link class="router" to="/account-main-menu">
-        <button class="account-button btn btn-block m-3 p-3" :class="getColor(index)" @click="chooseAccount(account.name)">{{ account.name }}</button>
+        <button class="account-button btn btn-block m-3 p-3" :class="getColor(index)" @click="chooseAccount(account)">{{ account.name }}</button>
       </router-link>
     </div>
   </div>
@@ -18,13 +18,8 @@ export default {
     }
   },
   methods: {
-    chooseAccount: function(accountName) {
-      for (const account of this.accounts) {
-        if (account.name === accountName) {
-          this.$store.dispatch('selectAccount', account)
-          break
-        }
-      }
+    chooseAccount: function(account) {
+      this.$store.dispatch('selectAccount', account)
     },
     getColor: function(index) {
       let color = ''
