@@ -1,19 +1,18 @@
 import { expect } from 'chai'
 import { shallowMount } from '@vue/test-utils'
 import Reports from '@/components/reports/Reports.vue'
-/* import mocha from 'mocha'
 
-mocha.setup('tdd');*/
-
-suite('Reports.vue', () => {
+suite('Reports.vue UI', () => {
   let wrapper
+  let accountName
 
   setup(function() {
+    accountName = 'Test account'
     wrapper = shallowMount(Reports, {
       mocks: {
         $store: {
           state: {
-            actualAccount: { name: 'Test account', income: [], expenses: [] },
+            actualAccount: { name: accountName, income: [], expenses: [] },
           },
         },
       },
@@ -63,15 +62,93 @@ suite('Reports.vue', () => {
     expect(wrapper.find('#reportTable').exists()).to.equal(false)
   })
 
+  test('it shows two options in select tag', () => {
+    expect(wrapper.findAll('#reportType option').length).to.equal(2)
+  })
+
+  test('it shows show report button', () => {
+    expect(wrapper.find('#showReport').exists()).to.equal(true)
+  })
+
   test('shows actual account name', () => {
-    const reportType = wrapper.find('#reportType')
-    reportType.setValue('category')
+    const title = wrapper.find('h1')
 
-    const showReport = wrapper.find('#showReport')
-    showReport.trigger('click')
+    expect(title.text()).to.contain(accountName)
+  })
+})
 
-    reportType.trigger('change')
 
-    expect(wrapper.find('#tableReport').exists()).to.equal(false)
+suite('Reports.vue code', () => {
+  let wrapper
+  let accountName
+
+  setup(function() {
+    accountName = 'Test account'
+    wrapper = shallowMount(Reports, {
+      mocks: {
+        $store: {
+          state: {
+            actualAccount: {
+              name: accountName,
+              income: [
+                {
+                  date: '23/08/2018',
+                  category: 'Salary',
+                  name: 'February',
+                  amount: 1000,
+                  actualAccount: 'TestAccount',
+                },
+              ],
+              expenses: [
+                {
+                  date: '25/08/2018',
+                  category: 'Food',
+                  name: 'Cookies',
+                  amount: 12.34,
+                  actualAccount: 'TestAccount',
+                },
+                {
+                  date: '20/08/2018',
+                  category: 'Food',
+                  name: 'Milk',
+                  amount: 15,
+                  actualAccount: 'TestAccount',
+                },
+              ],
+            },
+          },
+        },
+      },
+    })
+  })
+
+  test('clear variables method works correctly', () => {
+    wrapper.vm.showReport = true
+    wrapper.vm.dateError = true
+
+    wrapper.vm.clearVariables()
+
+    expect(wrapper.vm.showReport).to.equal(false)
+    expect(wrapper.vm.dateError).to.equal(false)
+  })
+
+  test('account name attribute has the correct value', () => {
+    expect(wrapper.vm.accountName).to.equal(accountName)
+  })
+
+  test('validate form returns true if dates are not correct but reports are by category', () => {
+    wrapper.vm.startDate = '2018-06-06'
+    wrapper.vm.endDate = '2018-05-06'
+    wrapper.vm.selected = 'category'
+
+    expect(wrapper.vm.validateForm()).to.equal(true)
+  })
+
+  test('validate form returns false if dates are not correct and reports are by date', () => {
+    wrapper.vm.startDate = '2018-06-06'
+    wrapper.vm.endDate = '2018-05-06'
+    wrapper.vm.selected = 'date'
+
+    expect(wrapper.vm.validateForm()).to.equal(false)
   })
 })
