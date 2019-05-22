@@ -2,7 +2,7 @@
 // http://nightwatchjs.org/guide#usage
 
 module.exports = {
-  'Demo test Google': function(browser) {
+  'Demo income and expenses': function(browser) {
     browser
         .url('http://localhost:8080/')
         .waitForElementVisible('.container', 2000)
@@ -20,6 +20,10 @@ module.exports = {
 
         .waitForElementVisible('.container', 3000)
         .click('#Income')
+        .pause(2000)
+
+        .waitForElementVisible('.justify-content-around', 3000)
+        .setValue('#categoryRegister', 'Gifts')
         .pause(2000)
         /* setValue('input[type=text]', 'nightwatch')
         .waitForElementVisible('input[name=btnK]', 2000)
