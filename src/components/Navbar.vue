@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-light bg-light justify-content-between">
-    <router-link class="navbar-brand" href="#" to="/account-main-menu">
+    <router-link id="account-main-menu" class="navbar-brand" href="#" to="/account-main-menu">
       <img src="@/assets/wallet.png" width="30" height="30" class="d-inline-block align-top" alt>
       &nbsp;Personal Wallet
     </router-link>

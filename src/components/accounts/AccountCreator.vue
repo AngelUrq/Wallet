@@ -4,7 +4,7 @@
     <form>
       <div class="form-group">
         <label for="account name">Insert the account name you want to create:</label>
-        <input type="text" class="form-control" placeholder="Account name" v-model="accountName">
+        <input id="accountNameInput" type="text" class="form-control" placeholder="Account name" v-model="accountName">
       </div>
       <div class="text-center">
         <button id="addAccountButton" type="button" class="btn btn-success" @click="add">Add</button>
