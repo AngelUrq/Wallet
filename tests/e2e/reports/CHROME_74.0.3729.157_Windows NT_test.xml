@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="0"
+            tests="1">
+
+  <testsuite name="test"
+    errors="1" failures="0" hostname="" id="" package="test" skipped="0"
+    tests="1" time="10.65" timestamp="Wed, 22 May 2019 15:33:12 GMT">
+  
+    <testcase name="Demo test Google" classname="test" time="10.65" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+
+  
+    <system-err>
+      ERROR: Unable to locate element: &#34;#account-main-menu&#34; using: css selector
+    at Object.Demo test Google (D:\Proyectos\Vue\Wallet\tests\e2e\specs\test.js:26:10)
+    at Module.call (D:\Proyectos\Vue\Wallet\node_modules\nightwatch\lib\runner\module.js:62:34)
+    at D:\Proyectos\Vue\Wallet\node_modules\nightwatch\lib\runner\testcase.js:70:29
+    at _fulfilled (D:\Proyectos\Vue\Wallet\node_modules\nightwatch\node_modules\q\q.js:834:54)
+    at D:\Proyectos\Vue\Wallet\node_modules\nightwatch\node_modules\q\q.js:863:30
+    at Promise.promise.promiseDispatch (D:\Proyectos\Vue\Wallet\node_modules\nightwatch\node_modules\q\q.js:796:13)
+    at D:\Proyectos\Vue\Wallet\node_modules\nightwatch\node_modules\q\q.js:556:49
+    at runSingle (D:\Proyectos\Vue\Wallet\node_modules\nightwatch\node_modules\q\q.js:137:13)
+    at flush (D:\Proyectos\Vue\Wallet\node_modules\nightwatch\node_modules\q\q.js:125:13)
+    at process._tickCallback (internal/process/next_tick.js:61:11)
+    </system-err>
+  
+
+  
+  </testsuite>
+</testsuites>

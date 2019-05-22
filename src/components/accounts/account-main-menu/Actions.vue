@@ -2,7 +2,7 @@
   <div class="container p-5">
     <div class="row">
       <div class="col-sm" v-for="action in actions" :key="action.name">
-        <router-link class="btn" :class="action.classButton" :to ="action.route" >
+        <router-link :id="action.name" class="btn" :class="action.classButton" :to ="action.route" >
           <div class="information-button">
             <img :src="getImgUrl(action.image)" class="d-inline-block align-top" alt>
             &nbsp;{{ action.name }}
