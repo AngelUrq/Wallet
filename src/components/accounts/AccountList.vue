@@ -3,7 +3,9 @@
     <p>Check one of your accounts: </p>
     <div class="account-list" v-for="(account, index) of accounts" :key="index">
       <router-link class="router" to="/account-main-menu">
-        <button class="account-button btn btn-block m-3 p-3" :class="getColor(index)" @click="chooseAccount(account)">{{ account.name }}</button>
+        <button :id="account.name" class="account-button btn btn-block m-3 p-3" :class="getColor(index)" @click="chooseAccount(account)">
+          {{ account.name }}
+        </button>
       </router-link>
     </div>
   </div>
