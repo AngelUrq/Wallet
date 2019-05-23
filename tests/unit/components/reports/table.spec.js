@@ -76,6 +76,11 @@ suite('Table.vue by date', () => {
     const filteredRows = rows.filter((row) => row.text().includes(data.expenses[0].name))
     expect(filteredRows.at(0).text()).to.contain(-data.expenses[0].amount)
   })
+
+  test('generateTableDataArrayStructure method generates the correct structure', () => {
+    expect(wrapper.vm.tableDataArray.length).to.equal(1)
+    expect(wrapper.vm.tableDataArray[0].transactions.length).to.equal(3)
+  })
 })
 
 
@@ -135,6 +140,12 @@ suite('Table.vue by category', () => {
   test('capitalizes word correclty', () => {
     const string = 'lowercase'
     expect(wrapper.vm.$options.filters.pascalCase(string)).to.eq('Lowercase')
+  })
+
+  test('generateTableDataArrayStructure method generates the correct structure', () => {
+    expect(wrapper.vm.tableDataArray.length).to.equal(2)
+    expect(wrapper.vm.tableDataArray[0].transactions.length).to.equal(1)
+    expect(wrapper.vm.tableDataArray[1].transactions.length).to.equal(2)
   })
 
   test('delete user', () => {

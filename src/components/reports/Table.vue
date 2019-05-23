@@ -17,7 +17,7 @@
                 {{row[column]}}
               </td>
 
-              <button type="button" class="btn" v-on:click="deleteUser(row)">
+              <button type="button" class="btn" v-if="accountData.name !== 'General'" v-on:click="deleteUser(row)">
                 <img :src="getImgUrl('x-button.png')" >
               </button>
           </tr>

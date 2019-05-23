@@ -1,19 +1,19 @@
 import { expect } from 'chai'
 import { shallowMount } from '@vue/test-utils'
 import Reports from '@/components/reports/Reports.vue'
-/* import mocha from 'mocha'
+import DateUtils from '@/utils/DateUtils.js'
 
-mocha.setup('tdd');*/
-
-suite('Reports.vue', () => {
+suite('Reports.vue UI', () => {
   let wrapper
+  let accountName
 
   setup(function() {
+    accountName = 'Test account'
     wrapper = shallowMount(Reports, {
       mocks: {
         $store: {
           state: {
-            actualAccount: { name: 'Test account', income: [], expenses: [] },
+            actualAccount: { name: accountName, income: [], expenses: [] },
           },
         },
       },
@@ -63,15 +63,213 @@ suite('Reports.vue', () => {
     expect(wrapper.find('#reportTable').exists()).to.equal(false)
   })
 
+  test('it shows two options in select tag', () => {
+    expect(wrapper.findAll('#reportType option').length).to.equal(2)
+  })
+
+  test('it shows show report button', () => {
+    expect(wrapper.find('#showReport').exists()).to.equal(true)
+  })
+
   test('shows actual account name', () => {
-    const reportType = wrapper.find('#reportType')
-    reportType.setValue('category')
+    const title = wrapper.find('h1')
 
-    const showReport = wrapper.find('#showReport')
-    showReport.trigger('click')
+    expect(title.text()).to.contain(accountName)
+  })
+})
 
-    reportType.trigger('change')
 
-    expect(wrapper.find('#tableReport').exists()).to.equal(false)
+suite('Reports.vue code', () => {
+  let wrapper
+  let accountName
+
+  setup(function() {
+    const storeState = {
+      actualAccount: {
+        name: accountName,
+        income: [
+          {
+            date: '2018-08-23',
+            category: 'Salary',
+            name: 'February',
+            amount: 1000,
+            actualAccount: 'TestAccount',
+          },
+        ],
+        expenses: [
+          {
+            date: '2018-08-25',
+            category: 'Food',
+            name: 'Cookies',
+            amount: 12.34,
+            actualAccount: 'TestAccount',
+          },
+          {
+            date: '2018-08-20',
+            category: 'Food',
+            name: 'Milk',
+            amount: 15,
+            actualAccount: 'TestAccount',
+          },
+        ],
+      },
+    }
+    accountName = 'Test account'
+    wrapper = shallowMount(Reports, {
+      mocks: {
+        $store: {
+          state: storeState,
+          getters: {
+            accountDataByDate: (startDate, endDate) => {
+              const filterdIncomes = storeState.actualAccount.income.filter((income) => DateUtils.isDateWithinRange(income.date, startDate, endDate))
+              const filterdExpenses = storeState.actualAccount.expenses.filter((expense) =>
+                DateUtils.isDateWithinRange(expense.date, startDate, endDate))
+              return { name: storeState.actualAccount.name, income: filterdIncomes, expenses: filterdExpenses }
+            },
+          },
+        },
+      },
+    })
+  })
+
+  test('clear variables method works correctly', () => {
+    wrapper.vm.showReport = true
+    wrapper.vm.dateError = true
+
+    wrapper.vm.clearVariables()
+
+    expect(wrapper.vm.showReport).to.equal(false)
+    expect(wrapper.vm.dateError).to.equal(false)
+  })
+
+  test('account name attribute has the correct value', () => {
+    expect(wrapper.vm.accountName).to.equal(accountName)
+  })
+
+  test('validate form returns true if dates are not correct but reports are by category', () => {
+    wrapper.vm.startDate = '2018-06-06'
+    wrapper.vm.endDate = '2018-05-06'
+    wrapper.vm.selected = 'category'
+
+    expect(wrapper.vm.validateForm()).to.equal(true)
+  })
+
+  test('validate form returns false if dates are not correct and reports are by date', () => {
+    wrapper.vm.startDate = '2018-06-06'
+    wrapper.vm.endDate = '2018-05-06'
+    wrapper.vm.selected = 'date'
+
+    expect(wrapper.vm.validateForm()).to.equal(false)
+  })
+
+  test('set data for report retrieves filtered data by date', () => {
+    wrapper.vm.startDate = '2018-08-23'
+    wrapper.vm.endDate = '2018-08-25'
+    wrapper.vm.selected = 'date'
+    wrapper.vm.setDataForReport()
+
+    expect(wrapper.vm.accountData.income.length).to.equal(1)
+    expect(wrapper.vm.accountData.expenses.length).to.equal(1)
+  })
+})
+
+suite('Reports.vue code for general account', () => {
+  let wrapper
+  let accountName
+
+  setup(function() {
+    accountName = 'General'
+    wrapper = shallowMount(Reports, {
+      mocks: {
+        $store: {
+          state: {
+            actualAccount: {
+              name: accountName,
+              income: [
+                {
+                  date: '23/08/2018',
+                  category: 'Salary',
+                  name: 'February',
+                  amount: 1000,
+                  actualAccount: 'TestAccount',
+                },
+              ],
+              expenses: [
+                {
+                  date: '25/08/2018',
+                  category: 'Food',
+                  name: 'Cookies',
+                  amount: 12.34,
+                  actualAccount: 'TestAccount',
+                },
+                {
+                  date: '20/08/2018',
+                  category: 'Food',
+                  name: 'Milk',
+                  amount: 15,
+                  actualAccount: 'TestAccount',
+                },
+              ],
+            },
+            accounts: [
+              {
+                name: accountName,
+                income: [
+                  {
+                    date: '23/08/2018',
+                    category: 'Salary',
+                    name: 'February',
+                    amount: 1000,
+                    actualAccount: 'TestAccount',
+                  },
+                ],
+                expenses: [
+                  {
+                    date: '25/08/2018',
+                    category: 'Food',
+                    name: 'Cookies',
+                    amount: 12.34,
+                    actualAccount: 'TestAccount',
+                  },
+                  {
+                    date: '20/08/2018',
+                    category: 'Food',
+                    name: 'Milk',
+                    amount: 15,
+                    actualAccount: 'TestAccount',
+                  },
+                ],
+              },
+              {
+                name: 'New account',
+                income: [
+                  {
+                    date: '24/08/2018',
+                    category: 'Salary',
+                    name: 'February',
+                    amount: 1000,
+                    actualAccount: 'New account',
+                  },
+                ],
+                expenses: [],
+              },
+            ],
+          },
+        },
+      },
+    })
+  })
+
+  test('it gets all the incomes and expenses for all accounts', () => {
+    const data = wrapper.vm.getGlobalAccountData()
+    const incomesAccountNames = data.income.map((income) => income.actualAccount)
+    const expensesAccountNames = data.expenses.map((expense) => expense.actualAccount)
+    const uniqueIncomeNames = [...new Set(incomesAccountNames)]
+    const uniqueExpenseNames = [...new Set(expensesAccountNames)]
+
+    expect(data.income.length).to.equal(2)
+    expect(data.expenses.length).to.equal(2)
+    expect(uniqueIncomeNames).to.deep.equal(['TestAccount', 'New account'])
+    expect(uniqueExpenseNames).to.deep.equal(['TestAccount'])
   })
 })
