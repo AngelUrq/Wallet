@@ -60,11 +60,3 @@ module.exports = {
         .end()
   },
 }
-/* .url('https://www.google.com')
-        .waitForElementVisible('body', 1000)
-        .setValue('input[type=text]', 'testeandosoftware')
-        .waitForElementVisible('input[name=btnK]', 10000)
-        .click('input[name=btnK]')
-        .pause(3000)
-        .assert.containsText('#main', 'testeandosoftware.com')
-        .end()*/
