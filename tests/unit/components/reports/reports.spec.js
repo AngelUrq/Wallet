@@ -260,12 +260,6 @@ suite('Reports.vue code for general account', () => {
     })
   })
 
-  test('columns for child includes actual account column for general account', () => {
-    wrapper.vm.selected = 'category'
-    wrapper.vm.setDataForReport()
-    expect(wrapper.vm.columnsForChild.indexOf('actualAccount')).to.not.equal(-1)
-  })
-
   test('it gets all the incomes and expenses for all accounts', () => {
     const data = wrapper.vm.getGlobalAccountData()
     const incomesAccountNames = data.income.map((income) => income.actualAccount)

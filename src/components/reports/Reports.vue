@@ -21,13 +21,13 @@
         <label for="startDate">From:</label>
       </div>
       <div class="offset-1 col-3">
-        <input type="date" id="startDate" name="startDate" v-model="startDate">
+        <input type="date" id="startDate" name="startDate" v-model="startDate" @change="clearVariables">
       </div>
       <div class="offset-1 col-2">
         <label for="endDate">To:</label>
       </div>
       <div class="col-3">
-        <input type="date" id="endDate" name="endDate" v-model="endDate">
+        <input type="date" id="endDate" name="endDate" v-model="endDate" @change="clearVariables">
       </div>
     </div>
     <div class="row" v-if="dateError" id="dateError">
@@ -75,7 +75,6 @@ export default {
         this.columnsForChild.splice(index, 1)
 
         if (this.accountName === 'General') {
-          this.columnsForChild.push('actualAccount')
           this.accountData = this.getGlobalAccountData()
         } else {
           this.accountData = this.selected === 'category'
@@ -98,8 +97,14 @@ export default {
     },
     getGlobalAccountData() {
       const accounts = this.$store.state.accounts
-      const incomes = accounts.map((account) => account.income).reduce((prev, curr) => prev.concat(curr), [])
-      const expenses = accounts.map((account) => account.expenses).reduce((prev, curr) => prev.concat(curr), [])
+      let incomes = accounts.map((account) => account.income).reduce((prev, curr) => prev.concat(curr), [])
+      let expenses = accounts.map((account) => account.expenses).reduce((prev, curr) => prev.concat(curr), [])
+
+      if (this.selected === 'date') {
+        incomes = incomes.filter((income) => DateUtils.isDateWithinRange(income.date, this.startDate, this.endDate))
+        expenses = expenses.filter((expense) => DateUtils.isDateWithinRange(expense.date, this.startDate, this.endDate))
+      }
+
       return { name: 'General', income: incomes, expenses: expenses }
     },
   },
