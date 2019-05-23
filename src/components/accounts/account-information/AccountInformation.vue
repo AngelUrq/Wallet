@@ -25,16 +25,7 @@ export default {
   },
   methods: {
     modifyName() {
-      const NAMES = this.$store.state.accounts.map((account) => account.name)
-
-      if (!NAMES.includes(this.newAccountName)) {
-        this.$store.state.accounts.forEach((element) => {
-          if (this.$store.state.actualAccount.name === element.name) {
-            element.name = this.newAccountName
-            this.$store.state.actualAccount.name = this.newAccountName
-          }
-        })
-      }
+      this.$store.dispatch('modifyAccountName', this.newAccountName)
     },
     isAnEmptyAccount() {
       return this.$store.state.actualAccount.income.length === 0 && this.$store.state.actualAccount.expenses.length === 0

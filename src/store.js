@@ -43,6 +43,17 @@ export default new Vuex.Store({
         }
       })
     },
+    modifyAccountName(state, newName) {
+      const accountName = state.accounts.map((account) => account.name)
+      if (!accountName.includes(newName)) {
+        state.accounts.forEach((account) => {
+          if (state.actualAccount.name === account.name) {
+            account.name = newName
+            state.actualAccount.name = newName
+          }
+        })
+      }
+    },
     addIncome(state, income) {
       state.actualAccount.income.push(income)
     },
@@ -68,6 +79,9 @@ export default new Vuex.Store({
     },
     deleteAccount(state) {
       state.commit('deleteAccount')
+    },
+    modifyAccountName(state, newName) {
+      state.commit('modifyAccountName', newName)
     },
     addIncome(state, income) {
       state.commit('addIncome', income)
