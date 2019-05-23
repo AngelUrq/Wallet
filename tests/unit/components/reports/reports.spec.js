@@ -152,3 +152,110 @@ suite('Reports.vue code', () => {
     expect(wrapper.vm.validateForm()).to.equal(false)
   })
 })
+
+suite('Reports.vue code for general account', () => {
+  let wrapper
+  let accountName
+
+  setup(function() {
+    accountName = 'General'
+    wrapper = shallowMount(Reports, {
+      mocks: {
+        $store: {
+          state: {
+            actualAccount: {
+              name: accountName,
+              income: [
+                {
+                  date: '23/08/2018',
+                  category: 'Salary',
+                  name: 'February',
+                  amount: 1000,
+                  actualAccount: 'TestAccount',
+                },
+              ],
+              expenses: [
+                {
+                  date: '25/08/2018',
+                  category: 'Food',
+                  name: 'Cookies',
+                  amount: 12.34,
+                  actualAccount: 'TestAccount',
+                },
+                {
+                  date: '20/08/2018',
+                  category: 'Food',
+                  name: 'Milk',
+                  amount: 15,
+                  actualAccount: 'TestAccount',
+                },
+              ],
+            },
+            accounts: [
+              {
+                name: accountName,
+                income: [
+                  {
+                    date: '23/08/2018',
+                    category: 'Salary',
+                    name: 'February',
+                    amount: 1000,
+                    actualAccount: 'TestAccount',
+                  },
+                ],
+                expenses: [
+                  {
+                    date: '25/08/2018',
+                    category: 'Food',
+                    name: 'Cookies',
+                    amount: 12.34,
+                    actualAccount: 'TestAccount',
+                  },
+                  {
+                    date: '20/08/2018',
+                    category: 'Food',
+                    name: 'Milk',
+                    amount: 15,
+                    actualAccount: 'TestAccount',
+                  },
+                ],
+              },
+              {
+                name: 'New account',
+                income: [
+                  {
+                    date: '24/08/2018',
+                    category: 'Salary',
+                    name: 'February',
+                    amount: 1000,
+                    actualAccount: 'New account',
+                  },
+                ],
+                expenses: [],
+              },
+            ],
+          },
+        },
+      },
+    })
+  })
+
+  test('columns for child includes actual account column for general account', () => {
+    wrapper.vm.selected = 'category'
+    wrapper.vm.setDataForReport()
+    expect(wrapper.vm.columnsForChild.indexOf('actualAccount')).to.not.equal(-1)
+  })
+
+  test('it gets all the incomes and expenses for all accounts', () => {
+    const data = wrapper.vm.getGlobalAccountData()
+    const incomesAccountNames = data.income.map((income) => income.actualAccount)
+    const expensesAccountNames = data.expenses.map((expense) => expense.actualAccount)
+    const uniqueIncomeNames = [...new Set(incomesAccountNames)]
+    const uniqueExpenseNames = [...new Set(expensesAccountNames)]
+
+    expect(data.income.length).to.equal(2)
+    expect(data.expenses.length).to.equal(2)
+    expect(uniqueIncomeNames).to.deep.equal(['TestAccount', 'New account'])
+    expect(uniqueExpenseNames).to.deep.equal(['TestAccount'])
+  })
+})

@@ -40,6 +40,10 @@ describe('AccountList.vue', () => {
         expect(wrapper.find(BUTTON_CLASS).exists()).to.equal(true)
       }
     })
+
+    it('shows a general account', () => {
+      expect(wrapper.find('#general').exists()).to.equal(true)
+    })
   })
 
   describe('events', () => {

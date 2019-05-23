@@ -139,6 +139,13 @@ export default {
           state.commit('addCategory', newCategory)
         },
       },
+      getters: {
+        accountDataByDate: (state) => (startDate, endDate) => {
+          const filterdIncomes = state.actualAccount.income.filter((income) => DateUtils.isDateWithinRange(income.date, startDate, endDate))
+          const filterdExpenses = state.actualAccount.expenses.filter((expense) => DateUtils.isDateWithinRange(expense.date, startDate, endDate))
+          return { name: state.actualAccount.name, income: filterdIncomes, expenses: filterdExpenses }
+        },
+      },
     })
   },
 

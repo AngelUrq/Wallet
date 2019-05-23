@@ -1,9 +1,14 @@
 <template>
   <div class="container">
     <p>Check one of your accounts: </p>
+    <router-link class="router" to="/reports">
+      <button id="general" class="account-button btn btn-block m-3 p-3" :class="getColor(0)" @click="chooseAccount(generalAccount)">
+        {{ generalAccount.name }}
+      </button>
+    </router-link>
     <div class="account-list" v-for="(account, index) of accounts" :key="index">
       <router-link class="router" to="/account-main-menu">
-        <button class="account-button btn btn-block m-3 p-3" :class="getColor(index)" @click="chooseAccount(account)">{{ account.name }}</button>
+        <button class="account-button btn btn-block m-3 p-3" :class="getColor(index+1)" @click="chooseAccount(account)">{{ account.name }}</button>
       </router-link>
     </div>
   </div>
@@ -15,6 +20,7 @@ export default {
   data: function() {
     return {
       accounts: this.$store.state.accounts,
+      generalAccount: { name: 'General' },
     }
   },
   methods: {

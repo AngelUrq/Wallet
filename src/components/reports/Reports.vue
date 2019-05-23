@@ -70,12 +70,18 @@ export default {
         this.showReport = true
         this.dateError = false
 
-        this.accountData = this.selected === 'category'
-                            ? this.$store.state.actualAccount
-                            : this.$store.getters.accountDataByDate(this.startDate, this.endDate)
         this.columnsForChild = [...this.columns]
         const index = this.columnsForChild.indexOf(this.selected)
         this.columnsForChild.splice(index, 1)
+
+        if (this.accountName === 'General') {
+          this.columnsForChild.push('actualAccount')
+          this.accountData = this.getGlobalAccountData()
+        } else {
+          this.accountData = this.selected === 'category'
+                            ? this.$store.state.actualAccount
+                            : this.$store.getters.accountDataByDate(this.startDate, this.endDate)
+        }
       } else {
         this.dateError = true
       }
@@ -89,6 +95,12 @@ export default {
     clearVariables() {
       this.showReport = false
       this.dateError = false
+    },
+    getGlobalAccountData() {
+      const accounts = this.$store.state.accounts
+      const incomes = accounts.map((account) => account.income).reduce((prev, curr) => prev.concat(curr), [])
+      const expenses = accounts.map((account) => account.expenses).reduce((prev, curr) => prev.concat(curr), [])
+      return { name: 'General', income: incomes, expenses: expenses }
     },
   },
   components: {
