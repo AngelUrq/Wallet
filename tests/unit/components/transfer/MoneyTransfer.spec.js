@@ -60,16 +60,31 @@ describe('MoneyTransfer.vue', () => {
       expect(wrapper.vm.checkSelectedDestinationAccount()).to.equal(true)
     })
 
+    it('check mount mount available', () => {
+      wrapper.vm.mountAvailable = -100
+      expect(wrapper.vm.checkMountAvailable()).to.equal(false)
+    })
+
+    it('check mount transaction', () => {
+      wrapper.vm.mountTransaction = -50
+      expect(wrapper.vm.checkMountTransaction()).to.equal(false)
+    })
+
+    it('check destination account transaction', () => {
+      wrapper.vm.mountTransaction = ''
+      expect(wrapper.vm.checkMountTransaction()).to.equal(false)
+    })
+
     it('verify if the form data is correct', () => {
       wrapper.vm.mountAvailable = 400
-      wrapper.vm.mountTransaction = 500
-      wrapper.vm.nameDestinationAccount = 'Test2'
+      wrapper.vm.mountTransaction = -100
+      wrapper.vm.nameDestinationAccount = 'Test3'
       expect(wrapper.vm.isFormDataCorrect()).to.equal(false)
     })
   })
 
   describe('render', () => {
-    beforeEach(function() {
+    before(function() {
       const store = TestUtil.getDefaultStore()
       wrapper = shallowMount(MoneyTransfer, { store, localVue })
     })
@@ -83,7 +98,7 @@ describe('MoneyTransfer.vue', () => {
   })
 
   describe('events', () => {
-    beforeEach(function() {
+    before(function() {
       const store = TestUtil.getDefaultStore()
       wrapper = shallowMount(MoneyTransfer, { store, localVue })
     })

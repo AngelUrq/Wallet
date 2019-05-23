@@ -1,7 +1,8 @@
 import { expect } from 'chai'
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Table from '@/components/reports/Table.vue'
-
+import Vuex from 'vuex'
+import store from '@/store.js'
 suite('Table.vue by date', () => {
   let wrapper
   const data = {
@@ -116,7 +117,8 @@ suite('Table.vue by category', () => {
 
   const groupBy = 'category'
   const columnsToShow = ['date', 'name', 'amount']
-
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
   setup(function() {
     wrapper = shallowMount(Table, {
       propsData: {
@@ -124,6 +126,8 @@ suite('Table.vue by category', () => {
         groupBy: groupBy,
         columns: columnsToShow,
       },
+      store,
+      localVue,
     })
   })
 
@@ -142,5 +146,18 @@ suite('Table.vue by category', () => {
     expect(wrapper.vm.tableDataArray.length).to.equal(2)
     expect(wrapper.vm.tableDataArray[0].transactions.length).to.equal(1)
     expect(wrapper.vm.tableDataArray[1].transactions.length).to.equal(2)
+  })
+
+  test('delete user', () => {
+    const user = {
+      date: '24/08/2018',
+      category: 'Food',
+      name: 'Milk',
+      amount: 15,
+      actualAccount: 'TestAccount',
+      class: 'red',
+    }
+    wrapper.vm.deleteUser(user)
+    expect(wrapper.vm.accountData.expenses.length).to.equal(1)
   })
 })
