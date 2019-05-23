@@ -41,12 +41,7 @@ export default {
     },
     deleteAccount() {
       if (this.isAnEmptyAccount()) {
-        this.$store.state.accounts.forEach((element, index) => {
-          if (this.$store.state.actualAccount.name === element.name) {
-            this.$store.state.accounts.splice(index, 1)
-            this.$store.state.actualAccount = { name: '', income: [], expenses: [] }
-          }
-        })
+        this.$store.dispatch('deleteAccount')
       }
     },
   },

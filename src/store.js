@@ -35,6 +35,14 @@ export default new Vuex.Store({
         }
       })
     },
+    deleteAccount(state) {
+      state.accounts.forEach((account, index) => {
+        if (state.actualAccount.name === account.name) {
+          state.accounts.splice(index, 1)
+          state.actualAccount = { name: '', income: [], expenses: [] }
+        }
+      })
+    },
     addIncome(state, income) {
       state.actualAccount.income.push(income)
     },
@@ -57,6 +65,9 @@ export default new Vuex.Store({
     },
     updateAccount(state, currentAccount) {
       state.commit('updateAccount', currentAccount)
+    },
+    deleteAccount(state) {
+      state.commit('deleteAccount')
     },
     addIncome(state, income) {
       state.commit('addIncome', income)
