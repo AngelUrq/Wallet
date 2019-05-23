@@ -42,7 +42,10 @@ export default new Vuex.Store({
       state.actualAccount.expenses.push(expense)
     },
     addCategory(state, newCategory) {
-      state.categories.push({ name: newCategory.category, linkage: newCategory.linkage })
+      const categoryName = state.categories.map((category) => category.name)
+      if (!categoryName.includes(newCategory.category)) {
+        state.categories.push({ name: newCategory.category, linkage: newCategory.linkage })
+      }
     },
   },
   actions: {
