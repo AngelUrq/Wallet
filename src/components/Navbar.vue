@@ -8,7 +8,7 @@
       <router-link class="btn btn-link my-2 my-sm-0 mr-3" id="settings" v-if="!isGeneral" to="/information">
         Account settings
       </router-link>
-      <router-link class="btn btn-outline-success my-2 my-sm-0" to="/">
+      <router-link id="exit" class="btn btn-outline-success my-2 my-sm-0" to="/">
         <img src="@/assets/exit.png" width="30" height="30">
       </router-link>
     </form>

@@ -1,6 +1,6 @@
 // For authoring Nightwatch tests, see
 // http://nightwatchjs.org/guide#usage
-
+/*
 module.exports = {
   'Demo income and expenses': function(browser) {
     browser
@@ -24,13 +24,14 @@ module.exports = {
 
         .waitForElementVisible('.justify-content-around', 3000)
         .setValue('#categoryRegister', 'Gifts')
-        .pause(2000)
+        .pause(2000)*/
 
-        /* setValue('input[type=text]', 'nightwatch')
+/* setValue('input[type=text]', 'nightwatch')
         .waitForElementVisible('input[name=btnK]', 2000)
         .click('input[name=btnK]')
         .pause(3000)
         .assert.containsText('#main', 'Nightwatch.js')*/
-        .end()
+/* .end()
   },
 }
+*/
