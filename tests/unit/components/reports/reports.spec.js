@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import { shallowMount } from '@vue/test-utils'
 import Reports from '@/components/reports/Reports.vue'
+import DateUtils from '@/utils/DateUtils.js'
 
 suite('Reports.vue UI', () => {
   let wrapper
@@ -83,38 +84,47 @@ suite('Reports.vue code', () => {
   let accountName
 
   setup(function() {
+    const storeState = {
+      actualAccount: {
+        name: accountName,
+        income: [
+          {
+            date: '2018-08-23',
+            category: 'Salary',
+            name: 'February',
+            amount: 1000,
+            actualAccount: 'TestAccount',
+          },
+        ],
+        expenses: [
+          {
+            date: '2018-08-25',
+            category: 'Food',
+            name: 'Cookies',
+            amount: 12.34,
+            actualAccount: 'TestAccount',
+          },
+          {
+            date: '2018-08-20',
+            category: 'Food',
+            name: 'Milk',
+            amount: 15,
+            actualAccount: 'TestAccount',
+          },
+        ],
+      },
+    }
     accountName = 'Test account'
     wrapper = shallowMount(Reports, {
       mocks: {
         $store: {
-          state: {
-            actualAccount: {
-              name: accountName,
-              income: [
-                {
-                  date: '23/08/2018',
-                  category: 'Salary',
-                  name: 'February',
-                  amount: 1000,
-                  actualAccount: 'TestAccount',
-                },
-              ],
-              expenses: [
-                {
-                  date: '25/08/2018',
-                  category: 'Food',
-                  name: 'Cookies',
-                  amount: 12.34,
-                  actualAccount: 'TestAccount',
-                },
-                {
-                  date: '20/08/2018',
-                  category: 'Food',
-                  name: 'Milk',
-                  amount: 15,
-                  actualAccount: 'TestAccount',
-                },
-              ],
+          state: storeState,
+          getters: {
+            accountDataByDate: (startDate, endDate) => {
+              const filterdIncomes = storeState.actualAccount.income.filter((income) => DateUtils.isDateWithinRange(income.date, startDate, endDate))
+              const filterdExpenses = storeState.actualAccount.expenses.filter((expense) =>
+                DateUtils.isDateWithinRange(expense.date, startDate, endDate))
+              return { name: storeState.actualAccount.name, income: filterdIncomes, expenses: filterdExpenses }
             },
           },
         },
@@ -150,6 +160,16 @@ suite('Reports.vue code', () => {
     wrapper.vm.selected = 'date'
 
     expect(wrapper.vm.validateForm()).to.equal(false)
+  })
+
+  test('set data for report retrieves filtered data by date', () => {
+    wrapper.vm.startDate = '2018-08-23'
+    wrapper.vm.endDate = '2018-08-25'
+    wrapper.vm.selected = 'date'
+    wrapper.vm.setDataForReport()
+
+    expect(wrapper.vm.accountData.income.length).to.equal(1)
+    expect(wrapper.vm.accountData.expenses.length).to.equal(1)
   })
 })
 
