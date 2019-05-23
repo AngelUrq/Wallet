@@ -51,13 +51,15 @@ describe('AccountList.vue', () => {
       const store = TestUtils.getStore()
       wrapper = shallowMount(AccountList, { store, localVue })
 
-      const ACCOUNT_NAME = 'Test account'
+      const ACCOUNT_NAME = 'TestAccount'
+
+      account = { name: ACCOUNT_NAME, income: [], expenses: [] }
 
       wrapper.vm.$store.dispatch('addAccount', ACCOUNT_NAME)
     })
 
     it('when button clicked select an account', () => {
-      wrapper.find('.account-button').trigger('click')
+      wrapper.find('#TestAccount').trigger('click')
 
       expect(wrapper.vm.$store.state.actualAccount).to.deep.equal(account)
     })
@@ -69,6 +71,8 @@ describe('AccountList.vue', () => {
     beforeEach(function() {
       const store = TestUtils.getStore()
       wrapper = shallowMount(AccountList, { store, localVue })
+
+      account = { name: ACCOUNT_NAME, income: [], expenses: [] }
 
       wrapper.vm.$store.dispatch('addAccount', ACCOUNT_NAME)
     })

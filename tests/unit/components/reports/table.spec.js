@@ -3,6 +3,7 @@ import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Table from '@/components/reports/Table.vue'
 import Vuex from 'vuex'
 import store from '@/store.js'
+
 suite('Table.vue by date', () => {
   let wrapper
   const data = {

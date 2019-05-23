@@ -1,6 +1,10 @@
 import { expect } from 'chai'
 import { shallowMount } from '@vue/test-utils'
 import Navbar from '@/components/Navbar.vue'
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
 
 suite('Navbar', () => {
   let wrapper
