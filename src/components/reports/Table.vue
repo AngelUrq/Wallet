@@ -108,10 +108,6 @@ export default {
     getAccountByName(nameAccount) {
       return (this.$store.state.accounts.filter((account) => account.name === nameAccount))[0]
     },
-    defineReport(name) {
-      const definition = name.split(' ')
-      return definition.length > 1
-    },
     deletetransfer(user) {
       const actualAccount = this.$store.state.actualAccount
       const definition = user.name.split(' ')

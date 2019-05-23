@@ -5,9 +5,11 @@
 
   <testsuite name="transfer"
     errors="0" failures="0" hostname="" id="" package="transfer" skipped="0"
-    tests="1" time="17.80" timestamp="Wed, 22 May 2019 15:21:46 GMT">
+    tests="1" time="20.66" timestamp="Thu, 23 May 2019 01:02:06 GMT">
   
-    <testcase name="default e2e tests" classname="transfer" time="17.80" assertions="2">
+    <testcase name="default e2e tests" classname="transfer" time="20.66" assertions="3">
+
+    
 
     
 

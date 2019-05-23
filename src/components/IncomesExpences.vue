@@ -1,15 +1,5 @@
 <template>
     <div>
-        <nav class="navbar navbar-light bg-light justify-content-between">
-            <router-link class="navbar-brand" href="#" to="/account-main-menu">
-                <img src="@/assets/wallet.png" width="30" height="30" class="d-inline-block align-top" alt> &nbsp;Personal Wallet
-            </router-link>
-            <form class="form-inline">
-                <router-link class="btn btn-outline-success my-2 my-sm-0" to="/">
-                    <img src="@/assets/exit.png" width="30" height="30">
-                </router-link>
-            </form>
-        </nav>
         <div class="row justify-content-around">
             <div class="col-5">
                 <div class="card p-5 mt-3">
@@ -17,20 +7,20 @@
                     <form>
                         <div class="form-group">
                             <label> <b>Name</b></label>
-                            <input class="form-control" id="exampleInputEmail1" placeholder="Enter Name" v-model="name">
+                            <input class="form-control" id="name" placeholder="Enter Name" v-model="name">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1"> <b>Category</b> </label>
-                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" v-model="category">
+                            <select class="custom-select mr-sm-2" id="category" v-model="category">
                                 <option v-for="option in options" :key="option.name">{{option.name}}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label> <b>Amount BS</b> </label>
-                            <input type="number" class="form-control" id="exampleInputEmail1" placeholder="Enter amount" v-model="amount">
+                            <input type="number" class="form-control" id="amount" placeholder="Enter amount" v-model="amount">
                         </div>
                         <label>Choose the date of the transaction :</label>
-                        <input type="date" class="ml-3" id="party" style="width:500px; text-align: center;"  v-model="date">
+                        <input type="date" class="ml-3" id="dateSpace" style="width:500px; text-align: center;"  v-model="date">
                         <br/>
                         <div class="text-center mt-4">
                             <button type="button" id="buttonTransaction" class="btn btn-primary" v-on:click="register()">Register Transaction</button>
@@ -48,22 +38,22 @@
                     <form>
                         <div class="form-group">
                             <label> <b>Select transaction Name</b></label>
-                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" v-model="actualName">
+                            <select class="custom-select mr-sm-2" id="old-name" v-model="actualName">
                                 <option v-for="nametransaction in nametransactions" :key="nametransaction">{{nametransaction}}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label> <b>New name</b></label>
-                            <input class="form-control" id="exampleInputEmail1" placeholder="Enter  New Name" v-model="newName">
+                            <input class="form-control" id="new-name" placeholder="Enter  New Name" v-model="newName">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1"> <b> new Category</b> </label>
-                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" v-model="newTransCategory">
+                            <select class="custom-select mr-sm-2" id="new-category" v-model="newTransCategory">
                               <option v-for="option in options" :key="option.name">{{option.name}}</option>
                             </select>
                         </div>
                         <label>Choose the  new date of the transaction :</label>
-                        <input type="date" class="ml-3" id="party" style="width:500px; text-align: center;"  v-model="newDate">
+                        <input type="date" class="ml-3" id="new-date" style="width:500px; text-align: center;"  v-model="newDate">
                         <br/>
                         <div class="text-center mt-4">
                             <button type="button" id="buttonChange" class="btn btn-primary" v-on:click="modifyValues()">Register Changes</button>
@@ -84,7 +74,7 @@
                     <form>
                         <div class="form-group">
                             <label> <b>Name</b> </label>
-                            <input class="form-control" id="exampleInputEmail1" placeholder="Enter Name" v-model="newCategory">
+                            <input class="form-control" id="categoryRegister" placeholder="Enter Name" v-model="newCategory">
                         </div>
                         <div class="text-center mt-4">
                             <button type="button"

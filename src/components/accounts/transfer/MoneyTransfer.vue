@@ -16,7 +16,7 @@
                         <b>Select the destination account:</b>
                     </label>
                     <div class="col-sm-9">
-                        <select class="form-control" v-model="nameDestinationAccount">
+                        <select id="destinationAccount" class="form-control" v-model="nameDestinationAccount">
                             <option v-for="(account, index) in accounts" :key="index">{{ account.name }}</option>
                         </select>
                     </div>
