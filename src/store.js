@@ -57,6 +57,28 @@ export default new Vuex.Store({
     addIncome(state, income) {
       state.actualAccount.income.push(income)
     },
+    modifyIncome(state, actualName, newName, newDate, newCategory, newAmount) {
+      state.accounts.forEach((account) => {
+        if (state.actualAccount.name === account.name) {
+          account.income.forEach((actualIncome) => {
+            if (actualName === actualIncome.name) {
+              actualIncome.name = newName
+              actualIncome.date = newDate
+              actualIncome.category = newCategory
+              actualIncome.amount = newAmount
+            }
+          })
+        }
+      })
+      state.actualAccount.income.forEach((actualIncome) => {
+        if (actualName === actualIncome.name) {
+          actualIncome.name = JSON.stringify(newName)
+          actualIncome.date = JSON.stringify(newDate)
+          actualIncome.category = JSON.stringify(newCategory)
+          actualIncome.amount = '0'
+        }
+      })
+    },
     addExpense(state, expense) {
       state.actualAccount.expenses.push(expense)
     },
@@ -85,6 +107,9 @@ export default new Vuex.Store({
     },
     addIncome(state, income) {
       state.commit('addIncome', income)
+    },
+    modifyIncome(state, actualName, newName, newDate, newCategory, newAmount) {
+      state.commit('modifyIncome', actualName, newName, newDate, newCategory, newAmount)
     },
     addExpense(state, expense) {
       state.commit('addExpense', expense)

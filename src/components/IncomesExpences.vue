@@ -263,6 +263,9 @@ export default {
               this.modtransactionSucces = true
               this.modtransactionFail = false
               this.nametransactions = this.loadAlltransactions()
+              if (typeof (Storage) !== 'undefined') {
+                this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+              }
             }
           })
         } else if (this.linkage === 'Expenses') {
@@ -274,6 +277,9 @@ export default {
               this.modtransactionSucces = true
               this.modtransactionFail = false
               this.nametransactions = this.loadAlltransactions()
+              if (typeof (Storage) !== 'undefined') {
+                this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+              }
             }
           })
         }
