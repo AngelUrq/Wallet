@@ -54,6 +54,10 @@
                         </div>
                         <label>Choose the  new date of the transaction :</label>
                         <input type="date" class="ml-3" id="new-date" style="width:500px; text-align: center;"  v-model="newDate">
+                        <div class="form-group">
+                            <label> <b>amount</b></label>
+                            <input min="0" type ="number" class="form-control" id="new-amount" placeholder="Enter amount" v-model="newAmount">
+                        </div>
                         <br/>
                         <div class="text-center mt-4">
                             <button type="button" id="buttonChange" class="btn btn-primary" v-on:click="modifyValues()">Register Changes</button>
@@ -132,6 +136,7 @@ export default {
       newName: '',
       newDate: '',
       newTransCategory: '',
+      newAmount: 0,
       transactionSuccess: false,
       transactionFail: false,
       categorySuccess: false,
@@ -243,14 +248,18 @@ export default {
       }
       return this.newName !== '' && this.newDate !== '' && !repeatName
     },
+    isCorrectValueNumber: function(number) {
+      return number >= 0
+    },
     modifyValues: function() {
-      if (this.isModificationComplete()) {
+      if (this.isModificationComplete() && this.isCorrectValueNumber(this.newAmount)) {
         if (this.linkage === 'Incomes') {
           this.$store.state.actualAccount.income.forEach((actualIncome) => {
             if (this.actualName === actualIncome.name) {
               actualIncome.name = this.newName
               actualIncome.date = this.newDate
               actualIncome.category = this.newTransCategory
+              actualIncome.amount = this.newAmount
               this.modtransactionSucces = true
               this.modtransactionFail = false
               this.nametransactions = this.loadAlltransactions()

@@ -68,13 +68,14 @@ describe('IncomesExpences.vue', () => {
       expect(wrapper.contains('#transactionFail')).equals(false)
       expect(wrapper.contains('#transactionSuccess')).equals(true)
     })
-    it('show alert change complete  success with correct transaction at incomes ', () => {
+    it('show alert modification complete  success with correct transaction at incomes ', () => {
       wrapper.setProps({ transfer: 'addIncome' })
       wrapper.setProps({ linkage: 'Incomes' })
       wrapper.vm.actualName = 'newi Category'
       wrapper.vm.newName = 'new name'
       wrapper.vm.newTransCategory = 'testcategory'
       wrapper.vm.newDate = '10/10/2019'
+      wrapper.vm.newDate = 1000
       const button = wrapper.find('#buttonChange')
       button.trigger('click')
       expect(wrapper.contains('#changeFail')).equals(false)
@@ -94,6 +95,7 @@ describe('IncomesExpences.vue', () => {
       expect(wrapper.find('#new-name').exists()).to.equal(true)
       expect(wrapper.find('#new-category').exists()).to.equal(true)
       expect(wrapper.find('#new-date').exists()).to.equal(true)
+      expect(wrapper.find('#new-amount').exists()).to.equal(true)
       expect(wrapper.find('#buttonChange').exists()).to.equal(true)
     })
     it('render form register cateogoty', () => {
@@ -101,7 +103,7 @@ describe('IncomesExpences.vue', () => {
       expect(wrapper.find('#buttonCategory').exists()).to.equal(true)
     })
   })
-  describe('ismodication complete false', () => {
+  describe('methods', () => {
     it('isform complete false  category', () => {
       expect(wrapper.vm.isModificationComplete()).to.equal(false)
     })
