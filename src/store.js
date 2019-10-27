@@ -20,7 +20,6 @@ export default new Vuex.Store({
   mutations: {
     addAccount(state, newAccountName) {
       const names = state.accounts.map((account) => account.name)
-
       if (!names.includes(newAccountName)) {
         state.accounts.push({ name: newAccountName, income: [], expenses: [] })
       }
@@ -28,14 +27,66 @@ export default new Vuex.Store({
     selectAccount(state, account) {
       state.actualAccount = account
     },
+    updateAccount(state, currentAccount) {
+      state.accounts.forEach((account) => {
+        if (JSON.stringify(account.name) === JSON.stringify(JSON.parse(currentAccount).name)) {
+          account.income = JSON.parse(currentAccount).income
+          account.expenses = JSON.parse(currentAccount).expenses
+        }
+      })
+    },
+    deleteAccount(state) {
+      state.accounts.forEach((account, index) => {
+        if (state.actualAccount.name === account.name) {
+          state.accounts.splice(index, 1)
+          state.actualAccount = { name: '', income: [], expenses: [] }
+        }
+      })
+    },
+    modifyAccountName(state, newName) {
+      const accountName = state.accounts.map((account) => account.name)
+      if (!accountName.includes(newName)) {
+        state.accounts.forEach((account) => {
+          if (state.actualAccount.name === account.name) {
+            account.name = newName
+            state.actualAccount.name = newName
+          }
+        })
+      }
+    },
     addIncome(state, income) {
       state.actualAccount.income.push(income)
+    },
+    modifyIncome(state, actualName, newName, newDate, newCategory, newAmount) {
+      state.accounts.forEach((account) => {
+        if (state.actualAccount.name === account.name) {
+          account.income.forEach((actualIncome) => {
+            if (actualName === actualIncome.name) {
+              actualIncome.name = newName
+              actualIncome.date = newDate
+              actualIncome.category = newCategory
+              actualIncome.amount = newAmount
+            }
+          })
+        }
+      })
+      state.actualAccount.income.forEach((actualIncome) => {
+        if (actualName === actualIncome.name) {
+          actualIncome.name = JSON.stringify(newName)
+          actualIncome.date = JSON.stringify(newDate)
+          actualIncome.category = JSON.stringify(newCategory)
+          actualIncome.amount = '0'
+        }
+      })
     },
     addExpense(state, expense) {
       state.actualAccount.expenses.push(expense)
     },
     addCategory(state, newCategory) {
-      state.categories.push({ name: newCategory.category, linkage: newCategory.linkage })
+      const categoryName = state.categories.map((category) => category.name)
+      if (!categoryName.includes(newCategory.category)) {
+        state.categories.push({ name: newCategory.category, linkage: newCategory.linkage })
+      }
     },
   },
   actions: {
@@ -45,8 +96,20 @@ export default new Vuex.Store({
     selectAccount(state, account) {
       state.commit('selectAccount', account)
     },
+    updateAccount(state, currentAccount) {
+      state.commit('updateAccount', currentAccount)
+    },
+    deleteAccount(state) {
+      state.commit('deleteAccount')
+    },
+    modifyAccountName(state, newName) {
+      state.commit('modifyAccountName', newName)
+    },
     addIncome(state, income) {
       state.commit('addIncome', income)
+    },
+    modifyIncome(state, actualName, newName, newDate, newCategory, newAmount) {
+      state.commit('modifyIncome', actualName, newName, newDate, newCategory, newAmount)
     },
     addExpense(state, expense) {
       state.commit('addExpense', expense)

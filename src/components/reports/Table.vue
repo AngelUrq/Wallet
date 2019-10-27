@@ -16,6 +16,10 @@
               <td v-for="(column, index) in columns" v-bind:key="group.value+'col'+index" :class="row.class">
                 {{row[column]}}
               </td>
+
+              <button type="button" class="btn" v-if="accountData.name !== 'General'" v-on:click="deleteUser(row)">
+                <img :src="getImgUrl('x-button.png')" >
+              </button>
           </tr>
         </template>
       </tbody>
@@ -24,12 +28,12 @@
 </template>
 
 <script>
-
 export default {
   name: 'Table',
   data() {
     return {
       tableDataArray: [],
+      showModal: false,
     }
   },
   props: {
@@ -65,6 +69,69 @@ export default {
         this.tableDataArray.push(valuesForGroup)
       }
     },
+    getImgUrl(pic) {
+      return require('@/assets/' + pic)
+    },
+    deleteUser(user) {
+      if (user.class === 'green') {
+        for (let i = 0; i < this.$store.state.actualAccount.income.length; i++) {
+          if (this.$store.state.actualAccount.income[i].name === user.name) {
+            this.$store.state.actualAccount.income.splice(i, 1)
+            this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+          }
+        }
+        for (let i = 0; i < this.accountData.income.length; i++) {
+          if (this.accountData.income[i].name === user.name) {
+            this.accountData.income.splice(i, 1)
+          }
+        }
+        this.deletetransfer(user)
+        this.tableDataArray = []
+        this.generateTableDataArrayStructure()
+      } else if (user.class === 'red') {
+        for (let i = 0; i < this.$store.state.actualAccount.expenses.length; i++) {
+          if (this.$store.state.actualAccount.expenses[i].name === user.name) {
+            this.$store.state.actualAccount.expenses.splice(i, 1)
+            this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+          }
+        }
+        for (let i = 0; i < this.accountData.expenses.length; i++) {
+          if (this.accountData.expenses[i].name === user.name) {
+            this.accountData.expenses.splice(i, 1)
+          }
+        }
+        this.deletetransfer(user)
+        this.tableDataArray = []
+        this.generateTableDataArrayStructure()
+      }
+    },
+    getAccountByName(nameAccount) {
+      return (this.$store.state.accounts.filter((account) => account.name === nameAccount))[0]
+    },
+    deletetransfer(user) {
+      const actualAccount = this.$store.state.actualAccount
+      const definition = user.name.split(' ')
+      if (definition[1] === 'from') {
+        this.$store.dispatch('selectAccount', this.getAccountByName(definition[2]))
+        for (let i = 0; i < this.$store.state.actualAccount.expenses.length; i++) {
+          const transferName = this.$store.state.actualAccount.expenses[i].name.split(' ')
+          if (transferName[2] === actualAccount.name) {
+            this.$store.state.actualAccount.expenses.splice(i, 1)
+            this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+          }
+        }
+      } else if (definition[1] === 'to') {
+        this.$store.dispatch('selectAccount', this.getAccountByName(definition[2]))
+        for (let i = 0; i < this.$store.state.actualAccount.income.length; i++) {
+          const transferName = this.$store.state.actualAccount.income[i].name.split(' ')
+          if (transferName[2] === actualAccount.name) {
+            this.$store.state.actualAccount.income.splice(i, 1)
+            this.$localStorage.set('LocalStorageData', JSON.stringify(this.$store.state))
+          }
+        }
+      }
+      this.$store.dispatch('selectAccount', actualAccount)
+    },
   },
   mounted() {
     this.generateTableDataArrayStructure()
@@ -77,6 +144,7 @@ export default {
       return v[0].toUpperCase() + v.slice(1)
     },
   },
+
 }
 </script>
 

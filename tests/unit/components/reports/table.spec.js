@@ -1,8 +1,10 @@
 import { expect } from 'chai'
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Table from '@/components/reports/Table.vue'
+import Vuex from 'vuex'
+import store from '@/store.js'
 
-describe('Table.vue by date', () => {
+suite('Table.vue by date', () => {
   let wrapper
   const data = {
     name: 'TestAccount',
@@ -36,7 +38,7 @@ describe('Table.vue by date', () => {
   const groupBy = 'date'
   const columnsToShow = ['category', 'name', 'amount']
 
-  beforeEach(function() {
+  setup(function() {
     wrapper = shallowMount(Table, {
       propsData: {
         accountData: data,
@@ -46,39 +48,44 @@ describe('Table.vue by date', () => {
     })
   })
 
-  it('displays grouped by value only once', () => {
+  test('displays grouped by value only once', () => {
     const groupedByColumns = wrapper.findAll('.groupedby')
     const groupByColumnsText = groupedByColumns.wrappers.reduce((prev, curr) => prev + curr.text(), '')
     expect(groupByColumnsText).to.equal('24/08/2018')
   })
 
-  it('displays the correct number of rows', () => {
+  test('displays the correct number of rows', () => {
     const rows = wrapper.findAll('tr')
     const expectedNumberOfRows = data.income.length + data.expenses.length + 1
     expect(rows.length).to.equal(expectedNumberOfRows)
   })
 
-  it('shows the correct number of columns', () => {
+  test('shows the correct number of columns', () => {
     const tableHeaders = wrapper.findAll('th')
     const expectedNumberOfColumns = columnsToShow.length + 1
     expect(tableHeaders.length).to.equal(expectedNumberOfColumns)
   })
 
-  it('shows negative values in red', () => {
+  test('shows negative values in red', () => {
     const columns = wrapper.findAll('td')
     const negativeColumns = columns.filter((col) => !isNaN(col.text()) && Number(col.text()) < 0)
     expect(negativeColumns.is('.red')).to.equal(true)
   })
 
-  it('displays expenses as negative values', () => {
+  test('displays expenses as negative values', () => {
     const rows = wrapper.findAll('tr')
     const filteredRows = rows.filter((row) => row.text().includes(data.expenses[0].name))
     expect(filteredRows.at(0).text()).to.contain(-data.expenses[0].amount)
   })
+
+  test('generateTableDataArrayStructure method generates the correct structure', () => {
+    expect(wrapper.vm.tableDataArray.length).to.equal(1)
+    expect(wrapper.vm.tableDataArray[0].transactions.length).to.equal(3)
+  })
 })
 
 
-describe('Table.vue by category', () => {
+suite('Table.vue by category', () => {
   let wrapper
   const data = {
     name: 'TestAccount',
@@ -111,25 +118,47 @@ describe('Table.vue by category', () => {
 
   const groupBy = 'category'
   const columnsToShow = ['date', 'name', 'amount']
-
-  beforeEach(function() {
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
+  setup(function() {
     wrapper = shallowMount(Table, {
       propsData: {
         accountData: data,
         groupBy: groupBy,
         columns: columnsToShow,
       },
+      store,
+      localVue,
     })
   })
 
-  it('displays grouped by value only once', () => {
+  test('displays grouped by value only once', () => {
     const groupedByColumns = wrapper.findAll('.groupedby')
     const groupByColumnsText = groupedByColumns.wrappers.reduce((prev, curr) => prev + curr.text(), '')
     expect(groupByColumnsText).to.equal('SalaryFood')
   })
 
-  it('capitalizes word correclty', () => {
+  test('capitalizes word correclty', () => {
     const string = 'lowercase'
     expect(wrapper.vm.$options.filters.pascalCase(string)).to.eq('Lowercase')
+  })
+
+  test('generateTableDataArrayStructure method generates the correct structure', () => {
+    expect(wrapper.vm.tableDataArray.length).to.equal(2)
+    expect(wrapper.vm.tableDataArray[0].transactions.length).to.equal(1)
+    expect(wrapper.vm.tableDataArray[1].transactions.length).to.equal(2)
+  })
+
+  test('delete user', () => {
+    const user = {
+      date: '24/08/2018',
+      category: 'Food',
+      name: 'Milk',
+      amount: 15,
+      actualAccount: 'TestAccount',
+      class: 'red',
+    }
+    wrapper.vm.deleteUser(user)
+    expect(wrapper.vm.accountData.expenses.length).to.equal(1)
   })
 })
